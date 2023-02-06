@@ -11,13 +11,13 @@ export default defineConfig({
     StaticCMS({
       previewStyles: [
         'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=IBM+Plex+Sans:wght@400;700&display=swap',
-        '/src/styles/blog.css',
+        // '/src/styles/blog.css',
       ],
       config: {
         // Use Netlify’s “Git Gateway” authentication and target our default branch
         backend: {
           name: 'git-gateway',
-          branch: 'latest',
+          branch: 'main',
         },
         // Configure where our media assets are stored & served from
         media_folder: 'public/assets/blog',
