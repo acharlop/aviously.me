@@ -6,7 +6,7 @@ specifiers:
   react: ^18.2.0
 
 dependencies:
-  astro-static-cms: github.com/acharlop/astro-static-cms/b359360e5f8934d5ba44b2f6587d373edb1d9923_astro@2.0.6+react@18.2.0
+  astro-static-cms: github.com/acharlop/astro-static-cms/afee5e082d8f0897d0d3b02adc65a71eedb466c6_astro@2.0.6+react@18.2.0
 
 devDependencies:
   astro: 2.0.6
@@ -4639,7 +4639,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001450
-      electron-to-chromium: 1.4.286
+      electron-to-chromium: 1.4.287
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
 
@@ -5181,8 +5181,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium/1.4.286:
-    resolution: {integrity: sha512-Vp3CVhmYpgf4iXNKAucoQUDcCrBQX3XLBtwgFqP9BUXuucgvAV9zWp1kYU7LL9j4++s9O+12cb3wMtN4SJy6UQ==}
+  /electron-to-chromium/1.4.287:
+    resolution: {integrity: sha512-Dj649q67z9oYp4dj7B80hdxb1ExIvy8KvrFqjCuGqFxUHk43b+VXQVFkD5zxAFmhvA6Mu9fou6ZQjJkMSXNFFg==}
 
   /emmet/2.3.6:
     resolution: {integrity: sha512-pLS4PBPDdxuUAmw7Me7+TcHbykTsBKN/S9XJbUOMFQrNv9MoshzyMFK/R57JBm94/6HSL4vHnDeEmxlC82NQ4A==}
@@ -9374,9 +9374,9 @@ packages:
   /zwitch/2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/acharlop/astro-static-cms/b359360e5f8934d5ba44b2f6587d373edb1d9923_astro@2.0.6+react@18.2.0:
-    resolution: {tarball: https://codeload.github.com/acharlop/astro-static-cms/tar.gz/b359360e5f8934d5ba44b2f6587d373edb1d9923}
-    id: github.com/acharlop/astro-static-cms/b359360e5f8934d5ba44b2f6587d373edb1d9923
+  github.com/acharlop/astro-static-cms/afee5e082d8f0897d0d3b02adc65a71eedb466c6_astro@2.0.6+react@18.2.0:
+    resolution: {tarball: https://codeload.github.com/acharlop/astro-static-cms/tar.gz/afee5e082d8f0897d0d3b02adc65a71eedb466c6}
+    id: github.com/acharlop/astro-static-cms/afee5e082d8f0897d0d3b02adc65a71eedb466c6
     name: astro-static-cms
     version: 0.1.0
     peerDependencies:
