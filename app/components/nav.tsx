@@ -10,7 +10,9 @@ export const Navigation: React.FC = () => {
 
   useEffect(() => {
     if (!ref.current) return
-    const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting))
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry) setIntersecting(entry.isIntersecting)
+    })
 
     observer.observe(ref.current)
     return () => observer.disconnect()

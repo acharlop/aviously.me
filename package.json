@@ -1,6 +1,6 @@
 {
-  "name": "chronark.com",
-  "version": "0.1.0",
+  "name": "aviously.me",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -33,6 +33,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/eslint": "^8.56.5",
+    "@types/mdx": "^2.0.11",
     "@types/node": "^20.8.4",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.13",

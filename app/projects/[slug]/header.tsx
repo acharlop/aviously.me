@@ -33,7 +33,9 @@ export const Header: React.FC<Props> = ({project, views}) => {
   }
   useEffect(() => {
     if (!ref.current) return
-    const observer = new IntersectionObserver(([entry]) => setIntersecting(entry.isIntersecting))
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry) setIntersecting(entry.isIntersecting)
+    })
 
     observer.observe(ref.current)
     return () => observer.disconnect()
@@ -82,7 +84,7 @@ export const Header: React.FC<Props> = ({project, views}) => {
           </Link>
         </div>
       </div>
-      <div className='container relative isolate mx-auto overflow-hidden  py-24 sm:py-32'>
+      <div className='container relative isolate mx-auto overflow-hidden py-24 sm:py-32'>
         <div className='mx-auto flex max-w-7xl flex-col items-center px-6 text-center lg:px-8'>
           <div className='mx-auto max-w-2xl lg:mx-0'>
             <h1 className='font-display text-4xl font-bold tracking-tight text-white sm:text-6xl'>{project.title}</h1>

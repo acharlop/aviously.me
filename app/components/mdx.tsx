@@ -1,13 +1,14 @@
-// @ts-nocheck
+import type {MDXComponents} from 'mdx/types'
 import {useMDXComponent} from 'next-contentlayer/hooks'
 import Image from 'next/image'
 import Link from 'next/link'
 import * as React from 'react'
 
-function clsx(...args: any) {
+const clsx = (...args: (string | undefined)[]) => {
   return args.filter(Boolean).join(' ')
 }
-const components = {
+
+const components: MDXComponents = {
   h1: ({className, ...props}) => (
     <h1 className={clsx('mt-2 scroll-m-20 text-4xl font-bold tracking-tight', className)} {...props} />
   ),
@@ -32,8 +33,8 @@ const components = {
   h6: ({className, ...props}) => (
     <h6 className={clsx('mt-8 scroll-m-20 text-base font-semibold tracking-tight', className)} {...props} />
   ),
-  a: ({className, ...props}) => (
-    <Link className={clsx('font-medium text-zinc-900 underline underline-offset-4', className)} {...props} />
+  a: ({className, ref, href, ...props}) => (
+    <Link className={clsx('font-medium text-zinc-900 underline underline-offset-4', className)} href={href!} {...props} />
   ),
   p: ({className, ...props}) => <p className={clsx('leading-7 [&:not(:first-child)]:mt-6', className)} {...props} />,
   ul: ({className, ...props}) => <ul className={clsx('my-6 ml-6 list-disc', className)} {...props} />,

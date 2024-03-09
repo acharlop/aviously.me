@@ -4,7 +4,6 @@ import {type Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import LocalFont from 'next/font/local'
 
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://aviously.me'),
   title: {

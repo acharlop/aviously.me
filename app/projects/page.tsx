@@ -5,7 +5,6 @@ import {Redis} from '@upstash/redis'
 import {allProjects} from 'contentlayer/generated'
 import {Eye} from 'lucide-react'
 import Link from 'next/link'
-import React from 'react'
 
 const redis = Redis.fromEnv()
 
@@ -13,7 +12,7 @@ export const revalidate = 60
 export default async function ProjectsPage() {
   const views = (await redis.mget<number[]>(...allProjects.map((p) => ['pageviews', 'projects', p.slug].join(':')))).reduce(
     (acc, v, i) => {
-      acc[allProjects[i].slug] = v ?? 0
+      acc[allProjects[i]!.slug] = v ?? 0
       return acc
     },
     {} as Record<string, number>,
