@@ -8,10 +8,8 @@ const config = {
   printWidth: 126,
   trailingComma: 'all',
   bracketSpacing: false,
-  jsxBracketSameLine: true,
   arrowParens: 'always',
   jsxSingleQuote: true,
-  jsxBracketSameLine: true,
 }
 
 export default config

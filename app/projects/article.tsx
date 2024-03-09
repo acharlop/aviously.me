@@ -1,6 +1,6 @@
 import type {Project} from '@/.contentlayer/generated'
-import Link from 'next/link'
 import {Eye, View} from 'lucide-react'
+import Link from 'next/link'
 
 type Props = {
   project: Project
