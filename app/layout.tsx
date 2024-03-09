@@ -4,20 +4,22 @@ import {type Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import LocalFont from 'next/font/local'
 
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://aviously.me'),
   title: {
-    default: 'chronark.com',
-    template: '%s | chronark.com',
+    default: 'aviously.me',
+    template: '%s | aviously.me',
   },
-  description: 'Co-founder of unkey.dev and founder of planetfall.io',
+  description: 'Co-founder of whocards.cc',
   openGraph: {
-    title: 'chronark.com',
-    description: 'Co-founder of unkey.dev and founder of planetfall.io',
-    url: 'https://chronark.com',
-    siteName: 'chronark.com',
+    title: 'aviously.me',
+    description: 'Co-founder of whocards.cc',
+    url: 'https://aviously.me',
+    siteName: 'aviously.me',
     images: [
       {
-        url: 'https://chronark.com/og.png',
+        url: 'https://aviously.me/og.png',
         width: 1920,
         height: 1080,
       },
@@ -37,7 +39,7 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: 'Chronark',
+    title: 'avi_aviously',
     card: 'summary_large_image',
   },
   icons: {
