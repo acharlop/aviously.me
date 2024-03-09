@@ -1,8 +1,8 @@
 import '../global.css'
 import {Analytics} from './components/analytics'
-import {Inter} from '@next/font/google'
-import LocalFont from '@next/font/local'
 import {type Metadata} from 'next'
+import {Inter} from 'next/font/google'
+import LocalFont from 'next/font/local'
 
 export const metadata: Metadata = {
   title: {
