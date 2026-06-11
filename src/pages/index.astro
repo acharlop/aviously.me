@@ -1,7 +1,6 @@
 ---
 import {getCollection} from 'astro:content'
 import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
-import BlogCard from '@/components/BlogCard.astro'
 import Layout from '@/components/Layout.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import SectionHeading from '@/components/SectionHeading.astro'
@@ -10,9 +9,6 @@ import {site} from '@/data/site'
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order)
 const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 6)
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf(),
-).slice(0, 3)
 ---
 
 <Layout>
@@ -28,7 +24,6 @@ const posts = (await getCollection('blog')).sort(
       </p>
       <div class="hero-actions">
         <a class="button" href="/work/">View work</a>
-        <a class="button secondary" href="/blog/">Read the blog</a>
         <a class="button secondary" href="/contact/">Get in touch</a>
       </div>
       <SocialLinks />
@@ -89,19 +84,6 @@ const posts = (await getCollection('blog')).sort(
           <p>Typed paths, clear interfaces, useful automation, and UI foundations that keep delivery moving.</p>
         </article>
       ))}
-    </div>
-  </section>
-
-  <section class="shell section">
-    <SectionHeading
-      kicker="writing"
-      title="Drafts for long-form technical notes."
-      text="Starter outlines for essays on modernization, product engineering, typed systems, and developer experience."
-      href="/blog/"
-      linkLabel="All writing"
-    />
-    <div class="grid-3">
-      {posts.map((post) => <BlogCard post={post} />)}
     </div>
   </section>
 

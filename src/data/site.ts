@@ -18,6 +18,5 @@ export const navigation = [
   {label: 'Work', href: '/work/'},
   {label: 'Experience', href: '/experience/'},
   {label: 'Open Source', href: '/open-source/'},
-  {label: 'Blog', href: '/blog/'},
   {label: 'Contact', href: '/contact/'},
 ] as const

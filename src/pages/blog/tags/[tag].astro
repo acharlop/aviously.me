@@ -5,13 +5,14 @@ import Layout from '@/components/Layout.astro'
 import {slugify} from '@/lib/slugs'
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog')
+  const posts = (await getCollection('blog')).filter((post) => !post.data.draft)
   const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags)))
   return tags.map((tag) => ({params: {tag: slugify(tag)}, props: {tag}}))
 }
 
 const {tag} = Astro.props
 const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
   .filter((post) => post.data.tags.includes(tag))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
 ---
