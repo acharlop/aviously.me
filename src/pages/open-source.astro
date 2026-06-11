@@ -1,0 +1,36 @@
+---
+import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
+import Layout from '@/components/Layout.astro'
+import RepoCard from '@/components/RepoCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import SocialLinks from '@/components/SocialLinks.astro'
+import {openSourceRepos} from '@/data/open-source'
+import {site} from '@/data/site'
+---
+
+<Layout title="Open Source - Avi Charlop" description="Open source profile and featured repositories from Avi Charlop.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`open_source`</p>
+    <h1>Open source as a place to sharpen tools and leave useful trails.</h1>
+    <p class="lead">Avi Charlop / {site.githubHandle}. Public GitHub profile lists 47 public repos, joined GitHub in 2014, and marks Avi as hireable.</p>
+    <SocialLinks />
+  </section>
+
+  <section class="shell section">
+    <div class="signal-card">
+      <AvailabilityBadge />
+      <h2>{site.bio}</h2>
+      <p class="lead">Featured work includes Rails syntax highlighting, Astro CMS tooling, and Tailwind developer tooling contributions.</p>
+      <div class="button-row">
+        <a class="button" href={site.github}>See more on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading kicker="repos" title="Featured open source" />
+    <div class="grid-3">
+      {openSourceRepos.map((repo) => <RepoCard repo={repo} />)}
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,19 @@
+---
+import type {Repo} from '@/data/open-source'
+
+type Props = {
+  repo: Repo
+}
+
+const {repo} = Astro.props
+---
+
+<article class="repo-card">
+  <p class="meta-label">{repo.type}</p>
+  <h3>{repo.href ? <a href={repo.href}>{repo.name}</a> : repo.name}</h3>
+  <p>{repo.summary}</p>
+  <p><strong>{repo.role}</strong>{repo.note ? ` · ${repo.note}` : ''}</p>
+  <div class="tag-row">
+    {repo.stack.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</article>

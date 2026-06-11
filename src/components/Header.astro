@@ -1,0 +1,54 @@
+---
+import ThemeToggle from '@/components/ThemeToggle.astro'
+import {navigation, site} from '@/data/site'
+
+const currentPath = Astro.url.pathname
+function isCurrent(href: string) {
+  if (href === '/') return currentPath === '/'
+  return currentPath.startsWith(href)
+}
+---
+
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href="/" aria-label="Avi Charlop home">
+      <span class="brand-mark" aria-hidden="true">ac</span>
+      <span>{site.name}</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {
+        navigation.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="nav-actions">
+      <ThemeToggle />
+      <div class="mobile-nav">
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
+          <span aria-hidden="true">☰</span>
+        </button>
+        <nav class="mobile-panel" id="mobile-panel" aria-label="Mobile navigation" data-mobile-panel hidden>
+          {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.querySelector('[data-menu-toggle]')
+  const mobilePanel = document.querySelector('[data-mobile-panel]')
+
+  menuToggle?.addEventListener('click', () => {
+    const nextState = menuToggle.getAttribute('aria-expanded') !== 'true'
+    menuToggle.setAttribute('aria-expanded', String(nextState))
+    if (nextState) {
+      mobilePanel?.removeAttribute('hidden')
+    } else {
+      mobilePanel?.setAttribute('hidden', '')
+    }
+  })
+</script>

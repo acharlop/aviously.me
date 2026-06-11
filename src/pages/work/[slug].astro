@@ -1,0 +1,50 @@
+---
+import {getCollection, render} from 'astro:content'
+import Layout from '@/components/Layout.astro'
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects')
+  return projects.map((project) => ({
+    params: {slug: project.id.replace(/\.mdx?$/, '')},
+    props: {project},
+  }))
+}
+
+const {project} = Astro.props
+const {Content} = await render(project)
+---
+
+<Layout title={`${project.data.title} - Avi Charlop`} description={project.data.summary} canonical={`/work/${project.id.replace(/\.mdx?$/, '')}/`}>
+  <section class="shell page-hero">
+    <p class="eyebrow">`case_study`</p>
+    <h1>{project.data.title}</h1>
+    <p class="lead">{project.data.summary}</p>
+  </section>
+
+  <section class="shell section case-study">
+    <article class="content-panel prose">
+      <h2>Problem</h2>
+      <p>{project.data.problem}</p>
+      <h2>Role</h2>
+      <p>{project.data.role}</p>
+      <h2>What Avi built</h2>
+      <p>{project.data.contribution}</p>
+      <h2>Outcome</h2>
+      <p>{project.data.outcome}</p>
+      <Content />
+    </article>
+    <aside class="case-sidebar card">
+      <p class="meta-label">{project.data.type}</p>
+      <h3>Project details</h3>
+      {project.data.dates && <p>{project.data.dates}</p>}
+      <div class="tag-row">
+        {project.data.stack.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+      {project.data.links.length > 0 && (
+        <div class="button-row">
+          {project.data.links.map((link) => <a class="button secondary" href={link.href}>{link.label}</a>)}
+        </div>
+      )}
+    </aside>
+  </section>
+</Layout>

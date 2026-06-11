@@ -1,0 +1,21 @@
+---
+import {getCollection} from 'astro:content'
+import Layout from '@/components/Layout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order)
+---
+
+<Layout title="Work - Avi Charlop" description="Selected projects and case studies from Avi Charlop across SaaS, communications, commerce, AI, Web3, and open source.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`work`</p>
+    <h1>Case studies for products, platforms, and modernization work.</h1>
+    <p class="lead">Each project includes problem, role, stack, contribution, and outcome, with confidentiality respected where details are limited.</p>
+  </section>
+
+  <section class="shell section">
+    <div class="grid-3">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</Layout>

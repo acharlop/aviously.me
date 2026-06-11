@@ -1,0 +1,79 @@
+---
+import Footer from '@/components/Footer.astro'
+import Header from '@/components/Header.astro'
+import {site} from '@/data/site'
+import '@/styles/global.css'
+
+type Props = {
+  title?: string
+  description?: string
+  canonical?: string
+  type?: 'website' | 'article'
+  structuredData?: Record<string, unknown> | Record<string, unknown>[]
+}
+
+const {
+  title = site.title,
+  description = site.description,
+  canonical = Astro.url.pathname,
+  type = 'website',
+  structuredData = [],
+} = Astro.props
+
+const canonicalUrl = new URL(canonical, site.url).toString()
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: site.name,
+    url: site.url,
+    email: `mailto:${site.email}`,
+    jobTitle: 'Senior Full-Stack Engineer / Team Lead',
+    sameAs: [site.github, site.linkedin],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.title,
+    url: site.url,
+    description: site.description,
+  },
+  ...(Array.isArray(structuredData) ? structuredData : [structuredData]),
+].filter(Boolean)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Avi Charlop writing" href="/rss.xml" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL('/og.png', site.url).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/og.png', site.url).toString()} />
+    <script is:inline>
+      const storedTheme = localStorage.getItem('theme')
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+      document.documentElement.dataset.theme = storedTheme || (prefersLight ? 'light' : 'dark')
+    </script>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

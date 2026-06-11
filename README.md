@@ -1,37 +1,67 @@
 # aviously.me
 
-Avi's personal site and public workbench.
+Personal portfolio and technical writing site for Avi Charlop.
 
-The current direction is **Old-School Service, Modern Tools**: custom tools for busy businesses, built by an AI-assisted human who can understand duct-tape work and build the thing.
-
-## Stack
-
-- Bun
-- TanStack Start
-- React
-- Convex
-- PostHog
+The site is built as a static Astro project with TypeScript, Tailwind CSS, MDX content, typed content collections, RSS, sitemap generation, dark mode, and reusable components for portfolio, experience, open source, blog, and contact pages.
 
 ## Local Development
 
-```sh
+```bash
 bun install
 bun run dev
 ```
 
-The web app runs on `http://localhost:3000`.
+Astro will print the local development URL, usually `http://localhost:4321`.
 
-Convex is scaffolded but optional for the first static slice:
+## Build
 
-```sh
-bun run dev:convex
+```bash
+bun run build
+bun run preview
 ```
 
-Copy the generated Convex URL into `.env.local` as `VITE_CONVEX_URL`.
+`bun run build` runs `astro check` and `astro build`.
 
-## Project Notes
+## Content
 
-- Domain language lives in `CONTEXT.md`.
-- Architecture notes live in `docs/architecture.md`.
-- Long-lived technical decisions live in `docs/adr/`.
-- Session continuation notes live in `HANDOFF.md` when present.
+Project case studies live in:
+
+```text
+src/content/projects/
+```
+
+Blog posts live in:
+
+```text
+src/content/blog/
+```
+
+Blog posts use MDX frontmatter. Starter posts are marked `draft: true`, so they are visible as draft outlines in the site but excluded from the RSS feed.
+
+Shared profile, navigation, experience, and open-source data live in:
+
+```text
+src/data/
+```
+
+## Adding A Blog Post
+
+1. Create a new `.mdx` file in `src/content/blog/`.
+2. Add frontmatter with `title`, `slug`, `description`, `publishedDate`, `draft`, `tags`, and `readingTime`.
+3. Set `draft: false` only when the post is ready to be treated as published.
+
+## Deployment
+
+The project is static and can be deployed to Vercel, Netlify, Cloudflare Pages, or static hosting.
+
+Recommended build command:
+
+```bash
+bun run build
+```
+
+Recommended output directory:
+
+```text
+dist
+```

@@ -1,0 +1,30 @@
+---
+import {getCollection} from 'astro:content'
+import BlogCard from '@/components/BlogCard.astro'
+import Layout from '@/components/Layout.astro'
+import {slugify} from '@/lib/slugs'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags)))
+  return tags.map((tag) => ({params: {tag: slugify(tag)}, props: {tag}}))
+}
+
+const {tag} = Astro.props
+const posts = (await getCollection('blog'))
+  .filter((post) => post.data.tags.includes(tag))
+  .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
+---
+
+<Layout title={`${tag} writing - Avi Charlop`} description={`Writing tagged ${tag} by Avi Charlop.`} canonical={`/blog/tags/${slugify(tag)}/`}>
+  <section class="shell page-hero">
+    <p class="eyebrow">`tag`</p>
+    <h1>{tag}</h1>
+    <p class="lead">Draft outlines and essays tagged with {tag}.</p>
+  </section>
+  <section class="shell section">
+    <div class="grid-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </section>
+</Layout>
