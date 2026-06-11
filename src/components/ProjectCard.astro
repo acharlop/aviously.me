@@ -1,0 +1,19 @@
+---
+import type {CollectionEntry} from 'astro:content'
+
+type Props = {
+  project: CollectionEntry<'projects'>
+}
+
+const {project} = Astro.props
+const href = `/work/${project.id.replace(/\.mdx?$/, '')}/`
+---
+
+<article class="project-card">
+  <p class="meta-label">{project.data.type}</p>
+  <h3><a href={href}>{project.data.title}</a></h3>
+  <p>{project.data.summary}</p>
+  <div class="tag-row">
+    {project.data.stack.slice(0, 5).map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</article>

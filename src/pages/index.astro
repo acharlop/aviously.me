@@ -1,0 +1,101 @@
+---
+import {getCollection} from 'astro:content'
+import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
+import Layout from '@/components/Layout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import SocialLinks from '@/components/SocialLinks.astro'
+import {site} from '@/data/site'
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order)
+const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 6)
+---
+
+<Layout>
+  <section class="shell hero">
+    <div>
+      <p class="eyebrow">`currently`</p>
+      <AvailabilityBadge />
+      <h1>Senior full-stack engineer building fast, thoughtful product systems.</h1>
+      <p class="lead">
+        I’m Avi Charlop, a senior full-stack engineer and team lead with 10+ years of experience across React,
+        TypeScript, Next.js, Astro, Angular, React Native, Node.js, Go, Rails, cloud infrastructure, and remote product
+        teams.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href="/work/">View work</a>
+        <a class="button secondary" href="/contact/">Get in touch</a>
+      </div>
+      <SocialLinks />
+    </div>
+    <aside class="signal-card" aria-label="Avi Charlop quick signal">
+      <p class="meta-label">{site.bio}</p>
+      <pre class="code-note">{`const focus = [
+  "product",
+  "architecture",
+  "delivery",
+  "developer_experience"
+];`}</pre>
+      <p>
+        I help teams modernize legacy systems, ship greenfield products, build better developer workflows, and turn
+        customer feedback into production software.
+      </p>
+      <p>
+        I work best at the intersection of product, frontend architecture, backend systems, and team enablement. I care
+        about interfaces that feel simple, systems that are easy to change, and engineering cultures that make shipping
+        feel calm.
+      </p>
+    </aside>
+  </section>
+
+  <section class="shell" aria-label="Professional highlights">
+    <div class="metrics-strip">
+      <div class="metric"><strong>10+ years</strong><span>Building web and mobile applications.</span></div>
+      <div class="metric"><strong>Team lead</strong><span>Remote teams and greenfield product delivery.</span></div>
+      <div class="metric"><strong>Modernizer</strong><span>Legacy Angular systems with React micro frontends.</span></div>
+      <div class="metric"><strong>Open source</strong><span>Rails, Astro, and Tailwind tooling.</span></div>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading
+      kicker="selected_work"
+      title="Work that moved systems forward."
+      text="Case studies across enterprise SaaS, communication platforms, commerce, AI tooling, Web3 launches, and open source."
+      href="/work/"
+      linkLabel="All work"
+    />
+    <div class="grid-3">
+      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading
+      kicker="technical_focus"
+      title="A practical stack, not a trophy shelf."
+      text="The through-line is making product systems easier to ship, reason about, and evolve."
+    />
+    <div class="grid-3">
+      {['Frontend architecture', 'Full-stack product systems', 'Legacy modernization', 'Remote team leadership', 'Cloud/devops automation', 'Developer experience and tooling'].map((item) => (
+        <article class="card">
+          <p class="meta-label">focus</p>
+          <h3>{item}</h3>
+          <p>Typed paths, clear interfaces, useful automation, and UI foundations that keep delivery moving.</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="shell section">
+    <div class="signal-card">
+      <p class="meta-label">`next_step`</p>
+      <h2>Have a product, platform, or frontend architecture challenge?</h2>
+      <p class="lead">I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting conversations.</p>
+      <div class="button-row">
+        <a class="button" href={`mailto:${site.email}`}>Email Avi</a>
+        <a class="button secondary" href={site.linkedin}>LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -39,4 +39,5 @@ bun.lockb
 next-env.d.ts
 
 .contentlayer
+.astro
 .env

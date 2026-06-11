@@ -1,0 +1,20 @@
+---
+import type {CollectionEntry} from 'astro:content'
+
+type Props = {
+  post: CollectionEntry<'blog'>
+}
+
+const {post} = Astro.props
+const href = `/blog/${post.id.replace(/\.mdx?$/, '')}/`
+---
+
+<article class="post-card">
+  {post.data.draft && <span class="draft-pill">draft outline</span>}
+  <p class="meta-label">{post.data.publishedDate.toLocaleDateString('en', {month: 'short', day: 'numeric', year: 'numeric'})} · {post.data.readingTime}</p>
+  <h3><a href={href}>{post.data.title}</a></h3>
+  <p>{post.data.description}</p>
+  <div class="tag-row">
+    {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+  </div>
+</article>

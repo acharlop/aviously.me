@@ -1,0 +1,42 @@
+---
+import Layout from '@/components/Layout.astro'
+import SocialLinks from '@/components/SocialLinks.astro'
+import {site} from '@/data/site'
+---
+
+<Layout title="Contact Avi Charlop" description="Contact Avi Charlop for senior engineering, frontend architecture, full-stack product, team lead, and consulting conversations.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`contact`</p>
+    <h1>Let’s talk about the product or platform challenge in front of you.</h1>
+    <p class="lead">I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting conversations.</p>
+    <SocialLinks />
+  </section>
+
+  <section class="shell section contact-grid">
+    <form class="contact-card contact-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+      <label>
+        Name
+        <input name="name" autocomplete="name" required />
+      </label>
+      <label>
+        Email
+        <input name="email" type="email" autocomplete="email" required />
+      </label>
+      <label>
+        Message
+        <textarea name="message" required></textarea>
+      </label>
+      <button class="button" type="submit">Open email draft</button>
+    </form>
+    <aside class="contact-card">
+      <p class="meta-label">direct</p>
+      <h2>Email is best.</h2>
+      <p>No phone number is published here by default. Email, LinkedIn, and GitHub are the primary contact paths.</p>
+      <div class="button-row">
+        <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="button secondary" href={site.linkedin}>LinkedIn</a>
+        <a class="button secondary" href={site.github}>GitHub</a>
+      </div>
+    </aside>
+  </section>
+</Layout>

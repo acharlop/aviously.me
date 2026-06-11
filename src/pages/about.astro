@@ -1,0 +1,42 @@
+---
+import Layout from '@/components/Layout.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import SocialLinks from '@/components/SocialLinks.astro'
+---
+
+<Layout title="About Avi Charlop - Senior Full-Stack Engineer" description="Avi Charlop's professional story, working style, and engineering strengths.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`about`</p>
+    <h1>Product-minded engineering, from interface craft to infrastructure reality.</h1>
+    <p class="lead">
+      Avi is a senior full-stack engineer who has spent more than a decade building product experiences across startups,
+      communications platforms, fintech, commerce, Web3, AI tools, and enterprise SaaS.
+    </p>
+    <SocialLinks />
+  </section>
+
+  <section class="shell section content-panel">
+    <p>
+      He combines frontend craft with backend fluency, infrastructure awareness, and team leadership. The work often
+      starts with ambiguity: a customer need, a legacy system, an internal workflow, or a product idea that has to become
+      something real without slowing the team down.
+    </p>
+    <p>
+      His strengths are turning ambiguous product goals into shipped systems, leading distributed teams, working directly
+      with sales, product, and design, modernizing legacy systems while delivery continues, and building reusable UI and
+      platform foundations.
+    </p>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading kicker="how_i_work" title="Small useful increments, clear systems." />
+    <div class="grid-2">
+      {['Start with the user and business constraint', 'Ship small, useful increments', 'Make systems easier for the next engineer', 'Prefer typed, tested, observable paths', 'Keep design and engineering close', 'Learning new ways not to do things every day'].map((item) => (
+        <article class="card">
+          <p class="meta-label">principle</p>
+          <h3>{item}</h3>
+        </article>
+      ))}
+    </div>
+  </section>
+</Layout>
