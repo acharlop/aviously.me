@@ -13,6 +13,9 @@ export default defineConfig({
   use: {
     baseURL,
     trace: 'on-first-retry',
+    // Stop Vercel injecting its toolbar overlay on preview deployment URLs;
+    // it intercepts pointer events and breaks click-based tests.
+    extraHTTPHeaders: {'x-vercel-skip-toolbar': '1'},
   },
   projects: [
     {name: 'chromium', use: {...devices['Desktop Chrome']}},

@@ -30,7 +30,8 @@ jobs:
       - name: Run e2e tests
         run: bunx playwright test
         env:
-          BASE_URL: ${{ github.event.inputs.url || github.event.deployment_status.environment_url }}
+          # Production deploys get the clean domain; previews get their unique URL.
+          BASE_URL: ${{ github.event.inputs.url || (github.event.deployment_status.environment == 'Production' && 'https://aviously.me') || github.event.deployment_status.environment_url }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
