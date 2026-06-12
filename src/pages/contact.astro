@@ -2,6 +2,8 @@
 import Layout from '@/components/Layout.astro'
 import SocialLinks from '@/components/SocialLinks.astro'
 import {site} from '@/data/site'
+
+const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
 ---
 
 <Layout title="Contact Avi Charlop" description="Contact Avi Charlop for senior engineering, frontend architecture, full-stack product, team lead, and consulting conversations.">
@@ -14,15 +16,8 @@ import {site} from '@/data/site'
 
   <section class="shell section contact-grid">
     <p class="lead" data-form-success hidden>Thanks — your message is on its way. I’ll get back to you by email.</p>
-    <form class="contact-card contact-form" action="https://formsubmit.co/afc6532bc43364a28b0cf10f7672d901" method="post">
-      <input type="hidden" name="_subject" value="aviously.me contact form" />
-      <input type="hidden" name="_next" value={new URL('/contact/?sent=true', site.url).toString()} />
-      <input type="hidden" name="_template" value="table" />
-      <input
-        type="hidden"
-        name="_autoresponse"
-        value="Thanks for reaching out — I got your message and will reply soon. — Avi (aviously.me)"
-      />
+    <p class="lead" data-form-error hidden>Something went wrong sending your message. Please try again, or email me directly below.</p>
+    <form class="contact-card contact-form" action="/api/contact" method="post">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
       <label>
         Name
@@ -36,11 +31,17 @@ import {site} from '@/data/site'
         Message
         <textarea name="message" required></textarea>
       </label>
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
       <button class="button" type="submit">Send message</button>
     </form>
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script is:inline data-astro-rerun>
-      if (new URLSearchParams(location.search).get('sent') === 'true') {
+      const contactParams = new URLSearchParams(location.search)
+      if (contactParams.get('sent') === 'true') {
         document.querySelector('[data-form-success]')?.removeAttribute('hidden')
+      }
+      if (contactParams.get('error')) {
+        document.querySelector('[data-form-error]')?.removeAttribute('hidden')
       }
     </script>
     <aside class="contact-card">

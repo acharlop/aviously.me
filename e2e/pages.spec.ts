@@ -31,9 +31,10 @@ test('llms.txt is served', async ({page}) => {
 test('contact form posts to a real backend', async ({page}) => {
   await page.goto('/contact/')
   const form = page.locator('form.contact-form')
-  await expect(form).toHaveAttribute('action', /^https:\/\/formsubmit\.co\//)
+  await expect(form).toHaveAttribute('action', '/api/contact')
   await expect(form).toHaveAttribute('method', 'post')
   await expect(form.locator('input[name="email"]')).toHaveAttribute('required', '')
+  await expect(form.locator('.cf-turnstile')).toHaveAttribute('data-sitekey', /.+/)
 })
 
 test('contact page shows success notice after redirect', async ({page}) => {
