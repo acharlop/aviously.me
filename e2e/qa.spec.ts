@@ -79,6 +79,18 @@ for (const path of pages) {
   })
 }
 
+test('social preview image and OG tags are valid', async ({page, request, baseURL}) => {
+  await page.goto('/')
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /\/og\.png$/)
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute('content', '1200')
+  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute('content', '630')
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image')
+
+  const response = await request.get(new URL('/og.png', baseURL).href)
+  expect(response.status()).toBe(200)
+  expect(response.headers()['content-type']).toContain('image/png')
+})
+
 test('404 page renders with site chrome', async ({page}) => {
   const response = await page.goto('/definitely-not-a-page/')
   expect(response?.status()).toBe(404)
