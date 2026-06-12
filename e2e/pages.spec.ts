@@ -36,6 +36,13 @@ test('contact form posts to a real backend', async ({page}) => {
   await expect(form.locator('input[name="email"]')).toHaveAttribute('required', '')
 })
 
+test('contact page shows success notice after redirect', async ({page}) => {
+  await page.goto('/contact/?sent=true')
+  await expect(page.locator('[data-form-success]')).toBeVisible()
+  await page.goto('/contact/')
+  await expect(page.locator('[data-form-success]')).toBeHidden()
+})
+
 test('robots.txt is served', async ({page}) => {
   const response = await page.request.get('/robots.txt')
   expect(response.status()).toBe(200)

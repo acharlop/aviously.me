@@ -14,9 +14,15 @@ import {site} from '@/data/site'
 
   <section class="shell section contact-grid">
     <p class="lead" data-form-success hidden>Thanks — your message is on its way. I’ll get back to you by email.</p>
-    <form class="contact-card contact-form" action={`https://formsubmit.co/${site.email}`} method="post">
+    <form class="contact-card contact-form" action="https://formsubmit.co/afc6532bc43364a28b0cf10f7672d901" method="post">
       <input type="hidden" name="_subject" value="aviously.me contact form" />
       <input type="hidden" name="_next" value={new URL('/contact/?sent=true', site.url).toString()} />
+      <input type="hidden" name="_template" value="table" />
+      <input
+        type="hidden"
+        name="_autoresponse"
+        value="Thanks for reaching out — I got your message and will reply soon. — Avi (aviously.me)"
+      />
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
       <label>
         Name
