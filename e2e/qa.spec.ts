@@ -55,7 +55,8 @@ test('favicon is served', async ({request, baseURL}) => {
 
 for (const path of pages) {
   test(`${path} has no failed images`, async ({page}) => {
-    await page.goto(path, {waitUntil: 'networkidle'})
+    // 'load' not 'networkidle': the Turnstile widget on /contact/ holds connections open.
+    await page.goto(path, {waitUntil: 'load'})
     const failed = await page.locator('img').evaluateAll((imgs) =>
       imgs
         .filter((img) => !(img as HTMLImageElement).complete || (img as HTMLImageElement).naturalWidth === 0)
