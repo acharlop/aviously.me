@@ -1,0 +1,95 @@
+---
+import fs from 'node:fs'
+import Layout from '@/components/Layout.astro'
+import {education, experience} from '@/data/experience'
+import {site} from '@/data/site'
+
+// The crawl test fetches every linked PDF, so only offer the download once the file is committed.
+const hasPdf = fs.existsSync('public/resume.pdf')
+---
+
+<Layout title="Resume - Avi Charlop" description="Resume of Avi Charlop, senior full-stack engineer and team lead: experience, education, and a downloadable PDF.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`resume`</p>
+    <h1>{site.name}</h1>
+    <p class="lead">{site.tagline}</p>
+    <div class="button-row print-hidden">
+      {hasPdf && <a class="button" href="/resume.pdf" download>Download PDF</a>}
+      <button class="button secondary" type="button" onclick="window.print()">Print this page</button>
+      <a class="button secondary" href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <h2>Experience</h2>
+    {
+      experience.map((item) => (
+        <article class="resume-entry">
+          <header>
+            <h3>
+              {item.role} · {item.company}
+            </h3>
+            <p class="meta-label">
+              {item.dates}
+              {item.location ? ` · ${item.location}` : ''}
+            </p>
+          </header>
+          {item.summary && <p>{item.summary}</p>}
+          <ul>{item.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+          {item.subRoles?.map((sub) => (
+            <div class="resume-subrole">
+              <h4>
+                {sub.role}
+                {sub.tech ? ` (${sub.tech})` : ''} · {sub.dates}
+              </h4>
+              <ul>{sub.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+            </div>
+          ))}
+        </article>
+      ))
+    }
+  </section>
+
+  <section class="shell section">
+    <h2>Education</h2>
+    {
+      education.map((item) => (
+        <article class="resume-entry">
+          <h3>{item.school}</h3>
+          <p class="meta-label">
+            {item.dates} · {item.location}
+          </p>
+          <p>{item.description}</p>
+        </article>
+      ))
+    }
+  </section>
+</Layout>
+
+<style>
+  .resume-entry {
+    margin-bottom: 2rem;
+  }
+  .resume-subrole {
+    margin-top: 1rem;
+    padding-left: 1rem;
+  }
+  @media print {
+    .print-hidden {
+      display: none;
+    }
+    .resume-entry {
+      break-inside: avoid;
+    }
+  }
+</style>
+
+<style is:global>
+  @media print {
+    header.site-header,
+    footer,
+    .skip-link {
+      display: none !important;
+    }
+  }
+</style>

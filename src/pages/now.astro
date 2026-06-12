@@ -1,0 +1,44 @@
+---
+import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
+import Layout from '@/components/Layout.astro'
+
+const current = [
+  {
+    name: 'whocards',
+    href: 'https://whocards.cc',
+    blurb:
+      'Co-owned conversation card product: Astro storefront, Stripe checkout, and automated fulfillment through two shipping providers.',
+  },
+  {
+    name: 'closer.earth',
+    href: 'https://closer.earth',
+    blurb: 'New client work in progress — details coming soon.',
+  },
+]
+---
+
+<Layout title="Now - Avi Charlop" description="What Avi Charlop is working on right now: current projects, availability, and focus.">
+  <section class="shell page-hero">
+    <p class="eyebrow">`now`</p>
+    <h1>What I’m working on right now.</h1>
+    <!-- TODO(#21): replace with Avi's intro paragraph -->
+    <p class="lead">Building product for the projects below while exploring senior and lead engineering roles.</p>
+    <AvailabilityBadge />
+  </section>
+
+  <section class="shell section">
+    <div class="grid-2">
+      {
+        current.map((project) => (
+          <article class="card">
+            <p class="meta-label">current</p>
+            <h3>
+              <a href={project.href}>{project.name}</a>
+            </h3>
+            <p>{project.blurb}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
