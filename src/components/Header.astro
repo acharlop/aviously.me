@@ -39,10 +39,12 @@ function isCurrent(href: string) {
 </header>
 
 <script>
-  const menuToggle = document.querySelector('[data-menu-toggle]')
-  const mobilePanel = document.querySelector('[data-mobile-panel]')
-
-  menuToggle?.addEventListener('click', () => {
+  // Delegated so the listener survives view-transition swaps of the header.
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return
+    const menuToggle = event.target.closest('[data-menu-toggle]')
+    if (!menuToggle) return
+    const mobilePanel = document.querySelector('[data-mobile-panel]')
     const nextState = menuToggle.getAttribute('aria-expanded') !== 'true'
     menuToggle.setAttribute('aria-expanded', String(nextState))
     if (nextState) {

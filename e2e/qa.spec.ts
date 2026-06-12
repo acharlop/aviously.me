@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test'
 
-const pages = ['/', '/about/', '/work/', '/experience/', '/open-source/', '/contact/']
+const pages = ['/', '/about/', '/work/', '/experience/', '/open-source/', '/contact/', '/resume/', '/now/']
 
 test('no broken internal links anywhere on the site', async ({page, request, baseURL}) => {
   const seen = new Set<string>()

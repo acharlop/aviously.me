@@ -13,7 +13,17 @@ import {site} from '@/data/site'
   </section>
 
   <section class="shell section contact-grid">
-    <form class="contact-card contact-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+    <p class="lead" data-form-success hidden>Thanks — your message is on its way. I’ll get back to you by email.</p>
+    <form class="contact-card contact-form" action="https://formsubmit.co/afc6532bc43364a28b0cf10f7672d901" method="post">
+      <input type="hidden" name="_subject" value="aviously.me contact form" />
+      <input type="hidden" name="_next" value={new URL('/contact/?sent=true', site.url).toString()} />
+      <input type="hidden" name="_template" value="table" />
+      <input
+        type="hidden"
+        name="_autoresponse"
+        value="Thanks for reaching out — I got your message and will reply soon. — Avi (aviously.me)"
+      />
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
       <label>
         Name
         <input name="name" autocomplete="name" required />
@@ -26,8 +36,13 @@ import {site} from '@/data/site'
         Message
         <textarea name="message" required></textarea>
       </label>
-      <button class="button" type="submit">Open email draft</button>
+      <button class="button" type="submit">Send message</button>
     </form>
+    <script is:inline data-astro-rerun>
+      if (new URLSearchParams(location.search).get('sent') === 'true') {
+        document.querySelector('[data-form-success]')?.removeAttribute('hidden')
+      }
+    </script>
     <aside class="contact-card">
       <p class="meta-label">direct</p>
       <h2>Email is best.</h2>

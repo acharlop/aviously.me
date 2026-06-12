@@ -3,8 +3,9 @@
 </button>
 
 <script>
-  const toggle = document.querySelector('[data-theme-toggle]')
-  toggle?.addEventListener('click', () => {
+  // Delegated so the listener survives view-transition swaps of the header.
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return
     const current = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light'
     document.documentElement.dataset.theme = current
     localStorage.setItem('theme', current)
