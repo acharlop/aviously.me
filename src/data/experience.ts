@@ -95,8 +95,8 @@ export const experience: ExperienceItem[] = [
         tech: 'Angular',
         dates: '2019',
         bullets: [
-          'Led a shared component library and reusable module extensions across the Unite web client, improving UI consistency and speeding up feature rollouts.',
-          'Upgraded the Angular codebase from v2 to v9, improving performance and reducing initial application load time by 50%.',
+          'Led a shared component library and reusable module extensions across the Unite Angular web client, improving UI consistency and speeding up feature rollouts.',
+          'Drove front-end modernization of the Unite client, including major-version Angular upgrades, to improve performance and maintainability.',
         ],
       },
       {
