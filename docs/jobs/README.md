@@ -24,12 +24,13 @@ The site's experience list is **missing two recent/active engagements**:
 2. **ECSFood.com** — a smaller WordPress→Astro migration with automated visual-parity testing; could be a standalone line or folded into "Freelance".
 
 Other notes:
-- **Vionlabs** end date: resume says "February 2026," but your own commits in the main monorepo run to **December 2025** (the repo's later commits are teammates'). Pick the date that matches your actual last day.
+- **Vionlabs** end date: "February 2026" is correct — paid through end of Feb even though hands-off work stopped ~December 2025 (where your commits end). Keep Feb 2026.
 - **Vionlabs** stack in the resume omits **Drizzle ORM**, **GCP specifics** (Cloud Run, Cloud SQL, Pub/Sub, Eventarc, Secret Manager), **WorkOS SSO**, and the **design-system/Storybook** work — all confirmed in the code and worth adding.
 - **Freelance Tezos/NFT** work was more substantial than the resume implies — 200+ commits in tzConnect Berlin's `marina` and real contributions to fxhash `live-minting`.
+- **whocards** "two shipping providers" = **Zenfulfillment** (removed `#30`, Jun 2024) → **Egon** (`#29`, Jan 2025), confirmed in git history. Egon routes to regional carriers (DHL/DPD/GLS) by country.
 
 ## Method / provenance
 
 - Git ranges and commit counts came from `git log` per repo; "yours" = commits authored by `acharlop` / `avicharlop@gmail.com` / `avi@vionlabs.com` / "Avi Charlop".
 - Several top-level dirs (`vionlabs/`, `cai/`, `closer/`, `whocards/`) are workspaces containing multiple nested git repos.
-- Net2phone and Takt source was recovered from the external drive at `/Volumes/MIND GEM/stark tower - transfer/code` (`n2p/`, `LiveNinja/`, `old/Takt/`). The remaining unconfirmed Net2phone claim is the 2019 Angular component-library / v2→v9 upgrade — that repo wasn't on this drive.
+- Net2phone and Takt source was recovered from the external drive at `/Volumes/MIND GEM/stark tower - transfer/code` (`n2p/`, `LiveNinja/`, `old/Takt/`). The Angular component library is confirmed (`n2p-unite-services/webapp`, Angular 5), but the **v2→v9 upgrade endpoint is not** — the archive only reaches Angular 5 (history ends Nov 2018); the v9 work lived in a later repo not on this drive.

@@ -14,7 +14,7 @@ A physical **conversation-card product** you co-created and own, sold online wit
 - Built a full **e2e purchase + shipping-address checkout flow** with Stripe, invoice emails, webhook handling, country→country-code transforms, and validation-gated forms.
 - Multiple card decks / localized question sets (e.g. "Hajnalig" variant, 160+ questions), image/landing pages, preorder + Open Collective flows.
 - Earlier explorations in the same workspace: `website-next` / `website-next-15` (Next.js rewrites), `payload` (Payload CMS), `cms`, and `meet` (87 commits — a Google Meet add-on integration, 2024).
-- Resume mentions integrations with **two shipping providers** for automated fulfillment — confirm provider names from the live deploy/env; not in the committed source.
+- The **two fulfillment providers** (from git history): **Zenfulfillment** first, then migrated to **Egon** (`#29` Egon shipping integration, Jan 2025; `#30` remove zen shipping, Jun 2024). Egon (`src/server/egon/`) routes orders to regional carriers (DHL/DPD/GLS/Speedy/Postnord) via a country→carrier map.
 
 **Resume bullet:** Co-created and continue to operate whocards.cc, an owned conversation-card product — Astro + Stripe storefront on Netlify with an automated e2e checkout/shipping/fulfillment flow and multiple localized card decks.
 

@@ -68,7 +68,7 @@ export const experience: ExperienceItem[] = [
     role: 'Full-Stack Developer',
     dates: 'October 2022 - June 2023',
     bullets: [
-      'Co-created and continue to operate whocards.cc, an owned conversation-card product — an Astro + Stripe storefront on Netlify with an automated end-to-end checkout, shipping-address, and fulfillment flow.',
+      'Co-created and continue to operate whocards.cc, an owned conversation-card product — an Astro + Stripe storefront on Netlify with an automated end-to-end checkout and fulfillment flow, integrating two third-party fulfillment providers (Zenfulfillment, later Egon) that route orders to regional carriers.',
       'Built J3D.AI, a real-time AI workshop-summary app (T3 stack: Next.js, tRPC, Prisma, Supabase, GCP) with live audio capture, an ffmpeg-based transcription pipeline, and AI-generated summaries with editable next steps.',
       'Built proofofperformance.xyz, a live on-chain NFT minting experience on Tezos for a DJ event, using fxhash live-minting tooling.',
       'Contributed to circa.art and the underlying Tezos NFT marketplace stack (Taquito), letting users purchase video frames during a high-profile launch.',

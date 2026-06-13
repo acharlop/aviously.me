@@ -22,7 +22,9 @@
 
 **2018 — Mobile / messaging:** The `n2p-messaging-*` widget/sipclient/webclient stack is the live chat + calling product (inherited from LiveNinja's `liveninja-bravo-app`). Your work here was lighter than the backend.
 
-**2019 — Lead Front-End (Angular):** **Confirmed — this lives in `n2p-unite-services/webapp`.** The Unite web client is an Angular app (Angular 5 in the 2018 snapshot, consistent with being mid-upgrade on the v2→v9 path) with a `shared` component library + reusable `shared-extensions` consumed by the feature modules. Your ~298 commits here include the component-library/module refactoring (e.g. "move web-apis into a module", "update components to use shared-extension"). The "shared component library across products" claim is grounded here; only the explicit v9 endpoint isn't visible in this older snapshot.
+**2019 — Lead Front-End (Angular):** **Confirmed — this lives in `n2p-unite-services/webapp`.** The Unite web client is an Angular app (Angular 5 in the 2018 snapshot, consistent with being mid-upgrade on the v2→v9 path) with a `shared` component library + reusable `shared-extensions` consumed by the feature modules. Your ~298 commits here include the component-library/module refactoring (e.g. "move web-apis into a module", "update components to use shared-extension"). The "shared component library across products" claim is grounded here.
+
+**On the "v2 → v9" claim:** the only Angular version anywhere in the recovered history is **5.2.11**, and this repo's history ends Nov 2018. The v9 upgrade would have happened in 2019–2020, in a repo not on this drive. So the v9 endpoint (and the −50% load number) rests on memory, not this archive — keep it only if you're confident.
 
 **2020–2022 — Cross-team intrapreneur (React):** **Strongly confirmed and bigger than the resume says.** The `dialer` repo is **898 of your commits** over 2020–2022 — a React + Redux + TypeScript browser **dialer built on JsSIP/WebRTC**, supporting multiple call-server configs. This was clearly a flagship effort, not a side widget. The React micro-frontend modernization narrative fits: a modern React app embedded into/alongside the legacy stack.
 
