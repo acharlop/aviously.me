@@ -15,16 +15,40 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
+    company: 'Closer (closer.earth)',
+    role: 'Contract Full-Stack Engineer',
+    location: 'Remote',
+    dates: 'May 2026 - Present',
+    summary:
+      'Infrastructure-automation tooling and platform work for Closer, the operating system behind regenerative co-living communities ("villages").',
+    bullets: [
+      'Built a greenfield "one-click village" provisioning system (Bun monorepo, TypeScript) that stands up a complete community-platform instance across DigitalOcean, Vercel, MongoDB, Mailgun, Firebase, and Stripe Connect from a single typed config.',
+      'Designed idempotent, resumable provisioning workflows — a step DAG over durable state — with full teardown, validated by end-to-end tests against live cloud providers.',
+      'Shipped an Ink terminal UI distributed as compiled single-file binaries and an Elysia control API with token auth and streamed mutation endpoints.',
+      'Contributed fixes to the core platform alongside the tooling: a Next.js 15 / Turborepo frontend and a Node + MongoDB API.',
+    ],
+  },
+  {
+    company: 'ECSFood.com',
+    role: 'Freelance Web Developer',
+    location: 'Remote',
+    dates: '2026',
+    bullets: [
+      'Rebuilt a disaster-relief catering company’s site as a static Astro app, replacing a legacy WordPress install.',
+      'Drove parity with automated visual-regression tests (Playwright across four breakpoints) checking each page against captured live-site baselines.',
+    ],
+  },
+  {
     company: 'Vionlabs',
     role: 'Team Lead',
     location: 'Remote',
     dates: 'February 2025 - February 2026',
     summary: 'Greenfield customer portal and multi-source data platform for enterprise media-tech customers.',
     bullets: [
-      'Built and led a 4-engineer team, establishing workflows and code standards for a greenfield full-stack monorepo using Next.js, tRPC, Fastify, and Fumadocs.',
-      'Designed and delivered a robust multi-source data sync pipeline, unifying content from multiple upstream systems into a single customer-facing portal.',
-      'Provisioned and scaled GCP infrastructure with Terraform and implemented GitLab CI/CD pipelines for reliable automated deployments.',
-      'Partnered directly with Sales to onboard enterprise customers and drive rapid iteration, turning customer feedback into same-day product updates.',
+      'Led a 4-engineer team building a greenfield, multi-tenant media-catalog portal as a Turborepo monorepo (Next.js, tRPC, Fastify, Drizzle/Postgres), establishing workflows and code standards across frontend, API, and documentation surfaces.',
+      'Built the multi-source data-sync layer that unified content from upstream fingerprinting systems into a single customer-facing portal.',
+      'Owned GCP infrastructure end-to-end in Terraform — Cloud Run, Cloud SQL, Pub/Sub, Eventarc, Secret Manager, and VPC — with GitLab CI/CD pipelines for automated deploys.',
+      'Built a Figma-driven design system in Storybook plus catalog browsing, smart-lists, filtering, and tagging, with enterprise auth (WorkOS SSO, scoped API keys); partnered with Sales to turn customer feedback into same-day updates.',
     ],
   },
   {
@@ -33,10 +57,10 @@ export const experience: ExperienceItem[] = [
     location: 'Remote',
     dates: 'August 2023 - August 2024',
     bullets: [
-      'Collaborated with design and product teams to implement a major UI overhaul, improving design consistency across the platform.',
+      'Built a fully type-safe form generator on React Hook Form and the internal MUI component library, standardizing form development and reducing implementation time.',
       'Introduced Redux Toolkit with RTK Query to simplify state management and data fetching.',
-      'Developed a fully type-safe form generator using React Hook Form and an internal component library, standardizing form development and reducing implementation time.',
-      'Migrated internal package management from NPM to GitHub Packages and automated deployments with reusable GitHub Actions workflows.',
+      'Drove a platform-wide UI-consistency overhaul, contributing Storybook-documented components to the shared library and published client SDK.',
+      'Migrated package management from NPM to GitHub Packages and automated publish/deploy with reusable GitHub Actions workflows.',
     ],
   },
   {
@@ -44,10 +68,10 @@ export const experience: ExperienceItem[] = [
     role: 'Full-Stack Developer',
     dates: 'October 2022 - June 2023',
     bullets: [
-      'Co-created and continue to build whocards.cc, an owned conversation card product using Astro, Stripe, product design, and integrations with two shipping providers for automated fulfillment.',
-      'Built J3D.AI, a real-time AI-powered summary MVP for live workshop summaries and actionable next steps.',
-      'Designed and implemented proofofperformance.xyz, a Web3 NFT minting experience for a live DJ event using Tezos blockchain transactions.',
-      'Created circa.art, a Next.js NFT marketplace that allowed users to purchase video frames during a high-profile launch and continue engaging post-launch.',
+      'Co-created and continue to operate whocards.cc, an owned conversation-card product — an Astro + Stripe storefront on Netlify with an automated end-to-end checkout, shipping-address, and fulfillment flow.',
+      'Built J3D.AI, a real-time AI workshop-summary app (T3 stack: Next.js, tRPC, Prisma, Supabase, GCP) with live audio capture, an ffmpeg-based transcription pipeline, and AI-generated summaries with editable next steps.',
+      'Built proofofperformance.xyz, a live on-chain NFT minting experience on Tezos for a DJ event, using fxhash live-minting tooling.',
+      'Contributed to circa.art and the underlying Tezos NFT marketplace stack (Taquito), letting users purchase video frames during a high-profile launch.',
     ],
   },
   {
@@ -62,8 +86,8 @@ export const experience: ExperienceItem[] = [
         tech: 'React',
         dates: '2020 - 2022',
         bullets: [
-          'Introduced React micro frontends to modernize a legacy Angular system and accelerate feature development across teams.',
-          'Built a WebRTC-powered dialer widget supporting multiple call server configurations, improving real-time communication capabilities.',
+          'Built a WebRTC browser dialer (React, Redux, TypeScript, JsSIP) supporting multiple call-server configurations — a core piece of the modern web client.',
+          'Introduced React micro frontends to modernize the legacy Angular system and accelerate feature development across teams.',
         ],
       },
       {
@@ -71,7 +95,7 @@ export const experience: ExperienceItem[] = [
         tech: 'Angular',
         dates: '2019',
         bullets: [
-          'Led the creation of a shared component library across products, improving UI consistency and speeding up feature rollouts.',
+          'Led a shared component library and reusable module extensions across the Unite web client, improving UI consistency and speeding up feature rollouts.',
           'Upgraded the Angular codebase from v2 to v9, improving performance and reducing initial application load time by 50%.',
         ],
       },
@@ -86,11 +110,11 @@ export const experience: ExperienceItem[] = [
       },
       {
         role: 'Backend Engineer',
-        tech: 'Go, Dart',
+        tech: 'Go',
         dates: '2017',
         bullets: [
-          'Refactored microservices architecture using Go to improve scalability and maintainability.',
-          'Implemented robust unit testing across key services to improve reliability.',
+          'Refactored core messaging microservices in Go (engine, user service, shared libraries) to improve scalability and maintainability.',
+          'Implemented unit testing across key services to improve reliability.',
         ],
       },
     ],
@@ -101,8 +125,8 @@ export const experience: ExperienceItem[] = [
     location: 'Miami',
     dates: 'May 2016 - January 2017',
     bullets: [
-      'Led development of a streaming media workflow engine as the sole developer from MVP stage through the second round of Y Combinator.',
-      'Managed frontend and backend development for Aapryl, a fintech analytics dashboard, delivering a comprehensive MVP using Angular and Node.js.',
+      'Built a serverless streaming-media pipeline (AWS Lambda + Bitmovin transcoding) as the primary developer, carrying it from MVP through a startup’s second round of Y Combinator.',
+      'Delivered the Aapryl fintech analytics dashboard MVP end-to-end, frontend and backend, using Angular and Node.js.',
     ],
   },
 ]
