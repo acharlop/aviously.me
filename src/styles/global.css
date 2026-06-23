@@ -501,6 +501,54 @@ h3 {
   transform: translateY(-2px);
 }
 
+.repo-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.repo-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--green), transparent 48%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--green), transparent 91%);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 9px;
+  white-space: nowrap;
+}
+
+.repo-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.repo-status--pending {
+  border-color: color-mix(in srgb, var(--amber), transparent 48%);
+  background: color-mix(in srgb, var(--amber), transparent 90%);
+}
+
+.repo-status--pending .repo-status-dot {
+  background: var(--amber);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--amber), transparent 45%);
+  animation: pulse 2.4s infinite;
+}
+
+.repo-status--maintainer {
+  border-color: color-mix(in srgb, var(--accent), transparent 48%);
+  background: color-mix(in srgb, var(--accent), transparent 90%);
+}
+
+.repo-status--maintainer .repo-status-dot {
+  background: var(--accent);
+}
+
 .tag-row {
   display: flex;
   flex-wrap: wrap;

@@ -1,15 +1,31 @@
 ---
-import type {Repo} from '@/data/open-source'
+import type {Repo, RepoStatus} from '@/data/open-source'
 
 type Props = {
   repo: Repo
 }
 
 const {repo} = Astro.props
+
+const statusLabel: Record<RepoStatus, string> = {
+  merged: 'Merged',
+  pending: 'Pending review',
+  maintainer: 'Maintainer',
+}
 ---
 
 <article class="repo-card">
-  <p class="meta-label">{repo.type}</p>
+  <div class="repo-card-head">
+    <p class="meta-label">{repo.type}</p>
+    {
+      repo.status && (
+        <span class={`repo-status repo-status--${repo.status}`}>
+          <span class="repo-status-dot" aria-hidden="true" />
+          {statusLabel[repo.status]}
+        </span>
+      )
+    }
+  </div>
   <h3>{repo.href ? <a href={repo.href}>{repo.name}</a> : repo.name}</h3>
   <p>{repo.summary}</p>
   <p><strong>{repo.role}</strong>{repo.note ? ` · ${repo.note}` : ''}</p>

@@ -1,3 +1,5 @@
+export type RepoStatus = 'merged' | 'pending' | 'maintainer'
+
 export type Repo = {
   name: string
   role: string
@@ -6,6 +8,7 @@ export type Repo = {
   summary: string
   href?: string
   note?: string
+  status?: RepoStatus
 }
 
 export const openSourceRepos: Repo[] = [
@@ -17,6 +20,7 @@ export const openSourceRepos: Repo[] = [
     href: 'https://github.com/acharlop/prism-rails',
     summary: 'A Rails syntax highlighter gem wrapping Prism.js for simple asset pipeline usage.',
     note: '250K+ downloads on RubyGems.',
+    status: 'maintainer',
   },
   {
     name: 'tailwind-config-viewer',
@@ -25,7 +29,8 @@ export const openSourceRepos: Repo[] = [
     stack: ['Tailwind CSS', 'Developer tooling'],
     href: 'https://github.com/rogden/tailwind-config-viewer/pull/57',
     summary: 'Added a font-family viewer component (plus serve/build scripts) to the local Tailwind config visualizer.',
-    note: 'PR #57, merged 2022.',
+    note: 'PR #57 · 2022',
+    status: 'merged',
   },
   {
     name: 'create-t3-app',
@@ -34,6 +39,18 @@ export const openSourceRepos: Repo[] = [
     stack: ['TypeScript', 'Shell'],
     href: 'https://github.com/t3-oss/create-t3-app/pull/2038',
     summary: 'Improved the generated start-database.sh script in the T3 app scaffolder.',
-    note: 'PR #2038, merged 2025.',
+    note: 'PR #2038 · 2025',
+    status: 'merged',
+  },
+  {
+    name: 'bidi-js',
+    role: 'Contributor',
+    type: 'Unicode Bidirectional Algorithm library',
+    stack: ['TypeScript', 'JavaScript'],
+    href: 'https://github.com/lojjic/bidi-js/pull/15',
+    summary:
+      'Added hand-maintained TypeScript type definitions that correctly type the factory function and its returned API.',
+    note: 'PR #15',
+    status: 'pending',
   },
 ]
