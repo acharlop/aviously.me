@@ -50,7 +50,17 @@ export const openSourceRepos: Repo[] = [
     href: 'https://github.com/lojjic/bidi-js/pull/15',
     summary:
       'Added hand-maintained TypeScript type definitions that correctly type the factory function and its returned API.',
-    note: 'PR #15',
+    note: 'PR #15 · 2026',
+    status: 'merged',
+  },
+  {
+    name: 'nuqs',
+    role: 'Contributor',
+    type: 'Type-safe URL search params state manager',
+    stack: ['TypeScript', 'React', 'Next.js'],
+    href: 'https://github.com/47ng/nuqs/pull/748',
+    summary: 'Refactored the TanStack Table docs pagination example and added a sorting example.',
+    note: 'PR #748 · open since 2024',
     status: 'pending',
   },
 ]
