@@ -16,7 +16,7 @@ const hasPdf = fs.existsSync('public/resume.pdf')
     <h1>{site.name}</h1>
     <p class="lead">{site.tagline}</p>
     <p class="print-contact meta-label">
-      {site.email} · aviously.me · {site.linkedin.replace('https://', '')} · {site.github.replace('https://', '')}
+      {site.email} · {site.url.replace('https://', '')} · {site.linkedin.replace('https://', '')} · {site.github.replace('https://', '')}
     </p>
     <div class="button-row print-hidden">
       {hasPdf && <a class="button" href="/resume.pdf" download>Download PDF</a>}
@@ -74,7 +74,10 @@ const hasPdf = fs.existsSync('public/resume.pdf')
     html,
     body {
       background: #fff !important;
-      font-size: 0.85rem;
+    }
+
+    html {
+      font-size: 0.78rem;
     }
 
     body::before {
