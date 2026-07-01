@@ -50,3 +50,6 @@ next-env.d.ts
 
 # private, never committed (biz ideas, notes, scratch)
 /private/
+
+# local task queue for HIL work (see TODO.md)
+/TODO.md

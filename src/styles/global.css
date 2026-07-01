@@ -47,6 +47,27 @@
   --shadow: 0 24px 70px rgba(67, 53, 29, 0.14);
 }
 
+/* Print always uses the light palette, regardless of the on-screen theme. */
+@media print {
+  :root,
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #fff;
+    --bg-2: #fff;
+    --surface: #fff;
+    --surface-strong: #fff;
+    --text: #172029;
+    --muted: #4f5f68;
+    --faint: #76838a;
+    --line: rgba(22, 45, 55, 0.16);
+    --accent: #007aa3;
+    --accent-2: #7257d6;
+    --green: #167c4a;
+    --amber: #9d6100;
+    --shadow: none;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
