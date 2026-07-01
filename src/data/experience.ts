@@ -34,8 +34,8 @@ export const experience: ExperienceItem[] = [
     location: 'Remote',
     dates: '2026',
     bullets: [
-      'Rebuilt a disaster-relief catering company’s site as a static Astro app, replacing a legacy WordPress install.',
-      'Drove parity with automated visual-regression tests (Playwright across four breakpoints) checking each page against captured live-site baselines.',
+      'Rebuilding a disaster-relief catering company’s site as a static Astro app to replace a legacy WordPress install.',
+      'Verifying pixel parity with automated visual-regression tests (Playwright across four breakpoints) that check each page against captured live-site baselines.',
     ],
   },
   {
