@@ -125,8 +125,9 @@ export function resumeJson(): object {
       summary: sub.tech ? `Primary stack: ${sub.tech}` : undefined,
       highlights: sub.bullets,
     }))
-    // Roles with no top-level bullets (e.g. Net2phone) are fully described by their sub-roles.
-    return item.bullets.length === 0 && subs.length > 0 ? subs : [main, ...subs]
+    // The parent entry stays even when its bullets live in sub-roles (e.g. Net2phone),
+    // so the umbrella title and full tenure survive in the JSON.
+    return [main, ...subs]
   })
 
   return {

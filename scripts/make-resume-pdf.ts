@@ -15,12 +15,11 @@ try {
   const base = `http://localhost:${PORT}`
   const deadline = Date.now() + 15_000
   while (true) {
+    if (Date.now() > deadline) throw new Error('astro preview did not serve /resume/; run `bun run build` first')
     try {
       const res = await fetch(`${base}/resume/`)
       if (res.ok) break
-    } catch {
-      if (Date.now() > deadline) throw new Error('astro preview did not become ready; run `bun run build` first')
-    }
+    } catch {}
     await Bun.sleep(250)
   }
 
