@@ -416,6 +416,15 @@ h3 {
   }
 }
 
+.availability-note {
+  margin-top: 10px;
+  font-size: 0.92rem;
+}
+
+.availability-note a {
+  color: var(--accent);
+}
+
 .code-note {
   margin-top: 24px;
   padding: 16px;

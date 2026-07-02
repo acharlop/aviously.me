@@ -1,0 +1,112 @@
+---
+import {getCollection} from 'astro:content'
+import Layout from '@/components/Layout.astro'
+import ProjectCard from '@/components/ProjectCard.astro'
+import SectionHeading from '@/components/SectionHeading.astro'
+import {site} from '@/data/site'
+
+const projects = await getCollection('projects')
+const caseStudySlugs = ['closer', 'vionlabs-customer-portal']
+const caseStudies = caseStudySlugs
+  .map((slug) => projects.find((project) => project.id.replace(/\.mdx?$/, '') === slug))
+  .filter((project) => project !== undefined)
+
+const services = [
+  {
+    kicker: 'product',
+    title: 'Greenfield product',
+    text: 'The application itself: Next.js or Astro frontends, typed APIs (tRPC, Fastify, Elysia), Postgres with Drizzle, auth, payments, and the integrations your product depends on.',
+  },
+  {
+    kicker: 'infrastructure',
+    title: 'Infra and automation',
+    text: 'The platform it runs on: cloud provisioning as code (Terraform on GCP, provider APIs elsewhere), CI/CD pipelines, environments, secrets, and deploys that work on day one.',
+  },
+  {
+    kicker: 'foundations',
+    title: 'Monorepo and tooling',
+    text: 'The structure your next hires inherit: Turborepo or Bun workspaces, shared config, typed environment variables, e2e tests, docs, and conventions written down.',
+  },
+]
+---
+
+<Layout
+  title="Services - Avi Charlop"
+  description="Zero-to-shipped TypeScript platforms and infra automation. One senior engineer takes your product from empty repo to running in production — application, infrastructure, and CI/CD included."
+  canonical="/services/"
+>
+  <section class="shell page-hero">
+    <p class="eyebrow">`services`</p>
+    <h1>Zero-to-shipped TypeScript platforms and infra automation.</h1>
+    <p class="lead">
+      I’m Avi Charlop, a senior full-stack engineer with 10+ years of experience. I take products from empty repo to
+      running in production — the application and the infrastructure it runs on — as one engineer, so you don’t have to
+      hire a team before you have a product.
+    </p>
+    <div class="button-row">
+      <a class="button" href={`mailto:${site.email}`}>Email me</a>
+      <a class="button secondary" href="/contact/">Contact page</a>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading
+      kicker="what_i_deliver"
+      title="The product, plus the platform it runs on."
+      text="Most early builds ship the app and defer the infrastructure. I deliver both, so the first version is also deployable, testable, and maintainable."
+    />
+    <div class="grid-3">
+      {services.map((service) => (
+        <article class="card">
+          <p class="meta-label">{service.kicker}</p>
+          <h3>{service.title}</h3>
+          <p>{service.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="shell section">
+    <div class="signal-card">
+      <p class="meta-label">`who_this_is_for`</p>
+      <h2>Small teams and founders without a platform team.</h2>
+      <p>
+        You have a product to build and nobody whose job is repos, pipelines, and cloud accounts. I set those up as part
+        of building the product, then hand over code and infrastructure definitions your future hires can work in — not
+        a dependency on me.
+      </p>
+      <p>
+        I work in the open: pull requests, architecture decision records, and docs where the project warrants them. I
+        take one client engagement at a time.
+      </p>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading
+      kicker="proof"
+      title="Two recent builds, end to end."
+      text="Both were greenfield: one engineer or a small team, a typed TypeScript codebase, and the provisioning, CI/CD, and cloud infrastructure delivered alongside the product."
+      href="/experience/"
+      linkLabel="Full experience"
+    />
+    <div class="grid-3">
+      {caseStudies.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section class="shell section">
+    <div class="signal-card">
+      <p class="meta-label">`next_step`</p>
+      <h2>Have something that needs to go from zero to shipped?</h2>
+      <p class="lead">
+        Send a short note about what you’re building and where it’s stuck. I’ll reply with whether I can help and what a
+        first step could look like.
+      </p>
+      <div class="button-row">
+        <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
+        <a class="button secondary" href="/contact/">Use the contact form</a>
+      </div>
+    </div>
+  </section>
+</Layout>

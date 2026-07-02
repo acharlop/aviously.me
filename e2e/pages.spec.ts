@@ -1,6 +1,6 @@
 import {expect, test} from '@playwright/test'
 
-const pages = ['/', '/about/', '/work/', '/experience/', '/open-source/', '/contact/', '/resume/', '/now/']
+const pages = ['/', '/about/', '/work/', '/experience/', '/open-source/', '/contact/', '/resume/', '/now/', '/services/']
 
 for (const path of pages) {
   test(`${path} renders`, async ({page}) => {
@@ -10,6 +10,14 @@ for (const path of pages) {
     await expect(page).toHaveTitle(/Avi Charlop/)
   })
 }
+
+test('services page is linked from home and links both case studies', async ({page}) => {
+  await page.goto('/')
+  await expect(page.locator('a[href="/services/"]').first()).toBeVisible()
+  await page.goto('/services/')
+  await expect(page.locator('a[href="/work/closer/"]').first()).toBeVisible()
+  await expect(page.locator('a[href="/work/vionlabs-customer-portal/"]').first()).toBeVisible()
+})
 
 test('blog is not linked in navigation', async ({page}) => {
   await page.goto('/')
