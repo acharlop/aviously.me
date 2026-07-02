@@ -1,10 +1,16 @@
 ---
-import {experience} from '@/data/experience'
+import {experience, type ExperienceItem} from '@/data/experience'
+
+interface Props {
+  items?: ExperienceItem[]
+}
+
+const {items = experience} = Astro.props
 ---
 
 <div class="timeline">
   {
-    experience.map((item) => (
+    items.map((item) => (
       <article class="timeline-item">
         <div class="timeline-meta">
           <strong>{item.dates}</strong>

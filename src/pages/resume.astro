@@ -3,11 +3,12 @@ import fs from 'node:fs'
 import ExperienceTimeline from '@/components/ExperienceTimeline.astro'
 import Layout from '@/components/Layout.astro'
 import SectionHeading from '@/components/SectionHeading.astro'
-import {education} from '@/data/experience'
+import {shapeResume} from '@/lib/resume-export'
 import {site} from '@/data/site'
 
 // The crawl test fetches every linked PDF, so only offer the download once the file is committed.
 const hasPdf = fs.existsSync('public/resume.pdf')
+const {experience, education} = shapeResume()
 ---
 
 <Layout title="Resume - Avi Charlop" description="Resume of Avi Charlop, senior full-stack engineer and team lead: experience, education, and a downloadable PDF.">
@@ -31,23 +32,27 @@ const hasPdf = fs.existsSync('public/resume.pdf')
 
   <section class="shell section">
     <SectionHeading kicker="timeline" title="Professional experience" />
-    <ExperienceTimeline />
+    <ExperienceTimeline items={experience} />
   </section>
 
-  <section class="shell section education-section">
-    <SectionHeading kicker="education" title="Education" />
-    <div class="grid-2">
-      {
-        education.map((item) => (
-          <article class="card">
-            <p class="meta-label">{item.dates} · {item.location}</p>
-            <h3>{item.school}</h3>
-            <p>{item.description}</p>
-          </article>
-        ))
-      }
-    </div>
-  </section>
+  {
+    education.length > 0 && (
+      <section class="shell section education-section">
+        <SectionHeading kicker="education" title="Education" />
+        <div class="grid-2">
+          {education.map((item) => (
+            <article class="card">
+              <p class="meta-label">
+                {item.dates} · {item.location}
+              </p>
+              <h3>{item.school}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+    )
+  }
 </Layout>
 
 <style>
