@@ -29,9 +29,11 @@ export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): S
       : undefined
     // When sub-roles are dropped and the parent has no bullets of its own
     // (Net2phone), hoist each sub-role's lead bullet so the entry isn't empty.
+    // The hoisted list is exempt from bulletsPerRole: one line per sub-role,
+    // so the whole tenure stays visible.
     const bullets =
       !options.includeSubRoles && item.bullets.length === 0 && item.subRoles
-        ? capBullets(item.subRoles.map((sub) => sub.bullets[0]).filter(Boolean))
+        ? item.subRoles.map((sub) => sub.bullets[0]).filter(Boolean)
         : capBullets(item.bullets)
     return {
       ...item,
