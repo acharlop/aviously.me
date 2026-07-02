@@ -1,5 +1,50 @@
-import {education, experience} from '@/data/experience'
+import {education, experience, type ExperienceItem} from '@/data/experience'
+import {defaultResumeOptions, type ResumeOptions} from '@/data/resume-options'
 import {site} from '@/data/site'
+
+export type ShapedResume = {
+  experience: ExperienceItem[]
+  education: typeof education
+}
+
+/** Applies the knobs to the raw data. Default options return everything unchanged. */
+export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): ShapedResume {
+  const options =
+    rawOptions.length === 'one-page'
+      ? {...rawOptions, bulletsPerRole: rawOptions.bulletsPerRole ?? 2, includeSubRoles: false}
+      : rawOptions
+  const capBullets = (bullets: string[]) =>
+    options.bulletsPerRole === undefined ? bullets : bullets.slice(0, options.bulletsPerRole)
+
+  const selected =
+    options.roles === undefined
+      ? experience
+      : options.roles
+          .map((company) => experience.find((item) => item.company.toLowerCase().startsWith(company.toLowerCase())))
+          .filter((item) => item !== undefined)
+
+  const shaped = selected.map((item) => {
+    const subRoles = options.includeSubRoles
+      ? item.subRoles?.map((sub) => ({...sub, bullets: capBullets(sub.bullets)}))
+      : undefined
+    // When sub-roles are dropped and the parent has no bullets of its own
+    // (Net2phone), hoist each sub-role's lead bullet so the entry isn't empty.
+    // The hoisted list is exempt from bulletsPerRole: one line per sub-role,
+    // so the whole tenure stays visible.
+    const bullets =
+      !options.includeSubRoles && item.bullets.length === 0 && item.subRoles
+        ? item.subRoles.map((sub) => sub.bullets[0]).filter(Boolean)
+        : capBullets(item.bullets)
+    return {
+      ...item,
+      summary: options.includeSummary ? item.summary : undefined,
+      bullets,
+      subRoles,
+    }
+  })
+
+  return {experience: shaped, education: options.includeEducation ? education : []}
+}
 
 const MONTHS: Record<string, string> = {
   january: '01',
@@ -39,7 +84,8 @@ function splitDates(dates: string): {startDate?: string; endDate?: string} {
   }
 }
 
-export function resumeMarkdown(): string {
+export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): string {
+  const {experience: roles, education: schools} = shapeResume(options)
   const lines: string[] = [
     `# ${site.name}`,
     '',
@@ -50,7 +96,7 @@ export function resumeMarkdown(): string {
     '## Professional experience',
   ]
 
-  for (const item of experience) {
+  for (const item of roles) {
     lines.push('', `### ${item.role} · ${item.company}`, '')
     lines.push(`*${item.dates}${item.location ? ` · ${item.location}` : ''}*`)
     if (item.summary) lines.push('', item.summary)
@@ -64,15 +110,18 @@ export function resumeMarkdown(): string {
     }
   }
 
-  lines.push('', '## Education')
-  for (const item of education) {
-    lines.push('', `### ${item.school}`, '', `*${item.dates} · ${item.location}*`, '', item.description)
+  if (schools.length > 0) {
+    lines.push('', '## Education')
+    for (const item of schools) {
+      lines.push('', `### ${item.school}`, '', `*${item.dates} · ${item.location}*`, '', item.description)
+    }
   }
 
   return `${lines.join('\n')}\n`
 }
 
-export function resumePlainText(): string {
+export function resumePlainText(options: ResumeOptions = defaultResumeOptions): string {
+  const {experience: roles, education: schools} = shapeResume(options)
   const rule = '='.repeat(64)
   const lines: string[] = [
     site.name.toUpperCase(),
@@ -84,7 +133,7 @@ export function resumePlainText(): string {
     rule,
   ]
 
-  for (const item of experience) {
+  for (const item of roles) {
     lines.push('', `${item.role} - ${item.company}`)
     lines.push(`${item.dates}${item.location ? ` | ${item.location}` : ''}`)
     if (item.summary) lines.push(item.summary)
@@ -95,17 +144,20 @@ export function resumePlainText(): string {
     }
   }
 
-  lines.push('', rule, 'EDUCATION', rule)
-  for (const item of education) {
-    lines.push('', item.school, `${item.dates} | ${item.location}`, item.description)
+  if (schools.length > 0) {
+    lines.push('', rule, 'EDUCATION', rule)
+    for (const item of schools) {
+      lines.push('', item.school, `${item.dates} | ${item.location}`, item.description)
+    }
   }
 
   return `${lines.join('\n')}\n`
 }
 
 // https://jsonresume.org/schema/
-export function resumeJson(): object {
-  const work = experience.flatMap((item) => {
+export function resumeJson(options: ResumeOptions = defaultResumeOptions): object {
+  const {experience: roles, education: schools} = shapeResume(options)
+  const work = roles.flatMap((item) => {
     const base = {
       name: item.company,
       location: item.location,
@@ -144,7 +196,7 @@ export function resumeJson(): object {
       ],
     },
     work,
-    education: education.map((item) => ({
+    education: schools.map((item) => ({
       institution: item.school,
       ...splitDates(item.dates),
       courses: [item.description],

@@ -6,7 +6,11 @@ test('header navigation reaches every page', async ({page, isMobile}) => {
   for (const label of links) {
     await page.goto('/')
     if (isMobile) {
-      await page.locator('[data-menu-toggle]').click()
+      // The menu listener is a deferred module script; retry until it has attached.
+      await expect(async () => {
+        await page.locator('[data-menu-toggle]').click()
+        await expect(page.locator('[data-mobile-panel]')).toBeVisible({timeout: 1000})
+      }).toPass()
       await page.locator('[data-mobile-panel]').getByRole('link', {name: label}).click()
     } else {
       await page.locator('header nav.desktop-nav').getByRole('link', {name: label}).click()
