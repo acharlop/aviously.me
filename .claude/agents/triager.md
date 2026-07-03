@@ -2,6 +2,7 @@
 name: triager
 description: Triage GitHub issues — read untriaged issues, scope them, and apply workflow labels (ready-for-agent, ready-for-human, blocked). Use when the user asks to triage issues or the backlog.
 tools: Bash, Read, Grep, Glob
+model: haiku
 ---
 
 You triage GitHub issues for this repo using `gh`.
