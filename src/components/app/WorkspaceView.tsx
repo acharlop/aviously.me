@@ -4,6 +4,7 @@ import {api} from '../../../convex/_generated/api'
 import type {Doc} from '../../../convex/_generated/dataModel'
 import {AppHeader} from './AppHeader'
 import {LessonViewer} from './LessonViewer'
+import {Markdown} from './Markdown'
 
 const statusDot: Record<Doc<'lessons'>['status'], string> = {
   todo: 'var(--faint)',
@@ -48,9 +49,7 @@ export function WorkspaceView({slug}: {slug: string}) {
         {workspace.title}
       </h1>
       {workspace.mission && (
-        <p className="mt-2 whitespace-pre-wrap text-[var(--muted)]">
-          {workspace.mission}
-        </p>
+        <Markdown source={workspace.mission} className="mt-2 text-[var(--muted)]" />
       )}
 
       <Section title="Lessons">
@@ -108,9 +107,10 @@ export function WorkspaceView({slug}: {slug: string}) {
                   <summary className="cursor-pointer px-3 py-2 font-medium">
                     {rec.title}
                   </summary>
-                  <pre className="overflow-x-auto whitespace-pre-wrap px-3 pb-3 text-sm text-[var(--muted)]">
-                    {rec.markdown}
-                  </pre>
+                  <Markdown
+                    source={rec.markdown}
+                    className="px-3 pb-3 text-sm text-[var(--muted)]"
+                  />
                 </details>
               </li>
             ))}
