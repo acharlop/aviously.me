@@ -1,0 +1,33 @@
+---
+// Minimal shell for the private /app learning area. Deliberately excludes the
+// portfolio Header/Footer, analytics, and SEO/JSON-LD, and is marked noindex —
+// this area is private and must never be indexed or appear in the sitemap.
+import '@/styles/global.css'
+
+type Props = {title?: string}
+const {title = 'Learning'} = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · aviously</title>
+    <link rel="icon" href="/favicon.png" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+  }
+</style>
