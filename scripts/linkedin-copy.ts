@@ -15,7 +15,7 @@ hr('WEBSITE (Contact info → Website)')
 console.log(`${site.url}  (type: Portfolio)`)
 
 hr('ABOUT (2,600 chars max)')
-console.log(site.description)
+console.log(site.about)
 
 for (const item of experience) {
   hr(`EXPERIENCE — ${item.company}`)

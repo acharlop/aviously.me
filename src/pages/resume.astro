@@ -4,6 +4,7 @@ import ExperienceTimeline from '@/components/ExperienceTimeline.astro'
 import Layout from '@/components/Layout.astro'
 import SectionHeading from '@/components/SectionHeading.astro'
 import {shapeResume} from '@/lib/resume-export'
+import {skills} from '@/data/experience'
 import {site} from '@/data/site'
 
 // The crawl test fetches every linked PDF, so only offer the download once the file is committed.
@@ -28,6 +29,20 @@ const {experience, education} = shapeResume()
       also as <a href="/resume.md">markdown</a> · <a href="/resume.txt">plain text</a> ·
       <a href="/resume.json">json resume</a>
     </p>
+  </section>
+
+  <section class="shell section">
+    <SectionHeading kicker="skills" title="Skills" />
+    <dl class="skills-grid">
+      {
+        skills.map((group) => (
+          <div class="skills-row">
+            <dt>{group.name}</dt>
+            <dd>{group.keywords.join(', ')}</dd>
+          </div>
+        ))
+      }
+    </dl>
   </section>
 
   <section class="shell section">
@@ -56,6 +71,34 @@ const {experience, education} = shapeResume()
 </Layout>
 
 <style>
+  .skills-grid {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .skills-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 160px) 1fr;
+    gap: 12px;
+    align-items: baseline;
+  }
+
+  .skills-row dt {
+    font-weight: 600;
+  }
+
+  .skills-row dd {
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .skills-row {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+
   .print-contact {
     display: none;
   }

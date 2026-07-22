@@ -1,4 +1,4 @@
-import {education, experience, type ExperienceItem} from '@/data/experience'
+import {education, experience, skills, type ExperienceItem} from '@/data/experience'
 import {defaultResumeOptions, type ResumeOptions} from '@/data/resume-options'
 import {site} from '@/data/site'
 
@@ -93,6 +93,10 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
     '',
     `${site.email} · ${site.url} · ${site.linkedin} · ${site.github}`,
     '',
+    '## Skills',
+    '',
+    ...skills.map((group) => `- **${group.name}:** ${group.keywords.join(', ')}`),
+    '',
     '## Professional experience',
   ]
 
@@ -127,6 +131,11 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
     site.name.toUpperCase(),
     site.tagline,
     `${site.email} | ${site.url} | ${site.linkedin} | ${site.github}`,
+    '',
+    rule,
+    'SKILLS',
+    rule,
+    ...skills.map((group) => `${group.name}: ${group.keywords.join(', ')}`),
     '',
     rule,
     'PROFESSIONAL EXPERIENCE',
@@ -196,6 +205,7 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       ],
     },
     work,
+    skills: skills.map((group) => ({name: group.name, keywords: group.keywords})),
     education: schools.map((item) => ({
       institution: item.school,
       ...splitDates(item.dates),
