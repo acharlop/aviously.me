@@ -9,13 +9,13 @@ export const site = {
   github: 'https://github.com/acharlop',
   githubHandle: '@acharlop',
   tagline:
-    'Senior full-stack TypeScript engineer & team lead — ~10 years shipping greenfield products and the infrastructure to run them.',
+    'Senior full-stack TypeScript engineer and team lead building greenfield products, platform tooling, and the infrastructure to run them.',
   bio: 'Learning new ways not to do things every day',
   // First-person LinkedIn "About" (and long-form intro). Keep in sync with the resume.
   about: [
-    "I'm a full-stack engineer and team lead with ~10 years of shipping, most of it remote since 2017. I gravitate to the zero-to-one end of the work: standing up greenfield products and the infrastructure to run them, then sticking around to make them solid.",
-    'My stack is modern TypeScript — React and Next.js on the front, Node, tRPC, Fastify and Go on the back, Postgres and Drizzle for data, GCP and AWS with Terraform underneath. I hire and lead teams (most recently a 4-engineer team at Vionlabs, where I kept the existing product live while building its greenfield replacement and supported sales through our first enterprise customers) and I ship plenty solo.',
-    'I care about the parts that make software last — types, tests, CI, clean provisioning — and about building things people actually use. Open to senior and lead full-stack roles.',
+    "I'm a full-stack engineer and team lead with ~10 years of shipping, most of it remote since 2017. I gravitate to the zero-to-one end of the work: standing up greenfield products, platform tooling, and the infrastructure to run them, then sticking around to make them solid.",
+    'My stack is modern TypeScript: React and Next.js on the front, Node, tRPC, Fastify, and Go on the back, Postgres and Drizzle for data, GCP and AWS with Terraform underneath. I hire and lead teams, most recently a 4-engineer team at Vionlabs, where I kept the existing product live while building its greenfield replacement and supporting sales through the first enterprise customers.',
+    'I care about the parts that make software last: types, tests, CI, clean provisioning, and product feedback loops. Open to senior and lead full-stack roles where the work needs both architecture and shipping momentum.',
   ].join('\n\n'),
 } as const
 
