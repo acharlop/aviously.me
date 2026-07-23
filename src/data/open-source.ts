@@ -54,6 +54,16 @@ export const openSourceRepos: Repo[] = [
     status: 'merged',
   },
   {
+    name: 'JsSIP',
+    role: 'Contributor',
+    type: 'JavaScript SIP / WebRTC signaling library',
+    stack: ['JavaScript', 'WebRTC', 'SIP'],
+    href: 'https://github.com/versatica/JsSIP/pull/629',
+    summary: 'Added in-band DTMF support and fixed mediaConstraints options being mutated, across 3 merged PRs.',
+    note: 'PRs #625, #628, #629 · 2020',
+    status: 'merged',
+  },
+  {
     name: 'nuqs',
     role: 'Contributor',
     type: 'Type-safe URL search params state manager',

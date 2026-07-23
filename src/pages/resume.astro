@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import ExperienceTimeline from '@/components/ExperienceTimeline.astro'
 import Layout from '@/components/Layout.astro'
 import SectionHeading from '@/components/SectionHeading.astro'
-import {shapeResume} from '@/lib/resume-export'
+import {resumeOpenSource, shapeResume} from '@/lib/resume-export'
 import {skills} from '@/data/experience'
 import {site} from '@/data/site'
 
@@ -21,7 +21,7 @@ const {experience, education} = shapeResume()
       {site.email} · {site.url.replace('https://', '')} · {site.linkedin.replace('https://', '')} · {site.github.replace('https://', '')}
     </p>
     <div class="button-row print-hidden">
-      {hasPdf && <a class="button" href="/resume.pdf" download>Download PDF</a>}
+      {hasPdf && <a id="resume-download" class="button" href="/resume.pdf" download="avi-charlop_resume.pdf">Download PDF</a>}
       <button class="button secondary" type="button" onclick="window.print()">Print this page</button>
       <a class="button secondary" href={`mailto:${site.email}`}>{site.email}</a>
     </div>
@@ -30,6 +30,12 @@ const {experience, education} = shapeResume()
       <a href="/resume.json">json resume</a>
     </p>
   </section>
+
+  <script>
+    // Stamp today's date into the download filename, e.g. avi-charlop_resume_2026-07-23.pdf
+    const link = document.getElementById('resume-download')
+    if (link) link.setAttribute('download', `avi-charlop_resume_${new Date().toISOString().slice(0, 10)}.pdf`)
+  </script>
 
   <section class="shell section">
     <SectionHeading kicker="skills" title="Skills" />
@@ -49,6 +55,25 @@ const {experience, education} = shapeResume()
     <SectionHeading kicker="timeline" title="Professional experience" />
     <ExperienceTimeline items={experience} />
   </section>
+
+  {
+    resumeOpenSource.length > 0 && (
+      <section class="shell section oss-section">
+        <SectionHeading kicker="open source" title="Open source" />
+        <ul class="oss-list">
+          {resumeOpenSource.map((project) => (
+            <li>
+              <strong>
+                <a href={project.url}>{project.name}</a>
+              </strong>
+              {' — '}
+              {project.description}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   {
     education.length > 0 && (
@@ -99,6 +124,11 @@ const {experience, education} = shapeResume()
     }
   }
 
+  .oss-list {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+
   .print-contact {
     display: none;
   }
@@ -129,66 +159,142 @@ const {experience, education} = shapeResume()
     }
 
     html {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
     }
 
     body::before {
       display: none !important;
     }
 
+    /* Plain document, not site chrome: no kickers, no cards. */
+    .eyebrow,
+    .section-kicker {
+      display: none !important;
+    }
+
     .page-hero {
-      padding: 0 0 8px;
+      padding: 0 0 4px;
     }
 
     .page-hero h1 {
-      font-size: 2rem;
+      font-size: 1.9rem;
+    }
+
+    .page-hero .lead {
+      margin-top: 4px;
+      font-size: 0.95rem;
     }
 
     .section {
-      padding: 14px 0;
+      padding: 12px 0 0;
     }
 
     .section-head {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .section-head h2 {
-      font-size: 1.4rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 4px;
+    }
+
+    .skills-grid {
+      gap: 3px;
     }
 
     .timeline {
-      gap: 10px;
+      gap: 12px;
     }
 
     .timeline-item,
     .card {
       background: #fff !important;
+      border: 0 !important;
+      border-radius: 0;
       box-shadow: none !important;
       break-inside: avoid;
+      padding: 0;
     }
 
+    /* One document block per role: dates float top-right of the entry. */
     .timeline-item {
-      grid-template-columns: 150px minmax(0, 1fr);
-      gap: 14px;
-      padding: 12px 14px;
+      display: block;
+    }
+
+    .timeline-meta {
+      float: right;
+      margin-left: 16px;
+      text-align: right;
+      font-size: 0.76rem;
+    }
+
+    .timeline-meta strong {
+      font-weight: 400;
+    }
+
+    .timeline-item .meta-label {
+      color: #556;
+      font-family: inherit;
+      font-size: 0.8rem;
+      text-transform: none;
+    }
+
+    .timeline-item h3 {
+      font-size: 1.02rem;
+      margin-top: 1px;
+    }
+
+    .timeline-item p {
+      margin: 3px 0 0;
     }
 
     .timeline-item ul {
-      margin-top: 8px;
+      margin-top: 4px;
+      padding-left: 1rem;
     }
 
     .timeline-item li + li {
-      margin-top: 4px;
+      margin-top: 3px;
     }
 
-    .sub-role {
-      margin-top: 10px;
-      padding-top: 10px;
+    .oss-section {
       break-inside: avoid;
+    }
+
+    .oss-section a {
+      color: inherit;
+      text-decoration: none;
     }
 
     .education-section {
       break-inside: avoid;
+    }
+
+    .education-section .grid-2 {
+      display: block;
+    }
+
+    .education-section .card {
+      margin-top: 6px;
+    }
+
+    .education-section .card .meta-label {
+      float: right;
+      margin-left: 16px;
+      color: #556;
+      font-family: inherit;
+      text-transform: none;
+    }
+
+    .education-section .card h3 {
+      font-size: 0.95rem;
+    }
+
+    .education-section .card p {
+      margin: 2px 0 0;
     }
   }
 </style>

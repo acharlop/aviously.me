@@ -1,6 +1,17 @@
 import {education, experience, skills, type ExperienceItem} from '@/data/experience'
+import {openSourceRepos} from '@/data/open-source'
 import {defaultResumeOptions, type ResumeOptions} from '@/data/resume-options'
 import {site} from '@/data/site'
+
+// The resume keeps open source minimal: maintained projects only, one line each.
+// Contributions stay on /open-source.
+export const resumeOpenSource = openSourceRepos
+  .filter((repo) => repo.status === 'maintainer')
+  .map((repo) => ({
+    name: repo.name,
+    url: repo.href,
+    description: repo.note ? `${repo.summary} ${repo.note}` : repo.summary,
+  }))
 
 export type ShapedResume = {
   experience: ExperienceItem[]
@@ -114,6 +125,11 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
     }
   }
 
+  if (resumeOpenSource.length > 0) {
+    lines.push('', '## Open source', '')
+    for (const project of resumeOpenSource) lines.push(`- **[${project.name}](${project.url})** — ${project.description}`)
+  }
+
   if (schools.length > 0) {
     lines.push('', '## Education')
     for (const item of schools) {
@@ -151,6 +167,11 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
       lines.push('', `  ${sub.role} (${sub.dates}${sub.tech ? ` | ${sub.tech}` : ''})`)
       for (const bullet of sub.bullets) lines.push(`  * ${bullet}`)
     }
+  }
+
+  if (resumeOpenSource.length > 0) {
+    lines.push('', rule, 'OPEN SOURCE', rule)
+    for (const project of resumeOpenSource) lines.push(`${project.name} (${project.url}): ${project.description}`)
   }
 
   if (schools.length > 0) {
@@ -205,6 +226,11 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       ],
     },
     work,
+    projects: resumeOpenSource.map((project) => ({
+      name: project.name,
+      description: project.description,
+      url: project.url,
+    })),
     skills: skills.map((group) => ({name: group.name, keywords: group.keywords})),
     education: schools.map((item) => ({
       institution: item.school,
