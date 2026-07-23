@@ -283,6 +283,9 @@ h3 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.02;
+  /* Fallback fonts (Linux: DejaVu Sans) are wider than Cal Sans; before the
+     webfont swaps in, a long heading word can spill past the viewport. */
+  overflow-wrap: break-word;
 }
 
 h1 {

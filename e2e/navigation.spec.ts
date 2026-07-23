@@ -1,9 +1,15 @@
 import {expect, test} from '@playwright/test'
 
 test('header navigation reaches every page', async ({page, isMobile}) => {
-  const links = ['About', 'Work', 'Experience', 'Open Source', 'Contact']
+  const links = [
+    {label: 'About', path: '/about/'},
+    {label: 'Work', path: '/work/'},
+    {label: 'Experience', path: '/experience/'},
+    {label: 'Open Source', path: '/open-source/'},
+    {label: 'Contact', path: '/contact/'},
+  ]
 
-  for (const label of links) {
+  for (const {label, path} of links) {
     await page.goto('/')
     if (isMobile) {
       // The menu listener is a deferred module script; retry until it has attached.
@@ -15,6 +21,11 @@ test('header navigation reaches every page', async ({page, isMobile}) => {
     } else {
       await page.locator('header nav.desktop-nav').getByRole('link', {name: label}).click()
     }
+    // Wait for the navigation to actually commit before asserting content —
+    // the h1 check alone can pass against the previous page (every page has
+    // one), leaving the click's navigation in flight when the next goto('/')
+    // starts, which webkit reports as "interrupted by another navigation".
+    await expect(page).toHaveURL(path)
     await expect(page.locator('h1').first()).toBeVisible()
   }
 })

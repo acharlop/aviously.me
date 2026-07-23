@@ -14,8 +14,18 @@ export default defineConfig({
     baseURL,
     trace: 'on-first-retry',
     // Stop Vercel injecting its toolbar overlay on preview deployment URLs;
-    // it intercepts pointer events and breaks click-based tests.
-    extraHTTPHeaders: {'x-vercel-skip-toolbar': '1'},
+    // it intercepts pointer events and breaks click-based tests. The bypass
+    // header gets CI past Deployment Protection (Vercel SSO) on preview URLs —
+    // without it every request is answered with Vercel's login page.
+    extraHTTPHeaders: {
+      'x-vercel-skip-toolbar': '1',
+      ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+        ? {
+            'x-vercel-protection-bypass':
+              process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+          }
+        : {}),
+    },
   },
   projects: [
     {name: 'chromium', use: {...devices['Desktop Chrome']}},

@@ -67,6 +67,9 @@ for (const path of pages) {
 
   test(`${path} has no horizontal overflow`, async ({page}) => {
     await page.goto(path)
+    // Measure the settled layout: font-display swap means fallback metrics
+    // (wider on Linux) are live for a moment after load.
+    await page.evaluate(() => document.fonts.ready)
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     )
