@@ -32,6 +32,8 @@ jobs:
         env:
           # Production deploys get the clean domain; previews get their unique URL.
           BASE_URL: ${{ github.event.inputs.url || (github.event.deployment_status.environment == 'Production' && 'https://aviously.me') || github.event.deployment_status.environment_url }}
+          # Gets CI past Vercel Deployment Protection on preview URLs.
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
