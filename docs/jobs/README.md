@@ -13,7 +13,7 @@ Each file: real tech stack, what you actually built (from commit history), and s
 | [vionlabs](vionlabs.writeup.md)         | Team Lead @ Vionlabs                        | Feb 2025 – Feb 2026 | done (your commits run to Dec 2025)                                          |
 | [collect-ai](collect-ai.writeup.md)     | Senior Frontend @ collectAI                 | Aug 2023 – Aug 2024 | done                                                                         |
 | [freelance](freelance.writeup.md)       | Freelance — whocards, J3D.AI, Tezos/NFT     | Oct 2022 – Jun 2023 | whocards still active (commits to Jun 2026)                                  |
-| [net2phone](net2phone.writeup.md)       | Eng Lead / Full-Stack @ Net2phone           | Feb 2017 – Nov 2022 | done — **source recovered** from external drive (`n2p/`, `LiveNinja/dialer`) |
+| [net2phone](net2phone.writeup.md)       | Eng Lead / Full-Stack @ Net2Phone           | Feb 2017 – Nov 2022 | done — **source recovered** from external drive (`n2p/`, `LiveNinja/dialer`) |
 | [takt-digital](takt-digital.writeup.md) | Software Engineer @ Takt Digital            | May 2016 – Jan 2017 | done — **source recovered** from external drive (`old/Takt`)                 |
 
 ## Gaps vs. current `src/data/experience.ts`
@@ -34,4 +34,4 @@ Other notes:
 
 - Git ranges and commit counts came from `git log` per repo; "yours" = commits authored by `acharlop` / `avicharlop@gmail.com` / `avi@vionlabs.com` / "Avi Charlop".
 - Several top-level dirs (`vionlabs/`, `cai/`, `closer/`, `whocards/`) are workspaces containing multiple nested git repos.
-- Net2phone and Takt source was recovered from the external drive at `/Volumes/MIND GEM/stark tower - transfer/code` (`n2p/`, `LiveNinja/`, `old/Takt/`). The Angular component library is confirmed (`n2p-unite-services/webapp`, Angular 5), but the **v2→v9 upgrade endpoint is not** — the archive only reaches Angular 5 (history ends Nov 2018); the v9 work lived in a later repo not on this drive.
+- Net2Phone and Takt source was recovered from the external drive at `/Volumes/MIND GEM/stark tower - transfer/code` (`n2p/`, `LiveNinja/`, `old/Takt/`). The Angular component library is confirmed (`n2p-unite-services/webapp`, Angular 5), but the **v2→v9 upgrade endpoint is not** — the archive only reaches Angular 5 (history ends Nov 2018); the v9 work lived in a later repo not on this drive.

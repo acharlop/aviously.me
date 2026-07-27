@@ -79,7 +79,7 @@ export const experience: ExperienceItem[] = [
     ],
   },
   {
-    company: 'Net2phone',
+    company: 'Net2Phone',
     role: 'Engineering Lead / Full-Stack Engineer',
     location: 'Remote',
     dates: 'January 2017 - December 2022',

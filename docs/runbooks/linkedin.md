@@ -32,12 +32,21 @@ ones that actually cost interviews.
 2. **Closer (Contract Full-Stack Engineer, May 2026 – Present)** — no current
    role is listed, so the profile reads as unemployed since 2024.
 3. **About section is empty.** Paste the ABOUT block.
-4. **Education section is empty.** Neither Ironhack nor CCNY is listed.
-5. **Skills: only 11, and mostly wrong ones** ("Process Automation" is the
+4. **Skills: only 11, and mostly wrong ones** ("Process Automation" is the
    top-weighted skill). Paste the SKILLS block — recruiter search filters on
    these. Keep the Angular _Passed LinkedIn Skill Assessment_ badge.
 
+**Gotcha when auditing:** LinkedIn's `/details/<section>/` pages lazy-load. A
+first read can come back empty for a section that is actually populated — this
+audit originally (and wrongly) recorded Education as empty for exactly that
+reason. Always re-read a section that looks empty before believing it.
+
 **Worth keeping / already good on LinkedIn:**
+
+- **Education already exists and is richer than `experience.ts`** — Ironhack
+  carries the full cohort description, CCNY carries a 3.6 GPA. Do not overwrite
+  it with the thinner generated blocks. CCNY read 2012–2013 there; **2011** is
+  correct (confirmed by Avi) and was corrected on LinkedIn.
 
 - **Headline** is currently "Integrating tech and empowering deep meaningful
   connections". It is genuinely distinctive but reads as community/coaching,
@@ -50,7 +59,7 @@ ones that actually cost interviews.
 - **Tech Consulting (Owner & Lead Consultant, 2013 – 2019)** and the two
   **IT Technician** roles (2010 – 2013) — off the resume by design, but they
   explain the pre-2016 timeline on LinkedIn. Leave them.
-- Net2phone's four sub-roles are richer than the resume's single entry.
+- Net2Phone's four sub-roles are richer than the resume's single entry.
   Keep them; the resume deliberately collapses them.
 
 **Reconcile — profile and resume disagreed:**
@@ -59,9 +68,9 @@ ones that actually cost interviews.
 | ------------------ | ------------------------- | ---------------------------------------------- |
 | collect.AI dates   | Aug 2023 – Sep 2024       | matched to LinkedIn                            |
 | Takt Digital dates | Jul 2016 – Jan 2017       | matched to LinkedIn                            |
-| Net2phone dates    | Jan 2017 – Dec 2022       | matched to LinkedIn                            |
+| Net2Phone dates    | Jan 2017 – Dec 2022       | matched to LinkedIn                            |
 | collect.AI title   | Senior Frontend Developer | Senior Frontend **Engineer** — change LinkedIn |
-| Net2phone name     | "Net2Phone" / "net2phone" | "Net2phone" — pick one, apply to both          |
+| Net2Phone name     | "Net2Phone"               | **"Net2Phone"** — resume normalized to match   |
 | WhoCards title     | Chief Technology Officer  | **Co-founder** — change LinkedIn               |
 
 **Also:** set **Open to work** (recruiters-only visibility), and set Location
@@ -79,7 +88,7 @@ from the LOCATION block.
    currently near-empty and it drives recruiter search).
 6. **Experience**: for each `EXPERIENCE —` block, edit (or add) the position and
    paste Title / Company / Dates / Location / Description. Bullets paste fine
-   as plain `•` lines. Net2phone sub-roles: LinkedIn supports multiple
+   as plain `•` lines. Net2Phone sub-roles: LinkedIn supports multiple
    positions under one company — the script marks each with `↳`.
 7. **Education**: paste the two education blocks.
 8. Skip anything that would _lose_ LinkedIn-only detail (recommendations,

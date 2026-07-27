@@ -48,7 +48,7 @@ export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): S
       ? item.subRoles?.map((sub) => ({...sub, bullets: capBullets(sub.bullets, item.company)}))
       : undefined
     // When sub-roles are dropped and the parent has no bullets of its own
-    // (Net2phone), hoist each sub-role's lead bullet so the entry isn't empty.
+    // (Net2Phone), hoist each sub-role's lead bullet so the entry isn't empty.
     // The hoisted list is exempt from bulletsPerRole: one line per sub-role,
     // so the whole tenure stays visible.
     const bullets =
@@ -216,7 +216,7 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       summary: sub.tech ? `Primary stack: ${sub.tech}` : undefined,
       highlights: sub.bullets,
     }))
-    // The parent entry stays even when its bullets live in sub-roles (e.g. Net2phone),
+    // The parent entry stays even when its bullets live in sub-roles (e.g. Net2Phone),
     // so the umbrella title and full tenure survive in the JSON.
     return [main, ...subs]
   })

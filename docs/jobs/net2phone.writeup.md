@@ -1,7 +1,7 @@
-# Net2phone — Engineering Lead / Full-Stack Engineer
+# Net2Phone — Engineering Lead / Full-Stack Engineer
 
 **Dates:** February 2017 – November 2022 (resume) · Remote
-**Company:** Net2phone — cloud VoIP / business-communications provider (UCaaS; owned by IDT). You came in via the **LiveNinja** acquisition — LiveNinja was a Miami video-chat/messaging startup whose platform became Net2phone's messaging + Unite products.
+**Company:** Net2Phone — cloud VoIP / business-communications provider (UCaaS; owned by IDT). You came in via the **LiveNinja** acquisition — LiveNinja was a Miami video-chat/messaging startup whose platform became Net2Phone's messaging + Unite products.
 
 > **Source recovered** from the external drive: `/Volumes/MIND GEM/stark tower - transfer/code/{n2p,LiveNinja}`. Commit counts below are commits authored by you. This is now grounded in real code, not just the resume.
 
@@ -30,7 +30,7 @@
 
 ## Suggested resume bullets (upgraded with real numbers)
 
-- Spent 5+ years at Net2phone (joined via the LiveNinja acquisition) building its VoIP/UCaaS platform across the stack — Go messaging microservices, the Unite Angular web client, and a React WebRTC dialer.
+- Spent 5+ years at Net2Phone (joined via the LiveNinja acquisition) building its VoIP/UCaaS platform across the stack — Go messaging microservices, the Unite Angular web client, and a React WebRTC dialer.
 - Authored ~900 commits building a **WebRTC browser dialer** (React, Redux, TypeScript, JsSIP) supporting multiple call-server configurations — a core piece of the modern web client.
 - As front-end lead on the Unite console (Angular), built a **shared component library** + reusable extensions consumed across feature modules and drove the Angular v2→v9 upgrade (−50% initial load).
 - Refactored core messaging services in Go (engine, user service, shared library) — ~350 commits — behind the Dockerized, Jenkins-CI platform.

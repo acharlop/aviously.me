@@ -45,6 +45,6 @@ export const onePageResumeOptions: ResumeOptions = {
     // Four: the GCP/Terraform line is the only Terraform evidence on the page.
     Vionlabs: 4,
     // Three: the third is the Go bullet, the only Go evidence on the page.
-    Net2phone: 3,
+    Net2Phone: 3,
   },
 }

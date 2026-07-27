@@ -72,7 +72,7 @@ new options object — the layout does not change:
 ```ts
 export const founderResumeOptions: ResumeOptions = {
   ...onePageResumeOptions,
-  roles: ['Closer', 'Vionlabs', 'Freelance', 'Net2phone'],
+  roles: ['Closer', 'Vionlabs', 'Freelance', 'Net2Phone'],
   bulletsPerRole: 3,
 }
 ```
