@@ -85,8 +85,7 @@ export const setLessonStatus = mutation({
     const now = Date.now()
     await ctx.db.patch(lessonId, {
       status,
-      startedAt:
-        status !== 'todo' && !lesson.startedAt ? now : lesson.startedAt,
+      startedAt: status !== 'todo' && !lesson.startedAt ? now : lesson.startedAt,
       completedAt: status === 'done' ? now : undefined,
     })
   },

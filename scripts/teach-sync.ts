@@ -22,9 +22,7 @@ function fail(msg: string): never {
 const args = process.argv.slice(2)
 const slugFlagIdx = args.indexOf('--slug')
 const slugOverride = slugFlagIdx >= 0 ? args[slugFlagIdx + 1] : undefined
-const dir = args.find(
-  (a, i) => !a.startsWith('--') && (slugFlagIdx < 0 || i !== slugFlagIdx + 1),
-)
+const dir = args.find((a, i) => !a.startsWith('--') && (slugFlagIdx < 0 || i !== slugFlagIdx + 1))
 if (!dir) fail('Usage: bun run teach:sync <workspace-dir> [--slug my-topic]')
 
 const url = process.env.PUBLIC_CONVEX_URL ?? process.env.CONVEX_URL
@@ -45,8 +43,11 @@ const orderFromName = (name: string) => {
 }
 
 const titleize = (s: string) =>
-  s.replace(/^\d+[-_]?/, '').replace(/[-_]+/g, ' ').replace(/\.[^.]+$/, '').trim() ||
   s
+    .replace(/^\d+[-_]?/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\.[^.]+$/, '')
+    .trim() || s
 
 const stripTags = (s: string) => s.replace(/<[^>]+>/g, '').trim()
 

@@ -1,0 +1,74 @@
+---
+// Local-only preview of the print-first resume document (see docs/design/resume-document.md).
+// Dynamic route with an empty getStaticPaths in production, so `astro build` emits
+// nothing: the page exists on `astro dev` only, at /resume/preview and
+// /resume/preview-one-page.
+//
+// TODO: once this layout is settled, promote it to a public page behind auth —
+// same Convex auth the private /app area uses — instead of a dev-only route,
+// so tailored resumes can be shared with a link.
+import Layout from '@/components/Layout.astro'
+import ResumeDocument from '@/components/ResumeDocument.astro'
+import {defaultResumeOptions, onePageResumeOptions} from '@/data/resume-options'
+
+const VIEWS = {
+  preview: {label: 'Full', options: defaultResumeOptions},
+  'preview-one-page': {label: 'One page', options: onePageResumeOptions},
+} as const
+
+export function getStaticPaths() {
+  if (!import.meta.env.DEV) return []
+  return [{params: {view: 'preview'}}, {params: {view: 'preview-one-page'}}]
+}
+
+const view = VIEWS[Astro.params.view as keyof typeof VIEWS]
+---
+
+<Layout title="Resume document preview (local)" description="Local-only preview of the print-first resume layout.">
+  <section class="shell page-hero print-hidden">
+    <p class="eyebrow">`local only`</p>
+    <h1>Resume document — {view.label}</h1>
+    <p class="lead">Not built or deployed. Print this page to check the PDF layout.</p>
+    <div class="button-row">
+      <button class="button secondary" type="button" onclick="window.print()">Print this page</button>
+      <a class="button secondary" href="/resume/preview">Full</a>
+      <a class="button secondary" href="/resume/preview-one-page">One page</a>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <ResumeDocument options={view.options} />
+  </section>
+</Layout>
+
+<style is:global>
+  /* The document draws its own header, so nothing else prints: no site chrome,
+     no page hero. Everything else about the layout lives in ResumeDocument. */
+  @media print {
+    header.site-header,
+    footer,
+    .skip-link,
+    .print-hidden {
+      display: none !important;
+    }
+
+    html,
+    body {
+      background: #fff !important;
+    }
+
+    body::before {
+      display: none !important;
+    }
+
+    /* Must stay identical to the print block in resume.astro, or this preview
+       stops predicting the real PDF — which is the only reason it exists. */
+    .section {
+      padding: 0 !important;
+    }
+
+    .shell {
+      width: 100% !important;
+    }
+  }
+</style>

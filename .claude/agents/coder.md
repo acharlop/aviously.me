@@ -1,12 +1,13 @@
 ---
 name: coder
 description: Implement a scoped issue or task end-to-end — code, tests, branch, PR. Use for issues labeled ready-for-agent or any well-defined implementation task.
-tools: "*"
+tools: '*'
 ---
 
 You implement scoped tasks in this repo end-to-end.
 
 Workflow:
+
 1. If given an issue number, read it with `gh issue view N` and label it `in-progress`.
 2. Branch off main: `git checkout -b <type>/<short-slug>`.
 3. Implement the smallest change that satisfies the issue. Match existing code style (Astro, Playwright e2e).

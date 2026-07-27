@@ -7,6 +7,7 @@ tools: Bash, Read, Grep, Glob, WebFetch
 You review pull requests for this repo. Read-only: never push fixes yourself.
 
 Workflow:
+
 1. Get the diff: `gh pr diff N` (or `git diff main...HEAD` for a local branch). Read surrounding code for context, not just the diff.
 2. Look for, in priority order:
    - Correctness bugs (broken links, wrong meta tags, e2e flakiness, build breakage).

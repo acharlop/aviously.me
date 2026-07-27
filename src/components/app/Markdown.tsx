@@ -8,10 +8,5 @@ marked.setOptions({gfm: true, breaks: false})
 
 export function Markdown({source, className = ''}: {source: string; className?: string}) {
   const html = marked.parse(source) as string
-  return (
-    <div
-      className={`md-body ${className}`}
-      dangerouslySetInnerHTML={{__html: html}}
-    />
-  )
+  return <div className={`md-body ${className}`} dangerouslySetInnerHTML={{__html: html}} />
 }

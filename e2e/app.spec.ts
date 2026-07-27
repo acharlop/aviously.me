@@ -16,19 +16,14 @@ test('/app shows the sign-in gate when unauthenticated', async ({page}) => {
 
 test('/app is marked noindex', async ({page}) => {
   await page.goto('/app')
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    'content',
-    /noindex/,
-  )
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
 })
 
 test('/app is absent from the sitemap', async ({page}) => {
   const index = await page.request.get('/sitemap-index.xml')
   expect(index.status()).toBe(200)
   // Follow each referenced sitemap and assert no /app URL appears anywhere.
-  const urls = [...(await index.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(
-    (m) => m[1],
-  )
+  const urls = [...(await index.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
   for (const sitemapUrl of urls) {
     const sm = await page.request.get(sitemapUrl)
     expect(await sm.text()).not.toContain('/app')

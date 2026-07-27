@@ -5,6 +5,8 @@ export const site = {
     'Senior full-stack engineer and team lead building modern web products with React, TypeScript, Next.js, Astro, Node.js, Go, Rails, cloud infrastructure, and practical product leadership.',
   url: 'https://aviously.me',
   email: 'avicharlop@gmail.com',
+  // Shown on the resume header and pasted into LinkedIn's location field.
+  location: 'Hungary · Remote (CET)',
   linkedin: 'https://linkedin.com/in/acharlop',
   github: 'https://github.com/acharlop',
   githubHandle: '@acharlop',
