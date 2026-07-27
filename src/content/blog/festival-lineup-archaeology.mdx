@@ -1,0 +1,115 @@
+---
+title: 'Festival Lineup Archaeology: Recovering Timetables the Internet Already Forgot'
+slug: 'festival-lineup-archaeology'
+description: 'I tried to answer one question — who played the closing set at a festival I attended — and ended up recovering eleven festival editions from Wayback captures, orphaned CDN files, and vision-model transcription of poster art.'
+publishedDate: '2026-07-21'
+draft: true
+tags: ['scraping', 'data recovery', 'vision models', 'side projects']
+readingTime: '7 min'
+---
+
+## The question that started it
+
+At a festival last summer I caught a closing set that I still think about. The problem: I couldn't
+remember who played it. Festival over, website flipped to next year's edition, timetable gone. When
+I asked an AI assistant to find it, it came back empty — the schedule simply wasn't on the live web
+anymore.
+
+That felt like a solvable problem, and also like a thesis worth testing: **festival lineup data —
+who played, on which stage, at what time — has a lifespan of roughly one year, and then it
+effectively disappears.** So I spent a day testing it properly, across six years of editions from
+three Hungarian festivals (Manas, O.Z.O.R.A., and DAAD Gathering — with S.U.N. Festival as a bonus).
+
+The result: eleven festival editions recovered, ~1,800 set slots, and an answer to my original
+question. Here's what the exercise taught me about how data actually dies on the web — and how
+much of it is recoverable if you know where to dig.
+
+## Finding one: data doesn't get deleted, it gets orphaned
+
+The festival whose closing set I wanted had deleted its program pages within weeks of the event.
+But the Wayback Machine had captured those pages three days before the festival — and the pages
+linked to per-stage timetable **PDFs**.
+
+Those PDFs are still on the festival's server today, a year later. Nothing links to them. The pages
+that pointed at them are gone. But the files themselves were never deleted — the CMS deleted
+_pages_, not _uploads_.
+
+This turned out to be a pattern, not a one-off. The practical rule for recovery: **use the Wayback
+Machine to learn the URLs, then fetch from the live origin first.** The archive is your map; the
+origin is usually still your source.
+
+## Finding two: every festival is a different extraction problem
+
+Across three festivals and six years, no two editions published their lineup the same way:
+
+- **HTML artist lists** on per-stage pages (one festival, one year) — then the _same festival_
+  switched to poster images the next year.
+- **Poster art** (webp/JPEG) with the full timetable rendered as graphic design.
+- **Timetable PDFs**, linked from deleted pages, still live on the CDN.
+- **JavaScript-rendered pages** where the static HTML contains nothing but a nav bar.
+- **A third-party community timetable** (Clashfinder) with machine-readable time offsets embedded
+  in HTML data attributes — while the official site sat behind Cloudflare returning 403s to curl.
+- **A rolling aggregator page** that gets overwritten every year, so the only record of the 2025
+  edition was a Wayback capture of what that page said in April 2025.
+- **A JSON-LD API** on a scene-specific event site (goabase, serving structured data since the 90s).
+
+A generic festival scraper is a fantasy. What's real is a per-festival, per-edition _adapter_ —
+and an acceptance that a source that worked last year can silently vanish this year. One festival
+was on the community event database in 2023, 2024, and 2026, but not 2025. Nobody decided that;
+someone just didn't post it.
+
+## Finding three: vision models dissolved the hardest wall
+
+The historically fatal case for lineup archiving is the poster: the timetable exists only as
+typography on psychedelic artwork. OCR tools choke; nobody transcribes 100 slots by hand.
+
+This is now a non-problem. I fed timetable posters — five days × multiple stages, ornate fonts,
+low-contrast overlays — to a vision model and got clean structured JSON out: day, start time,
+artist, stage. Spot-checking found no errors that mattered. The entire category of "data locked
+in images" quietly moved from _impossible_ to _a pipeline stage that costs cents_.
+
+Two of the four festivals in my dataset are only recoverable with set times because of this.
+
+## Finding four: set times are the scarce asset
+
+Flat artist lists are everywhere — aggregators, ticket sites, press releases. What's rare is the
+_grid_: who played which stage at which hour. That data appears in exactly three places, each with
+a catch:
+
+1. **Poster/PDF artifacts** published days before the festival (catch: image extraction).
+2. **Community timetables** like Clashfinder, filled in _during_ the festival (catch: they only
+   exist if a volunteer cares; coverage is spotty for smaller festivals).
+3. **Nowhere** — some festivals never publish set times digitally at all.
+
+The capture window is not "before the site goes down." For set times, it's often _during the
+festival itself_. An archiving cron would need a per-festival lifecycle: lineup before, set times
+during, recordings after.
+
+## Finding five: the recordings close the loop
+
+The point of knowing who played is finding the set again. With artist + festival + year as a
+search key, YouTube resolves a large fraction of slots to actual recordings — a scripted search
+over ~1,400 artist-editions matched the majority of headline slots to full-set uploads within
+minutes of query time.
+
+Which answered my original question. The closing set I couldn't remember: it's on YouTube, full
+length, posted by the artist. Total recovery time, starting from "the internet forgot this": about
+thirty minutes of forensics. A product could make it one search — but the honest conclusion from
+this exercise is that the _data assembly_ is the product, and the market is a community, not a
+revenue line. Sometimes the right output for a side-quest like this is a dataset, a write-up, and
+a working demo — which is what this became.
+
+## The toolbox, for the record
+
+- `curl` + Wayback CDX API for URL discovery (`web.archive.org/cdx/search/cdx?url=...`)
+- Live-origin-first fetching for orphaned assets (they're usually still there)
+- A real browser session for Cloudflare-fronted and JS-rendered sites
+- Vision-model transcription for posters and PDFs
+- Clashfinder HTML (`data-start`/`data-end` ms offsets) for community timetables
+- goabase's JSON-LD API for scene festivals
+- YouTube search scraping for recording links
+
+None of this is exotic. The surprise is how _complete_ the recovery can be: of eleven editions I
+went after, I got artist data for all eleven and full set-time grids for seven. The internet
+forgets much less than it appears to — it just stops answering unless you already know the
+question.
