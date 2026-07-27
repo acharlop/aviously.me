@@ -3,6 +3,7 @@
 // Usage: bun scripts/linkedin-copy.ts
 // See docs/runbooks/linkedin.md for where each block goes.
 import {shapeResume} from '@/lib/resume-export'
+import {skills} from '@/data/experience'
 import {site} from '@/data/site'
 
 const {experience, education} = shapeResume()
@@ -10,6 +11,9 @@ const hr = (label: string) => console.log(`\n${'─'.repeat(8)} ${label} ${'─'
 
 hr('HEADLINE (220 chars max)')
 console.log(site.tagline)
+
+hr('LOCATION (intro card)')
+console.log(site.location)
 
 hr('WEBSITE (Contact info → Website)')
 console.log(`${site.url}  (type: Portfolio)`)
@@ -33,6 +37,11 @@ for (const item of experience) {
     for (const bullet of sub.bullets) console.log(`  • ${bullet}`)
   }
 }
+
+// LinkedIn caps skills at 50 and recruiters filter on them, so push the whole
+// list — it is the one section where more keywords is strictly better.
+hr('SKILLS (add each; LinkedIn allows 50)')
+for (const group of skills) console.log(`${group.name}: ${group.keywords.join(', ')}`)
 
 for (const item of education) {
   hr(`EDUCATION — ${item.school}`)
