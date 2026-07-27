@@ -102,7 +102,7 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
     '',
     site.tagline,
     '',
-    `${site.email} · ${site.url} · ${site.linkedin} · ${site.github}`,
+    `${site.location} · ${site.email} · ${site.url} · ${site.linkedin} · ${site.github}`,
     '',
     '## Skills',
     '',
@@ -146,7 +146,7 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
   const lines: string[] = [
     site.name.toUpperCase(),
     site.tagline,
-    `${site.email} | ${site.url} | ${site.linkedin} | ${site.github}`,
+    `${site.location} | ${site.email} | ${site.url} | ${site.linkedin} | ${site.github}`,
     '',
     rule,
     'SKILLS',
@@ -220,6 +220,7 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       email: site.email,
       url: site.url,
       summary: site.description,
+      location: {countryCode: 'HU', region: 'Hungary'},
       profiles: [
         {network: 'GitHub', username: site.githubHandle.replace('@', ''), url: site.github},
         {network: 'LinkedIn', username: 'acharlop', url: site.linkedin},
