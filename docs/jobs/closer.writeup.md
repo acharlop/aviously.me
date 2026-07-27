@@ -11,6 +11,7 @@
 **One-click Closer "village" deployment.** A single typed config provisions a complete community instance across live cloud providers, with durable, resumable state and full teardown. Three phases run green against real providers: **api-build**, **site-build**, **destroy**.
 
 **Architecture — Bun workspace:**
+
 - `packages/validators` — shared **Zod** schemas, env validation (**t3-env**), centralized resource naming / domain derivation (`VILLAGE_SLUG`, `BASE_DOMAIN`, `CUSTOM_DOMAIN`)
 - `packages/sdk` — provider adapters: **DigitalOcean** App Platform, **Vercel**, **Mailgun**, **Firebase** Auth, **Stripe** Connect
 - `packages/db` — durable provisioning state via **Drizzle ORM**, **PGlite** locally
@@ -19,6 +20,7 @@
 - `apps/api` — **Elysia** HTTP API with GitHub bearer-token auth + NDJSON-streamed mutation endpoints
 
 **Engineering highlights (from commit log):**
+
 - Idempotent, resumable provisioning — workflows can `continue`/`redo`/`reset`/`inspect`; polls Vercel cert status before probing the site
 - Live-provider **e2e workflow harness** with a documented runbook (`docs/workflows-e2e-runbook.md`)
 - **TUI distributed as bun-compiled single-file binaries** (macOS arm64/x64, Linux x64) published to GitHub Releases on every `tui-v*` tag; PTY-based e2e tests via `@microsoft/tui-test` / node-pty

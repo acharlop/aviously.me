@@ -12,8 +12,7 @@ import {WorkspaceView} from './WorkspaceView'
 function useWorkspaceSlug() {
   const [slug, setSlug] = useState<string | null>(null)
   useEffect(() => {
-    const read = () =>
-      setSlug(new URLSearchParams(window.location.search).get('w'))
+    const read = () => setSlug(new URLSearchParams(window.location.search).get('w'))
     read()
     window.addEventListener('popstate', read)
     return () => window.removeEventListener('popstate', read)
@@ -30,9 +29,7 @@ export function LearningApp() {
   return (
     <ConvexAuthProvider client={convex}>
       <AuthLoading>
-        <div className="mx-auto max-w-3xl px-5 py-16 text-[var(--faint)]">
-          Loading…
-        </div>
+        <div className='mx-auto max-w-3xl px-5 py-16 text-[var(--faint)]'>Loading…</div>
       </AuthLoading>
       <Unauthenticated>
         <SignIn />

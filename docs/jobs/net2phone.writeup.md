@@ -7,14 +7,14 @@
 
 ## The big pieces (by your commit volume)
 
-| Repo | Your commits | Range | What it is |
-|---|---|---|---|
-| `LiveNinja/dialer` | **898** | 2020–2022 | The WebRTC softphone/**dialer widget** — React + Redux + TypeScript + **JsSIP** |
-| `n2p/n2p-unite-services` (`webapp/`) | **298** | 2017–2018 | The **Unite Angular web client** (UCaaS console) — **Angular 5** in this snapshot, with a `shared` component library + `shared-extensions` and feature modules (chat-channels, call-history, messages, analytics, departments, teammembers, devices, dashboard, settings). *(Same repo also holds an `apigateway` backend — but only 5 of your commits touch it.)* |
-| `n2p/n2p-messaging-service-user` | 134 | →2018 | Go user microservice |
-| `n2p/n2p-messaging-engine` | 131 | →2018 | Go messaging engine (core backend) |
-| `n2p/n2p-messaging-common-go` | 93 | →2018 | Shared Go library |
-| `n2p/n2p-messaging-{widget,sipclient,webclient}` | a few each | 2017–2018 | Embeddable chat/call widget + SIP client + web client |
+| Repo                                             | Your commits | Range     | What it is                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------------------------------ | ------------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `LiveNinja/dialer`                               | **898**      | 2020–2022 | The WebRTC softphone/**dialer widget** — React + Redux + TypeScript + **JsSIP**                                                                                                                                                                                                                                                                                    |
+| `n2p/n2p-unite-services` (`webapp/`)             | **298**      | 2017–2018 | The **Unite Angular web client** (UCaaS console) — **Angular 5** in this snapshot, with a `shared` component library + `shared-extensions` and feature modules (chat-channels, call-history, messages, analytics, departments, teammembers, devices, dashboard, settings). _(Same repo also holds an `apigateway` backend — but only 5 of your commits touch it.)_ |
+| `n2p/n2p-messaging-service-user`                 | 134          | →2018     | Go user microservice                                                                                                                                                                                                                                                                                                                                               |
+| `n2p/n2p-messaging-engine`                       | 131          | →2018     | Go messaging engine (core backend)                                                                                                                                                                                                                                                                                                                                 |
+| `n2p/n2p-messaging-common-go`                    | 93           | →2018     | Shared Go library                                                                                                                                                                                                                                                                                                                                                  |
+| `n2p/n2p-messaging-{widget,sipclient,webclient}` | a few each   | 2017–2018 | Embeddable chat/call widget + SIP client + web client                                                                                                                                                                                                                                                                                                              |
 
 ## Mapping to the resume arc (now confirmed)
 

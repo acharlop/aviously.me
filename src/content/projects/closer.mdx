@@ -1,15 +1,15 @@
 ---
-title: "Closer one-click village deployment"
-slug: "closer"
-type: "Infrastructure automation / developer tooling"
-role: "Contract Full-Stack Engineer"
-stack: ["TypeScript", "Bun", "Zod", "Drizzle", "Ink", "Elysia", "DigitalOcean", "Vercel", "Stripe"]
-dates: "May 2026 - Present"
-summary: "A one-click provisioning system that stands up a complete community platform across six cloud providers from a single typed config."
-problem: "Closer runs regenerative co-living communities (\"villages\") on a multi-service platform. Spinning up a new village meant manually wiring together databases, hosting, email, auth, and payments across several providers — slow, error-prone, and hard to tear back down cleanly."
-contribution: "Built a greenfield Bun monorepo that provisions an entire village from one typed config: shared Zod validators and resource-naming, provider adapters for DigitalOcean, Vercel, Mailgun, Firebase, and Stripe Connect, durable provisioning state in Drizzle, and idempotent, resumable workflows modeled as a step DAG. Wrapped it in an Ink terminal UI (shipped as compiled binaries) and an Elysia control API, with end-to-end tests run against live providers."
-outcome: "A new village — API, frontend, database, email subdomain, DNS, auth, and payments — can be provisioned, inspected, resumed, and fully torn down from a single command, with all three phases (api-build, site-build, destroy) running green against real cloud infrastructure."
-links: [{"label": "closer.earth", "href": "https://closer.earth"}]
+title: 'Closer one-click village deployment'
+slug: 'closer'
+type: 'Infrastructure automation / developer tooling'
+role: 'Contract Full-Stack Engineer'
+stack: ['TypeScript', 'Bun', 'Zod', 'Drizzle', 'Ink', 'Elysia', 'DigitalOcean', 'Vercel', 'Stripe']
+dates: 'May 2026 - Present'
+summary: 'A one-click provisioning system that stands up a complete community platform across six cloud providers from a single typed config.'
+problem: 'Closer runs regenerative co-living communities ("villages") on a multi-service platform. Spinning up a new village meant manually wiring together databases, hosting, email, auth, and payments across several providers — slow, error-prone, and hard to tear back down cleanly.'
+contribution: 'Built a greenfield Bun monorepo that provisions an entire village from one typed config: shared Zod validators and resource-naming, provider adapters for DigitalOcean, Vercel, Mailgun, Firebase, and Stripe Connect, durable provisioning state in Drizzle, and idempotent, resumable workflows modeled as a step DAG. Wrapped it in an Ink terminal UI (shipped as compiled binaries) and an Elysia control API, with end-to-end tests run against live providers.'
+outcome: 'A new village — API, frontend, database, email subdomain, DNS, auth, and payments — can be provisioned, inspected, resumed, and fully torn down from a single command, with all three phases (api-build, site-build, destroy) running green against real cloud infrastructure.'
+links: [{'label': 'closer.earth', 'href': 'https://closer.earth'}]
 featured: true
 order: 0
 ---

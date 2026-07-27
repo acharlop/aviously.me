@@ -10,8 +10,7 @@ const allowedEmail = () => {
   const email = process.env.ALLOWED_EMAIL
   if (!email) {
     throw new ConvexError(
-      'ALLOWED_EMAIL is not set on the Convex deployment. Run: ' +
-        'bunx convex env set ALLOWED_EMAIL you@example.com',
+      'ALLOWED_EMAIL is not set on the Convex deployment. Run: ' + 'bunx convex env set ALLOWED_EMAIL you@example.com',
     )
   }
   return email.toLowerCase()

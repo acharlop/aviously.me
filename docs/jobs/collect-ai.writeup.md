@@ -1,6 +1,6 @@
 # Collect.AI — Senior Frontend Engineer
 
-**Dates:** August 2023 – August 2024 (resume). *Your commits in `cai-portal` span into 2024 (repo history 2018→2024-08).*
+**Dates:** August 2023 – August 2024 (resume). _Your commits in `cai-portal` span into 2024 (repo history 2018→2024-08)._
 **Location:** Remote
 **Company:** collectAI — a German **debt-collection / receivables-management SaaS** platform.
 

@@ -7,8 +7,7 @@ const url = import.meta.env.PUBLIC_CONVEX_URL as string | undefined
 
 if (!url) {
   throw new Error(
-    'PUBLIC_CONVEX_URL is not set. Run `bun run dev:convex` to provision a ' +
-      'deployment, then copy the URL into .env.',
+    'PUBLIC_CONVEX_URL is not set. Run `bun run dev:convex` to provision a ' + 'deployment, then copy the URL into .env.',
   )
 }
 

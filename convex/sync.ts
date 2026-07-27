@@ -11,8 +11,7 @@ function requireSecret(secret: string) {
   const expected = process.env.SYNC_SECRET
   if (!expected) {
     throw new ConvexError(
-      'SYNC_SECRET is not set on the Convex deployment. Run: ' +
-        'bunx convex env set SYNC_SECRET <random-string>',
+      'SYNC_SECRET is not set on the Convex deployment. Run: ' + 'bunx convex env set SYNC_SECRET <random-string>',
     )
   }
   if (secret !== expected) {
@@ -72,9 +71,7 @@ export const upsertLesson = mutation({
     const workspaceId = await workspaceIdBySlug(ctx, workspaceSlug)
     const existing = await ctx.db
       .query('lessons')
-      .withIndex('by_workspace_slug', (q) =>
-        q.eq('workspaceId', workspaceId).eq('slug', slug),
-      )
+      .withIndex('by_workspace_slug', (q) => q.eq('workspaceId', workspaceId).eq('slug', slug))
       .unique()
     if (existing) {
       // Content is re-synced; learning progress (status/timestamps) is kept.
@@ -116,17 +113,12 @@ export const upsertLearningRecord = mutation({
     title: v.string(),
     markdown: v.string(),
   },
-  handler: async (
-    ctx,
-    {secret, workspaceSlug, order, slug, title, markdown},
-  ) => {
+  handler: async (ctx, {secret, workspaceSlug, order, slug, title, markdown}) => {
     requireSecret(secret)
     const workspaceId = await workspaceIdBySlug(ctx, workspaceSlug)
     const existing = await ctx.db
       .query('learningRecords')
-      .withIndex('by_workspace_slug', (q) =>
-        q.eq('workspaceId', workspaceId).eq('slug', slug),
-      )
+      .withIndex('by_workspace_slug', (q) => q.eq('workspaceId', workspaceId).eq('slug', slug))
       .unique()
     if (existing) {
       await ctx.db.patch(existing._id, {order, title, markdown})
@@ -151,9 +143,7 @@ async function upsertReferenceChild(
 ) {
   const existing = await ctx.db
     .query('referenceDocs')
-    .withIndex('by_workspace_slug', (q) =>
-      q.eq('workspaceId', workspaceId).eq('slug', slug),
-    )
+    .withIndex('by_workspace_slug', (q) => q.eq('workspaceId', workspaceId).eq('slug', slug))
     .unique()
   if (existing) {
     await ctx.db.patch(existing._id, fields)

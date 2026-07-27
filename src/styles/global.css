@@ -1,11 +1,11 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
   font-display: swap;
-  font-family: "Cal Sans";
+  font-family: 'Cal Sans';
   font-style: normal;
   font-weight: 600;
-  src: url("/fonts/CalSans-SemiBold.ttf") format("truetype");
+  src: url('/fonts/CalSans-SemiBold.ttf') format('truetype');
 }
 
 :root {
@@ -25,12 +25,12 @@
   --danger: #ff6b7a;
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
   --radius: 8px;
-  --font-body: "Aptos", "Segoe UI", system-ui, sans-serif;
-  --font-display: "Cal Sans", "Aptos", "Segoe UI", system-ui, sans-serif;
-  --font-mono: "SFMono-Regular", "Cascadia Code", "Liberation Mono", monospace;
+  --font-body: 'Aptos', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Cal Sans', 'Aptos', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'SFMono-Regular', 'Cascadia Code', 'Liberation Mono', monospace;
 }
 
-:root[data-theme="light"] {
+:root[data-theme='light'] {
   color-scheme: light;
   --bg: #fbf8f1;
   --bg-2: #f1eadf;
@@ -50,7 +50,7 @@
 /* Print always uses the light palette, regardless of the on-screen theme. */
 @media print {
   :root,
-  :root[data-theme="light"] {
+  :root[data-theme='light'] {
     color-scheme: light;
     --bg: #fff;
     --bg-2: #fff;
@@ -95,10 +95,9 @@ body::before {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  content: "";
+  content: '';
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent 78%);
 }
@@ -205,7 +204,7 @@ select {
 }
 
 .desktop-nav a:hover,
-.desktop-nav a[aria-current="page"],
+.desktop-nav a[aria-current='page'],
 .mobile-panel a:hover {
   background: color-mix(in srgb, var(--accent), transparent 88%);
   color: var(--text);
@@ -324,7 +323,11 @@ h3 {
   gap: 9px;
   border: 1px solid color-mix(in srgb, var(--accent), transparent 42%);
   border-radius: var(--radius);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent), transparent 80%), color-mix(in srgb, var(--accent-2), transparent 88%));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent), transparent 80%),
+    color-mix(in srgb, var(--accent-2), transparent 88%)
+  );
   color: var(--text);
   font-weight: 700;
   padding: 11px 16px;
@@ -371,9 +374,7 @@ h3 {
 .post-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--surface), white 2%), var(--surface)),
-    var(--surface);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface), white 2%), var(--surface)), var(--surface);
   box-shadow: var(--shadow);
 }
 
@@ -388,7 +389,7 @@ h3 {
   inset: 0 0 auto;
   height: 4px;
   background: linear-gradient(90deg, var(--accent), var(--green), var(--amber));
-  content: "";
+  content: '';
 }
 
 .availability {

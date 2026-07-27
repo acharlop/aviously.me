@@ -1,6 +1,6 @@
 # Vionlabs — Team Lead
 
-**Dates:** February 2025 – February 2026 (resume). *Your own commits in the main monorepo run March 5 2025 → December 29 2025; the repo itself has team commits through April 2026.*
+**Dates:** February 2025 – February 2026 (resume). _Your own commits in the main monorepo run March 5 2025 → December 29 2025; the repo itself has team commits through April 2026._
 **Location:** Remote
 **Resume summary:** Greenfield customer portal and multi-source data platform for enterprise media-tech customers.
 

@@ -7,11 +7,7 @@ import {v} from 'convex/values'
 //   lessons/*.html                        -> `lessons`
 //   reference/*.html                      -> `referenceDocs`
 //   learning-records/*.md                 -> `learningRecords`
-export const lessonStatus = v.union(
-  v.literal('todo'),
-  v.literal('in_progress'),
-  v.literal('done'),
-)
+export const lessonStatus = v.union(v.literal('todo'), v.literal('in_progress'), v.literal('done'))
 
 export default defineSchema({
   // Auth tables (users, sessions, accounts, …) required by @convex-dev/auth.

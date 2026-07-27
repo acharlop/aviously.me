@@ -18,9 +18,9 @@ test('no broken internal links anywhere on the site', async ({page, request, bas
       continue
     }
 
-    const hrefs = await page.locator('a[href^="/"]').evaluateAll((links) =>
-      links.map((a) => (a as HTMLAnchorElement).getAttribute('href')!),
-    )
+    const hrefs = await page
+      .locator('a[href^="/"]')
+      .evaluateAll((links) => links.map((a) => (a as HTMLAnchorElement).getAttribute('href')!))
     for (const href of hrefs) {
       const clean = href.split('#')[0].split('?')[0]
       if (!clean || seen.has(clean)) continue
@@ -40,9 +40,9 @@ test('no broken internal links anywhere on the site', async ({page, request, bas
 
 test('external links are well-formed and open safely', async ({page}) => {
   await page.goto('/')
-  const externals = await page.locator('a[href^="http"]').evaluateAll((links) =>
-    links.map((a) => (a as HTMLAnchorElement).href),
-  )
+  const externals = await page
+    .locator('a[href^="http"]')
+    .evaluateAll((links) => links.map((a) => (a as HTMLAnchorElement).href))
   for (const href of externals) {
     expect(href).toMatch(/^https:\/\//)
   }
@@ -57,11 +57,13 @@ for (const path of pages) {
   test(`${path} has no failed images`, async ({page}) => {
     // 'load' not 'networkidle': the Turnstile widget on /contact/ holds connections open.
     await page.goto(path, {waitUntil: 'load'})
-    const failed = await page.locator('img').evaluateAll((imgs) =>
-      imgs
-        .filter((img) => !(img as HTMLImageElement).complete || (img as HTMLImageElement).naturalWidth === 0)
-        .map((img) => (img as HTMLImageElement).src),
-    )
+    const failed = await page
+      .locator('img')
+      .evaluateAll((imgs) =>
+        imgs
+          .filter((img) => !(img as HTMLImageElement).complete || (img as HTMLImageElement).naturalWidth === 0)
+          .map((img) => (img as HTMLImageElement).src),
+      )
     expect(failed).toEqual([])
   })
 
@@ -70,9 +72,7 @@ for (const path of pages) {
     // Measure the settled layout: font-display swap means fallback metrics
     // (wider on Linux) are live for a moment after load.
     await page.evaluate(() => document.fonts.ready)
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    )
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)
     expect(overflow).toBeLessThanOrEqual(0)
   })
 

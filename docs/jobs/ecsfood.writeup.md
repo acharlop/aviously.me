@@ -13,7 +13,7 @@ Rebuild the WordPress site as a **pixel-accurate static Astro site** deployed to
 ## Tech & approach
 
 - **Astro 6** (Content Layer collections), **Tailwind** (brand tokens: `#ef8a1d` orange / `#222222` dark, Arial stack, `@tailwindcss/typography`), `astro:assets` for build-time WebP optimization
-- **Playwright** visual regression: 72 live-site baselines captured *before* building, a migration reporter that writes `MIGRATION_STATUS.md`, cookie/overlay handling so screenshots aren't corrupted
+- **Playwright** visual regression: 72 live-site baselines captured _before_ building, a migration reporter that writes `MIGRATION_STATUS.md`, cookie/overlay handling so screenshots aren't corrupted
 - 26 pages, 10 shared components (Nav, Footer, Hero, StatsBar, ServiceCard, CaseStudyCard, Testimonials, PartnerLogos, CTABanner, ContactForm), content collections for services / case-studies / blog
 - Methodical migration: extracts the real enqueued theme stylesheet (not scraped inline styles), matches Astro route slugs to live URLs, dropdown hover bridges, `::after` underline animations
 

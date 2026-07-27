@@ -1,6 +1,6 @@
 # Freelance — Full-Stack Developer
 
-**Dates:** October 2022 – June 2023 (resume). *Note: whocards is still being worked on (commits through June 2026), so "continue to build" is accurate.*
+**Dates:** October 2022 – June 2023 (resume). _Note: whocards is still being worked on (commits through June 2026), so "continue to build" is accurate._
 
 > Reconstructed from `~/code/whocards/*`, `~/code/j3d-ai*`, and `~/code/xtz/*`. This entry covers four threads: **whocards** (owned product, ongoing), **J3D.AI**, and the **Tezos/Web3 NFT** work (circa.art + proofofperformance.xyz).
 
@@ -44,5 +44,6 @@ Contract work on **Tezos** NFT infrastructure, largely through **tzConnect Berli
 - Tech: Tezos, **Taquito**, Beacon wallet, Next.js front-ends + Node back-ends.
 
 **Resume bullets:**
+
 - Built proofofperformance.xyz, a live on-chain NFT minting experience on Tezos for a DJ event, using fxhash live-minting tooling (admin panel + real-time mint monitoring).
 - Contributed to circa.art, a Tezos NFT marketplace (Kanvas whitelabel store) letting users purchase video frames during a high-profile launch — 200+ commits across the underlying tzConnect Berlin NFT platform (`marina`, `framebot`).

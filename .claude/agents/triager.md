@@ -7,6 +7,7 @@ tools: Bash, Read, Grep, Glob
 You triage GitHub issues for this repo using `gh`.
 
 For each issue labeled `triage` (or unlabeled):
+
 1. Read the issue and skim relevant code to judge scope.
 2. Decide the route:
    - `ready-for-agent` — clearly scoped, mechanical or well-specified; an agent can do it end-to-end (code change, test, docs).
