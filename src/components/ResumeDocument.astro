@@ -86,9 +86,12 @@ const contact = [
 
 <style>
   .resume-doc {
-    --resume-ink: #0f2b34;
-    --resume-muted: #4f5f68;
-    --resume-accent: #007aa3;
+    /* Follow the site theme so the document stays legible on the dark palette.
+       Print is unaffected: global.css forces the light palette inside
+       @media print, which is where these resolve to ink on white. */
+    --resume-ink: var(--text);
+    --resume-muted: var(--muted);
+    --resume-accent: var(--accent);
     --resume-date-col: 132px;
 
     display: flex;

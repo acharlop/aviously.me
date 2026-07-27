@@ -10,10 +10,10 @@ const hasPdf = fs.existsSync('public/resume.pdf')
 ---
 
 <Layout title="Resume - Avi Charlop" description="Resume of Avi Charlop, senior full-stack engineer and team lead: experience, education, and a downloadable PDF.">
+  {/* No name or tagline here — ResumeDocument draws its own header, and
+      repeating them would show the name twice and ship a second <h1>. */}
   <section class="shell page-hero print-hidden">
     <p class="eyebrow">`resume`</p>
-    <h1>{site.name}</h1>
-    <p class="lead">{site.tagline}</p>
     <div class="button-row">
       {hasPdf && <a id="resume-download" class="button" href="/resume.pdf" download="avi-charlop_resume.pdf">Download PDF</a>}
       <button class="button secondary" type="button" onclick="window.print()">Print this page</button>

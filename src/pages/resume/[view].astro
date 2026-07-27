@@ -61,8 +61,14 @@ const view = VIEWS[Astro.params.view as keyof typeof VIEWS]
       display: none !important;
     }
 
+    /* Must stay identical to the print block in resume.astro, or this preview
+       stops predicting the real PDF — which is the only reason it exists. */
     .section {
-      padding: 0;
+      padding: 0 !important;
+    }
+
+    .shell {
+      width: 100% !important;
     }
   }
 </style>
