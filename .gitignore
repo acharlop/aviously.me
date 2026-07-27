@@ -30,6 +30,8 @@ bun.lockb
 
 # local env files
 .env*.local
+# Vercel CLI pulls (.env.prod.tmp etc.) — these carry real secrets
+.env*.tmp
 
 # vercel
 .vercel
