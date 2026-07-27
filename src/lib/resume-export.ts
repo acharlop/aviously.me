@@ -24,8 +24,17 @@ export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): S
     rawOptions.length === 'one-page'
       ? {...rawOptions, bulletsPerRole: rawOptions.bulletsPerRole ?? 2, includeSubRoles: false}
       : rawOptions
-  const capBullets = (bullets: string[]) =>
-    options.bulletsPerRole === undefined ? bullets : bullets.slice(0, options.bulletsPerRole)
+  // Per-company override wins over the blanket cap; undefined means unlimited.
+  const capFor = (company: string) => {
+    const override = Object.entries(options.bulletsByRole ?? {}).find(([key]) =>
+      company.toLowerCase().startsWith(key.toLowerCase()),
+    )
+    return override ? override[1] : options.bulletsPerRole
+  }
+  const capBullets = (bullets: string[], company: string) => {
+    const cap = capFor(company)
+    return cap === undefined ? bullets : bullets.slice(0, cap)
+  }
 
   const selected =
     options.roles === undefined
@@ -36,7 +45,7 @@ export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): S
 
   const shaped = selected.map((item) => {
     const subRoles = options.includeSubRoles
-      ? item.subRoles?.map((sub) => ({...sub, bullets: capBullets(sub.bullets)}))
+      ? item.subRoles?.map((sub) => ({...sub, bullets: capBullets(sub.bullets, item.company)}))
       : undefined
     // When sub-roles are dropped and the parent has no bullets of its own
     // (Net2phone), hoist each sub-role's lead bullet so the entry isn't empty.
@@ -45,7 +54,7 @@ export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): S
     const bullets =
       !options.includeSubRoles && item.bullets.length === 0 && item.subRoles
         ? item.subRoles.map((sub) => sub.bullets[0]).filter(Boolean)
-        : capBullets(item.bullets)
+        : capBullets(item.bullets, item.company)
     return {
       ...item,
       summary: options.includeSummary ? item.summary : undefined,

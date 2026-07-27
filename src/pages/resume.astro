@@ -1,31 +1,25 @@
 ---
 import fs from 'node:fs'
-import ExperienceTimeline from '@/components/ExperienceTimeline.astro'
 import Layout from '@/components/Layout.astro'
-import SectionHeading from '@/components/SectionHeading.astro'
-import {resumeOpenSource, shapeResume} from '@/lib/resume-export'
-import {skills} from '@/data/experience'
+import ResumeDocument from '@/components/ResumeDocument.astro'
+import {onePageResumeOptions} from '@/data/resume-options'
 import {site} from '@/data/site'
 
 // The crawl test fetches every linked PDF, so only offer the download once the file is committed.
 const hasPdf = fs.existsSync('public/resume.pdf')
-const {experience, education} = shapeResume()
 ---
 
 <Layout title="Resume - Avi Charlop" description="Resume of Avi Charlop, senior full-stack engineer and team lead: experience, education, and a downloadable PDF.">
-  <section class="shell page-hero">
+  <section class="shell page-hero print-hidden">
     <p class="eyebrow">`resume`</p>
     <h1>{site.name}</h1>
     <p class="lead">{site.tagline}</p>
-    <p class="print-contact meta-label">
-      {site.email} · {site.url.replace('https://', '')} · {site.linkedin.replace('https://', '')} · {site.github.replace('https://', '')}
-    </p>
-    <div class="button-row print-hidden">
+    <div class="button-row">
       {hasPdf && <a id="resume-download" class="button" href="/resume.pdf" download="avi-charlop_resume.pdf">Download PDF</a>}
       <button class="button secondary" type="button" onclick="window.print()">Print this page</button>
       <a class="button secondary" href={`mailto:${site.email}`}>{site.email}</a>
     </div>
-    <p class="meta-label print-hidden">
+    <p class="meta-label">
       also as <a href="/resume.md">markdown</a> · <a href="/resume.txt">plain text</a> ·
       <a href="/resume.json">json resume</a>
     </p>
@@ -38,118 +32,20 @@ const {experience, education} = shapeResume()
   </script>
 
   <section class="shell section">
-    <SectionHeading kicker="skills" title="Skills" />
-    <dl class="skills-grid">
-      {
-        skills.map((group) => (
-          <div class="skills-row">
-            <dt>{group.name}</dt>
-            <dd>{group.keywords.join(', ')}</dd>
-          </div>
-        ))
-      }
-    </dl>
+    {/* The rendered document (and the PDF printed from it) is the condensed
+        one-pager. The full bullet set stays in /resume.md, .txt and .json. */}
+    <ResumeDocument options={onePageResumeOptions} />
   </section>
-
-  <section class="shell section">
-    <SectionHeading kicker="timeline" title="Professional experience" />
-    <ExperienceTimeline items={experience} />
-  </section>
-
-  {
-    resumeOpenSource.length > 0 && (
-      <section class="shell section oss-section">
-        <SectionHeading kicker="open source" title="Open source" />
-        <ul class="oss-list">
-          {resumeOpenSource.map((project) => (
-            <li>
-              <strong>
-                <a href={project.url}>{project.name}</a>
-              </strong>
-              {' — '}
-              {project.description}
-            </li>
-          ))}
-        </ul>
-      </section>
-    )
-  }
-
-  {
-    education.length > 0 && (
-      <section class="shell section education-section">
-        <SectionHeading kicker="education" title="Education" />
-        <div class="grid-2">
-          {education.map((item) => (
-            <article class="card">
-              <p class="meta-label">
-                {item.dates} · {item.location}
-              </p>
-              <h3>{item.school}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    )
-  }
 </Layout>
 
-<style>
-  .skills-grid {
-    display: grid;
-    gap: 8px;
-    margin: 0;
-  }
-
-  .skills-row {
-    display: grid;
-    grid-template-columns: minmax(120px, 160px) 1fr;
-    gap: 12px;
-    align-items: baseline;
-  }
-
-  .skills-row dt {
-    font-weight: 600;
-  }
-
-  .skills-row dd {
-    margin: 0;
-  }
-
-  @media (max-width: 480px) {
-    .skills-row {
-      grid-template-columns: 1fr;
-      gap: 2px;
-    }
-  }
-
-  .oss-list {
-    margin: 0;
-    padding-left: 1.1rem;
-  }
-
-  .print-contact {
-    display: none;
-  }
-
-  @media print {
-    .print-hidden {
-      display: none;
-    }
-
-    .print-contact {
-      display: block;
-      margin-top: 4px;
-    }
-  }
-</style>
-
 <style is:global>
+  /* The document draws its own header, so nothing else prints: no site chrome,
+     no page hero. Everything else about the layout lives in ResumeDocument. */
   @media print {
     header.site-header,
     footer,
-    .skip-link {
+    .skip-link,
+    .print-hidden {
       display: none !important;
     }
 
@@ -158,143 +54,18 @@ const {experience, education} = shapeResume()
       background: #fff !important;
     }
 
-    html {
-      font-size: 0.76rem;
-    }
-
     body::before {
       display: none !important;
     }
 
-    /* Plain document, not site chrome: no kickers, no cards. */
-    .eyebrow,
-    .section-kicker {
-      display: none !important;
-    }
-
-    .page-hero {
-      padding: 0 0 4px;
-    }
-
-    .page-hero h1 {
-      font-size: 1.9rem;
-    }
-
-    .page-hero .lead {
-      margin-top: 4px;
-      font-size: 0.95rem;
-    }
-
+    /* Beats the clamp() padding in global.css so the document starts at the
+       page margin instead of an inch below it. */
     .section {
-      padding: 12px 0 0;
+      padding: 0 !important;
     }
 
-    .section-head {
-      margin-bottom: 8px;
-    }
-
-    .section-head h2 {
-      font-size: 0.95rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 4px;
-    }
-
-    .skills-grid {
-      gap: 3px;
-    }
-
-    .timeline {
-      gap: 12px;
-    }
-
-    .timeline-item,
-    .card {
-      background: #fff !important;
-      border: 0 !important;
-      border-radius: 0;
-      box-shadow: none !important;
-      break-inside: avoid;
-      padding: 0;
-    }
-
-    /* One document block per role: dates float top-right of the entry. */
-    .timeline-item {
-      display: block;
-    }
-
-    .timeline-meta {
-      float: right;
-      margin-left: 16px;
-      text-align: right;
-      font-size: 0.76rem;
-    }
-
-    .timeline-meta strong {
-      font-weight: 400;
-    }
-
-    .timeline-item .meta-label {
-      color: #556;
-      font-family: inherit;
-      font-size: 0.8rem;
-      text-transform: none;
-    }
-
-    .timeline-item h3 {
-      font-size: 1.02rem;
-      margin-top: 1px;
-    }
-
-    .timeline-item p {
-      margin: 3px 0 0;
-    }
-
-    .timeline-item ul {
-      margin-top: 4px;
-      padding-left: 1rem;
-    }
-
-    .timeline-item li + li {
-      margin-top: 3px;
-    }
-
-    .oss-section {
-      break-inside: avoid;
-    }
-
-    .oss-section a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .education-section {
-      break-inside: avoid;
-    }
-
-    .education-section .grid-2 {
-      display: block;
-    }
-
-    .education-section .card {
-      margin-top: 6px;
-    }
-
-    .education-section .card .meta-label {
-      float: right;
-      margin-left: 16px;
-      color: #556;
-      font-family: inherit;
-      text-transform: none;
-    }
-
-    .education-section .card h3 {
-      font-size: 0.95rem;
-    }
-
-    .education-section .card p {
-      margin: 2px 0 0;
+    .shell {
+      width: 100% !important;
     }
   }
 </style>
