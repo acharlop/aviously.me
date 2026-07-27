@@ -47,10 +47,14 @@ if (shouldTrack()) {
     // Belt-and-braces alongside shouldTrack() above.
     respect_dnt: true,
 
-    // Explicitly off: no replay, no heatmap pixels, no error autocapture.
+    // Heatmaps on: click/rageclick coordinates and scroll depth per page, sent
+    // as $heatmap events. Positions only — no element content beyond what
+    // autocapture already sends, and no replay.
+    capture_heatmaps: true,
+
+    // Explicitly off: no replay, no surveys, no error autocapture.
     disable_session_recording: true,
     disable_surveys: true,
-    capture_heatmaps: false,
     capture_exceptions: false,
 
     // Autocapture records that *an* element was clicked (tag, css class, text

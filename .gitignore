@@ -28,7 +28,10 @@ yarn-error.log*
 .pnpm-debug.log*
 bun.lockb
 
-# local env files
+# local env files. Catch-all: any local dump (`vercel env pull <name>`, .env.prod.tmp,
+# ad-hoc scratch files) carries real secrets and must never be committable.
+.env*
+!.env.example
 .env*.local
 
 # vercel
