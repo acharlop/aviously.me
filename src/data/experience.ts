@@ -21,7 +21,7 @@ export const experience: ExperienceItem[] = [
     dates: 'May 2026 - Present',
     summary: 'Platform automation for Closer, the operating system behind regenerative co-living communities ("villages").',
     bullets: [
-      'Architected a "one-click village" provisioning system that launches a complete co-living-community platform instance across DigitalOcean, Vercel, MongoDB, Mailgun, Firebase, and Stripe Connect from one typed config, cutting setup from a full day to about 20 minutes.',
+      'Architected a "one-click village" provisioning system that launches a complete co-living-community platform instance across DigitalOcean, Vercel, MongoDB, Mailgun, Firebase, and Stripe Connect from one typed config, cutting setup from a full day to 12 minutes.',
       'Designed the workflow engine as an idempotent, resumable step DAG over durable state, with full teardown and end-to-end tests against live cloud providers.',
       'Shipped the operator surface as an Ink terminal UI, compiled single-file binaries, and an Elysia control API with token auth and streamed mutation endpoints.',
       'Hardened the core Closer API (Node + MongoDB) to boot cleanly on fresh databases — automatic config seeding, admin bootstrap, and startup race-condition fixes — unblocking one-click provisioning.',
