@@ -33,63 +33,77 @@
   src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
 }
 
+/* Ledger tokens. Paper and ink by default; dark is the same set inverted.
+   Values come from the resume canvas (epic #37): copy them, do not round.
+   --accent is the only place the SITE accent lives (#44 adds a picker); the
+   resume sheet carries its own (src/data/resume-sheet.ts). */
 :root {
+  color-scheme: light;
+
+  /* Theme-invariant: the ink band and accent tiles look the same in both themes. */
+  --ink: #111;
+  --paper: #f4f2ec;
+  --paper-muted: #cfcbc2;
+  --on-accent: var(--ink);
+
+  --bg: var(--paper);
+  --bg-2: var(--bg);
+  --surface: var(--bg);
+  --text: var(--ink);
+  --muted: #444;
+  --faint: #6b6b6b;
+  --line: #d3d0c6;
+  --accent: #4dffb4;
+  --green: #167c4a;
+  --amber: #9d6100;
+  --danger: #b3261e;
+  --rule-strong: 1.5px solid var(--text);
+  --rule: 1px solid var(--line);
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  /* Type ramp: the resume sheet's px scale (stack 8.5, meta 9, body 10.5,
+     headline 15, numbers 22, display 50) scaled so body lands on 16px. */
+  --text-xs: calc(8.5 / 10.5 * 1rem);
+  --text-sm: calc(9 / 10.5 * 1rem);
+  --text-base: 1rem;
+  --text-lg: calc(15 / 10.5 * 1rem);
+  --text-xl: calc(22 / 10.5 * 1rem);
+  --text-display: calc(50 / 10.5 * 1rem);
+  --tracking-display: -0.04em;
+  --tracking-numbers: -0.03em;
+  --tracking-mono: 0.08em;
+  --tracking-chip: 0.12em;
+  --leading-display: 0.9;
+  --leading-body: 1.4;
+}
+
+:root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #090b0f;
-  --bg-2: #10151b;
-  --surface: rgba(19, 25, 32, 0.82);
-  --surface-strong: rgba(25, 33, 42, 0.94);
-  --text: #eef5f8;
-  --muted: #a6b4bc;
-  --faint: #6f7d86;
-  --line: rgba(173, 216, 230, 0.16);
-  --accent: #28d8ff;
-  --accent-2: #a78bfa;
+  --bg: var(--ink);
+  --text: var(--paper);
+  --muted: var(--paper-muted);
+  --faint: #8a8a8a;
+  --line: #2c2c2c;
   --green: #75e3a0;
   --amber: #ffd166;
   --danger: #ff6b7a;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
-  --radius: 8px;
-  --font-body: 'Aptos', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'Cal Sans', 'Aptos', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'SFMono-Regular', 'Cascadia Code', 'Liberation Mono', monospace;
 }
 
-:root[data-theme='light'] {
-  color-scheme: light;
-  --bg: #fbf8f1;
-  --bg-2: #f1eadf;
-  --surface: rgba(255, 252, 246, 0.88);
-  --surface-strong: rgba(255, 252, 246, 0.96);
-  --text: #172029;
-  --muted: #4f5f68;
-  --faint: #76838a;
-  --line: rgba(22, 45, 55, 0.16);
-  --accent: #007aa3;
-  --accent-2: #7257d6;
-  --green: #167c4a;
-  --amber: #9d6100;
-  --shadow: 0 24px 70px rgba(67, 53, 29, 0.14);
-}
-
-/* Print always uses the light palette, regardless of the on-screen theme. */
+/* Print always uses the light palette on white, regardless of the on-screen theme. */
 @media print {
   :root,
-  :root[data-theme='light'] {
+  :root[data-theme='dark'] {
     color-scheme: light;
     --bg: #fff;
-    --bg-2: #fff;
-    --surface: #fff;
-    --surface-strong: #fff;
-    --text: #172029;
-    --muted: #4f5f68;
-    --faint: #76838a;
-    --line: rgba(22, 45, 55, 0.16);
-    --accent: #007aa3;
-    --accent-2: #7257d6;
+    --text: var(--ink);
+    --muted: #444;
+    --faint: #6b6b6b;
+    --line: #d3d0c6;
     --green: #167c4a;
     --amber: #9d6100;
-    --shadow: none;
+    --danger: #b3261e;
   }
 }
 
@@ -105,26 +119,11 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(40, 216, 255, 0.13), transparent 31rem),
-    radial-gradient(circle at 85% 10%, rgba(117, 227, 160, 0.1), transparent 28rem),
-    linear-gradient(180deg, var(--bg), var(--bg-2) 56%, var(--bg));
+  background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.65;
   text-rendering: optimizeLegibility;
-}
-
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  content: '';
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent 78%);
 }
 
 a {
@@ -132,9 +131,11 @@ a {
   text-decoration: none;
 }
 
+/* Accent as a text colour is unreadable on paper, so body links keep the ink and take the accent as their underline. */
 a:not([class]) {
-  color: var(--accent);
+  color: var(--text);
   text-decoration: underline;
+  text-decoration-color: var(--accent);
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.22em;
 }
@@ -147,7 +148,7 @@ select {
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent), white 15%);
+  outline: 3px solid var(--text);
   outline-offset: 4px;
 }
 
@@ -167,8 +168,7 @@ select {
   left: 12px;
   z-index: 100;
   padding: 10px 14px;
-  border-radius: var(--radius);
-  background: var(--surface-strong);
+  background: var(--surface);
   color: var(--text);
   transform: translateY(-160%);
 }
@@ -182,8 +182,7 @@ select {
   top: 0;
   z-index: 50;
   border-bottom: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg), transparent 18%);
-  backdrop-filter: blur(18px);
+  background: var(--bg);
 }
 
 .nav-shell {
@@ -208,9 +207,8 @@ select {
   height: 32px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--accent), transparent 80%), var(--surface));
-  color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: var(--font-mono);
 }
 
@@ -222,7 +220,6 @@ select {
 
 .desktop-nav a,
 .mobile-panel a {
-  border-radius: var(--radius);
   color: var(--muted);
   font-size: 0.92rem;
   padding: 9px 11px;
@@ -248,7 +245,6 @@ select {
   height: 40px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -276,9 +272,7 @@ select {
   min-width: 210px;
   padding: 10px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-strong);
-  box-shadow: var(--shadow);
+  background: var(--surface);
 }
 
 .hero {
@@ -307,8 +301,8 @@ h3 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.02;
-  /* Fallback fonts (Linux: DejaVu Sans) are wider than Cal Sans; before the
-     webfont swaps in, a long heading word can spill past the viewport. */
+  /* Fallback fonts (Linux: DejaVu Sans) are wider than Space Grotesk; before
+     the webfont swaps in, a long heading word can spill past the viewport. */
   overflow-wrap: break-word;
 }
 
@@ -347,16 +341,10 @@ h3 {
   min-height: 44px;
   gap: 9px;
   border: 1px solid color-mix(in srgb, var(--accent), transparent 42%);
-  border-radius: var(--radius);
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--accent), transparent 80%),
-    color-mix(in srgb, var(--accent-2), transparent 88%)
-  );
+  background: color-mix(in srgb, var(--accent), transparent 80%);
   color: var(--text);
   font-weight: 700;
   padding: 11px 16px;
-  box-shadow: 0 12px 34px color-mix(in srgb, var(--accent), transparent 86%);
 }
 
 .button:hover {
@@ -366,7 +354,6 @@ h3 {
 .button.secondary {
   border-color: var(--line);
   background: var(--surface);
-  box-shadow: none;
 }
 
 .social-row {
@@ -378,7 +365,6 @@ h3 {
 
 .social-row a {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.82rem;
@@ -398,9 +384,7 @@ h3 {
 .timeline-item,
 .post-card {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--surface), white 2%), var(--surface)), var(--surface);
-  box-shadow: var(--shadow);
+  background: var(--surface);
 }
 
 .signal-card {
@@ -413,7 +397,7 @@ h3 {
   position: absolute;
   inset: 0 0 auto;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--green), var(--amber));
+  background: var(--accent);
   content: '';
 }
 
@@ -422,7 +406,6 @@ h3 {
   align-items: center;
   gap: 9px;
   border: 1px solid color-mix(in srgb, var(--green), transparent 48%);
-  border-radius: 999px;
   background: color-mix(in srgb, var(--green), transparent 91%);
   color: var(--text);
   font-family: var(--font-mono);
@@ -433,15 +416,13 @@ h3 {
 .status-dot {
   width: 9px;
   height: 9px;
-  border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--green), transparent 45%);
   animation: pulse 2.4s infinite;
 }
 
 @keyframes pulse {
-  70% {
-    box-shadow: 0 0 0 12px transparent;
+  50% {
+    opacity: 0.35;
   }
 }
 
@@ -449,7 +430,6 @@ h3 {
   margin-top: 24px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--bg), transparent 18%);
   color: var(--muted);
   font-family: var(--font-mono);
@@ -463,7 +443,6 @@ h3 {
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--line);
 }
 
@@ -563,7 +542,6 @@ h3 {
   align-items: center;
   gap: 6px;
   border: 1px solid color-mix(in srgb, var(--green), transparent 48%);
-  border-radius: 999px;
   background: color-mix(in srgb, var(--green), transparent 91%);
   color: var(--text);
   font-family: var(--font-mono);
@@ -575,7 +553,6 @@ h3 {
 .repo-status-dot {
   width: 7px;
   height: 7px;
-  border-radius: 50%;
   background: var(--green);
 }
 
@@ -586,7 +563,6 @@ h3 {
 
 .repo-status--pending .repo-status-dot {
   background: var(--amber);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--amber), transparent 45%);
   animation: pulse 2.4s infinite;
 }
 
@@ -608,7 +584,6 @@ h3 {
 
 .tag {
   border: 1px solid var(--line);
-  border-radius: 999px;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.74rem;
@@ -699,7 +674,6 @@ h3 {
 
 .prose code {
   border: 1px solid var(--line);
-  border-radius: 5px;
   background: color-mix(in srgb, var(--bg), transparent 10%);
   color: var(--green);
   font-family: var(--font-mono);
@@ -710,8 +684,7 @@ h3 {
   overflow-x: auto;
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #07090d;
+  background: var(--bg-2);
 }
 
 .blog-filter {
@@ -723,7 +696,6 @@ h3 {
 
 .blog-filter a {
   border: 1px solid var(--line);
-  border-radius: 999px;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -739,7 +711,6 @@ h3 {
   display: inline-flex;
   width: fit-content;
   border: 1px solid color-mix(in srgb, var(--amber), transparent 45%);
-  border-radius: 999px;
   color: var(--amber);
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -767,7 +738,6 @@ h3 {
 .contact-form textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--bg), transparent 18%);
   color: var(--text);
   padding: 12px 13px;

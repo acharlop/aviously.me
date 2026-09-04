@@ -70,8 +70,8 @@ const jsonLd = [
     <script is:inline>
       const applyTheme = () => {
         const storedTheme = localStorage.getItem('theme')
-        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
-        document.documentElement.dataset.theme = storedTheme || (prefersLight ? 'light' : 'dark')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        document.documentElement.dataset.theme = storedTheme || (prefersDark ? 'dark' : 'light')
       }
       applyTheme()
       document.addEventListener('astro:after-swap', applyTheme)

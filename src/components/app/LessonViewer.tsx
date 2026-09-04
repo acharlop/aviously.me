@@ -20,7 +20,7 @@ export function LessonViewer({lesson, onBack}: {lesson: Doc<'lessons'>; onBack: 
           <button
             type='button'
             onClick={() => void setStatus({lessonId: lesson._id, status: 'in_progress'})}
-            className={`rounded-md border px-2 py-1 text-xs ${
+            className={`border px-2 py-1 text-xs ${
               lesson.status === 'in_progress'
                 ? 'border-[var(--amber)] text-[var(--amber)]'
                 : 'border-[var(--line)] text-[var(--faint)] hover:text-[var(--text)]'
@@ -31,7 +31,7 @@ export function LessonViewer({lesson, onBack}: {lesson: Doc<'lessons'>; onBack: 
           <button
             type='button'
             onClick={() => void setStatus({lessonId: lesson._id, status: 'done'})}
-            className={`rounded-md border px-2 py-1 text-xs ${
+            className={`border px-2 py-1 text-xs ${
               lesson.status === 'done'
                 ? 'border-[var(--green)] text-[var(--green)]'
                 : 'border-[var(--line)] text-[var(--faint)] hover:text-[var(--text)]'

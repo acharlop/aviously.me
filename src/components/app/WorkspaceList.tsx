@@ -30,7 +30,7 @@ export function WorkspaceList() {
               <li key={ws._id}>
                 <a
                   href={`/app?w=${encodeURIComponent(ws.slug)}`}
-                  className='block rounded-lg border border-[var(--line)] bg-[var(--surface)] p-4 transition-colors hover:border-[var(--accent)]'
+                  className='block border border-[var(--line)] bg-[var(--surface)] p-4 transition-colors hover:border-[var(--accent)]'
                 >
                   <div className='flex items-baseline justify-between gap-3'>
                     <span className='font-medium'>{ws.title}</span>
@@ -39,8 +39,8 @@ export function WorkspaceList() {
                     </span>
                   </div>
                   {ws.mission && <p className='mt-1 line-clamp-2 text-sm text-[var(--muted)]'>{ws.mission}</p>}
-                  <div className='mt-3 h-1.5 overflow-hidden rounded-full bg-[var(--bg-2)]'>
-                    <div className='h-full rounded-full bg-[var(--green)]' style={{width: `${pct}%`}} />
+                  <div className='mt-3 h-1.5 overflow-hidden bg-[var(--bg-2)]'>
+                    <div className='h-full bg-[var(--green)]' style={{width: `${pct}%`}} />
                   </div>
                 </a>
               </li>

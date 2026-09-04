@@ -50,13 +50,9 @@ export function WorkspaceView({slug}: {slug: string}) {
                 <button
                   type='button'
                   onClick={() => setOpenLesson(lesson)}
-                  className='flex w-full items-center gap-3 rounded-md px-3 py-2 text-left hover:bg-[var(--surface)]'
+                  className='flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-[var(--surface)]'
                 >
-                  <span
-                    aria-hidden
-                    className='h-2 w-2 shrink-0 rounded-full'
-                    style={{background: statusDot[lesson.status]}}
-                  />
+                  <span aria-hidden className='h-2 w-2 shrink-0' style={{background: statusDot[lesson.status]}} />
                   <span className='flex-1 truncate'>{lesson.title}</span>
                   {lesson.status === 'done' && <span className='text-xs text-[var(--green)]'>done</span>}
                 </button>
@@ -74,7 +70,7 @@ export function WorkspaceView({slug}: {slug: string}) {
                 <button
                   type='button'
                   onClick={() => openInNewTab(doc.html)}
-                  className='w-full truncate rounded-md px-3 py-2 text-left text-[var(--accent)] hover:bg-[var(--surface)]'
+                  className='w-full truncate px-3 py-2 text-left text-[var(--accent)] hover:bg-[var(--surface)]'
                 >
                   {doc.title} ↗
                 </button>
@@ -89,7 +85,7 @@ export function WorkspaceView({slug}: {slug: string}) {
           <ul className='flex flex-col gap-2'>
             {learningRecords.map((rec) => (
               <li key={rec._id}>
-                <details className='rounded-md border border-[var(--line)] bg-[var(--surface)]'>
+                <details className='border border-[var(--line)] bg-[var(--surface)]'>
                   <summary className='cursor-pointer px-3 py-2 font-medium'>{rec.title}</summary>
                   <Markdown source={rec.markdown} className='px-3 pb-3 text-sm text-[var(--muted)]' />
                 </details>
