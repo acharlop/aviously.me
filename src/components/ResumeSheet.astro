@@ -1,0 +1,421 @@
+---
+// The one-page resume sheet: a fixed 816×1056 (US Letter at 96dpi) paper
+// document. It draws its own palette and ignores the site theme on purpose:
+// this is the artefact that gets printed and attached, so it has to look the
+// same on screen, in the PDF, and on a recruiter's dark-mode laptop.
+//
+// Geometry (from the design canvas, do not round):
+//   page margin 40px; label column L=152px; gutter G=14px; the text axis sits
+//   at 40+L+G = 206px. Section chips are L+G wide so their right edge lands on
+//   the axis; the first number tile is 40+L+G wide so its divider does too;
+//   bullet markers hang G px into the gutter so wrapped lines meet the axis.
+import {defaultAccent, resumeSheet, type SheetRole} from '@/data/resume-sheet'
+import {site} from '@/data/site'
+
+type Props = {accent?: string}
+const {accent = defaultAccent} = Astro.props
+
+const contact = [
+  site.location,
+  site.email,
+  site.url.replace('https://', ''),
+  site.linkedin.replace('https://', ''),
+  site.github.replace('https://', ''),
+]
+
+const sections: {label: string; rows: SheetRole[]}[] = [
+  {label: 'Experience', rows: resumeSheet.experience},
+  {label: 'Freelance and projects', rows: resumeSheet.projects},
+]
+---
+
+<div class="sheet-frame">
+  <article class="sheet" style={`--accent:${accent}`}>
+    <header class="mast">
+      <div>
+        <h1>{site.name}</h1>
+        <p class="mast-title mono">{resumeSheet.title}</p>
+      </div>
+      <address class="mast-contact mono">
+        {contact.map((line) => <span>{line}</span>)}
+      </address>
+    </header>
+
+    <div class="numbers">
+      {
+        resumeSheet.numbers.map((n) => (
+          <div class="tile">
+            <p class="tile-value">
+              {n.value}
+              {n.to && (
+                <>
+                  <span class="tile-arrow">&#9656;</span>
+                  {n.to}
+                </>
+              )}
+            </p>
+            <p class="tile-caption mono">{n.caption}</p>
+            <p class="tile-source">{n.source}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="body">
+      <div class="profile">
+        <p class="headline">{resumeSheet.headline}</p>
+        <p class="summary">{resumeSheet.summary}</p>
+      </div>
+
+      {
+        sections.map((section) => (
+          <>
+            <div class="sec">
+              <span class="chip mono">{section.label}</span>
+            </div>
+            <div class="roles">
+              {section.rows.map((r) => (
+                <div class="row role">
+                  <div>
+                    <p class="co">{r.company}</p>
+                    <p class="meta">{r.role}</p>
+                    <p class="meta mono">{r.dates}</p>
+                  </div>
+                  <div>
+                    <ul>
+                      {r.bullets.map((b) => (
+                        <li>
+                          <span class="mark">&#9656;</span>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <p class="stack mono">{r.stack}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        ))
+      }
+
+      <div class="sec sec-split">
+        <span class="chip mono">AI-assisted engineering</span>
+        <span class="sec-note mono">{resumeSheet.ai.tools}</span>
+      </div>
+      <div class="credits">
+        {
+          resumeSheet.ai.rows.map((row) => (
+            <div class="row">
+              <p class="label mono">{row.label}</p>
+              <p>{row.text}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="sec">
+        <span class="chip mono">OSS and education</span>
+      </div>
+      <div class="credits">
+        {
+          resumeSheet.credits.map((row) => (
+            <div class="row">
+              <p class="label mono">{row.label}</p>
+              <p>{row.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </article>
+</div>
+
+<script>
+  // Scale the fixed-size sheet down to fit its container on narrow screens.
+  // Print never scales: the print rules below reset the transform.
+  const fit = () => {
+    document.querySelectorAll<HTMLElement>('.sheet-frame').forEach((frame) => {
+      const scale = Math.min(1, frame.clientWidth / 816)
+      frame.style.setProperty('--sheet-scale', String(scale))
+    })
+  }
+  fit()
+  new ResizeObserver(fit).observe(document.body)
+  document.addEventListener('astro:after-swap', fit)
+</script>
+
+<style>
+  /* --- frame: screen scaling only ------------------------------------- */
+  .sheet-frame {
+    --sheet-scale: 1;
+    width: 100%;
+    height: calc(1056px * var(--sheet-scale));
+    overflow: hidden;
+  }
+
+  .sheet {
+    transform: scale(var(--sheet-scale));
+    transform-origin: top left;
+    box-sizing: border-box;
+    width: 816px;
+    height: 1056px;
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #f4f2ec;
+    color: #111;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 10.5px;
+    line-height: 1.4;
+    text-wrap: pretty;
+  }
+
+  .sheet p,
+  .sheet h1,
+  .sheet ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .mono {
+    font-family: 'Space Mono', ui-monospace, monospace;
+  }
+
+  /* --- masthead --------------------------------------------------------- */
+  .mast {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 20px 40px 16px;
+    background: #111;
+    color: #f4f2ec;
+  }
+
+  .mast h1 {
+    font-size: 50px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: #f4f2ec;
+  }
+
+  .mast-title {
+    margin-top: 9px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .mast-contact {
+    display: grid;
+    justify-items: end;
+    font-style: normal;
+    font-size: 9px;
+    line-height: 1.7;
+    color: #cfcbc2;
+  }
+
+  /* --- number tiles ----------------------------------------------------- */
+  .numbers {
+    display: grid;
+    grid-template-columns: 206px repeat(3, minmax(0, 1fr));
+    border-bottom: 1.5px solid #111;
+  }
+
+  .tile {
+    padding: 8px 12px 7px 40px;
+    background: var(--accent);
+  }
+
+  .tile + .tile {
+    border-left: 1.5px solid #111;
+    padding-left: 14px;
+  }
+
+  .tile-value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .tile-arrow {
+    display: inline-block;
+    margin: 0 2px;
+    font-size: 28px;
+    line-height: 0;
+    vertical-align: -2px;
+  }
+
+  .tile-caption {
+    margin-top: 5px;
+    font-size: 9px;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .tile-source {
+    margin-top: 1px;
+    font-size: 9px;
+    line-height: 1.3;
+    color: #444;
+  }
+
+  /* --- body ------------------------------------------------------------- */
+  .body {
+    flex: 1;
+    padding: 0 40px 15px;
+  }
+
+  .profile {
+    padding-top: 15px;
+  }
+
+  .headline {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+  }
+
+  .summary {
+    margin-top: 3px;
+    max-width: 720px;
+    color: #444;
+  }
+
+  .sec {
+    display: flex;
+    align-items: flex-end;
+    margin: 15px 0 3px;
+    border-bottom: 1.5px solid #111;
+  }
+
+  .sec-split {
+    justify-content: space-between;
+  }
+
+  .sec-note {
+    padding-bottom: 3px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #444;
+  }
+
+  .chip {
+    box-sizing: border-box;
+    width: 166px;
+    padding: 3px 7.75px 2px;
+    background: #111;
+    color: #f4f2ec;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 152px 1fr;
+    gap: 0 14px;
+  }
+
+  .role {
+    padding: 5px 0 6px;
+    border-top: 1px solid #d3d0c6;
+  }
+
+  .role:first-child {
+    border-top: 0;
+  }
+
+  .role:last-child {
+    padding-bottom: 0;
+  }
+
+  .co {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .meta {
+    margin-top: 1px;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #444;
+  }
+
+  .role ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    list-style: none;
+  }
+
+  .role li {
+    padding-left: 0;
+    text-indent: -14px;
+  }
+
+  .mark {
+    display: inline-block;
+    width: 14px;
+    font-size: 12px;
+    line-height: 1;
+    text-indent: 0;
+    color: #111;
+  }
+
+  .stack {
+    margin-top: 4px;
+    font-size: 8.5px;
+    line-height: 1.4;
+    color: #6b6b6b;
+  }
+
+  .credits .row {
+    padding: 3px 0;
+    border-top: 1px solid #d3d0c6;
+  }
+
+  .credits .row:first-child {
+    border-top: 0;
+  }
+
+  .credits .row:last-child {
+    padding-bottom: 0;
+  }
+
+  .label {
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* --- print: the sheet is the page ----------------------------------- */
+  @media print {
+    .sheet-frame {
+      height: auto;
+      overflow: visible;
+    }
+
+    .sheet {
+      transform: none;
+      break-inside: avoid;
+      print-color-adjust: exact;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+</style>

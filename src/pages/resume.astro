@@ -1,8 +1,7 @@
 ---
 import fs from 'node:fs'
 import Layout from '@/components/Layout.astro'
-import ResumeDocument from '@/components/ResumeDocument.astro'
-import {onePageResumeOptions} from '@/data/resume-options'
+import ResumeSheet from '@/components/ResumeSheet.astro'
 import {site} from '@/data/site'
 
 // The crawl test fetches every linked PDF, so only offer the download once the file is committed.
@@ -10,7 +9,7 @@ const hasPdf = fs.existsSync('public/resume.pdf')
 ---
 
 <Layout title="Resume - Avi Charlop" description="Resume of Avi Charlop, senior full-stack engineer and team lead: experience, education, and a downloadable PDF.">
-  {/* No name or tagline here — ResumeDocument draws its own header, and
+  {/* No name or tagline here — the sheet draws its own masthead, and
       repeating them would show the name twice and ship a second <h1>. */}
   <section class="shell page-hero print-hidden">
     <p class="eyebrow">`resume`</p>
@@ -31,16 +30,21 @@ const hasPdf = fs.existsSync('public/resume.pdf')
     if (link) link.setAttribute('download', `avi-charlop_resume_${new Date().toISOString().slice(0, 10)}.pdf`)
   </script>
 
-  <section class="shell section">
-    {/* The rendered document (and the PDF printed from it) is the condensed
-        one-pager. The full bullet set stays in /resume.md, .txt and .json. */}
-    <ResumeDocument options={onePageResumeOptions} />
+  <section class="shell section resume-shell">
+    {/* The sheet is the one-pager; the PDF is printed from this exact page.
+        The full bullet set stays in /resume.md, .txt and .json. */}
+    <ResumeSheet />
   </section>
 </Layout>
 
 <style is:global>
-  /* The document draws its own header, so nothing else prints: no site chrome,
-     no page hero. Everything else about the layout lives in ResumeDocument. */
+  /* The sheet IS the printed page: US Letter, no margins, no site chrome.
+     Keep identical to the print block in src/pages/resume/[view].astro. */
+  @page {
+    size: 8.5in 11in;
+    margin: 0;
+  }
+
   @media print {
     header.site-header,
     footer,
@@ -51,21 +55,19 @@ const hasPdf = fs.existsSync('public/resume.pdf')
 
     html,
     body {
-      background: #fff !important;
+      margin: 0 !important;
+      background: #f4f2ec !important;
     }
 
     body::before {
       display: none !important;
     }
 
-    /* Beats the clamp() padding in global.css so the document starts at the
-       page margin instead of an inch below it. */
-    .section {
+    .resume-shell {
+      width: 816px !important;
+      max-width: none !important;
+      margin: 0 !important;
       padding: 0 !important;
-    }
-
-    .shell {
-      width: 100% !important;
     }
   }
 </style>
