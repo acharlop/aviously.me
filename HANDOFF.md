@@ -80,7 +80,8 @@ gradients. Dark mode is an ink inversion. Every exact value is in the epic body
 ## Stack and resume plumbing
 
 - Astro 5 + Tailwind 4, Bun, Playwright e2e. `bun run dev / build / e2e /
-format`; `bun run resume:pdf` regenerates `public/resume.pdf`.
+format`. `bun run resume:pdf` is PARKED until #50: it would overwrite the
+  good static `public/resume.pdf` with a wrong one.
 - `src/data/experience.ts` is the source of truth for `/resume.md`, `.txt`,
   `.json` via `src/lib/resume-export.ts` + `resume-options.ts` (issue #27).
   The printed sheet (#39) carries its own hand-tuned copy and must only restate

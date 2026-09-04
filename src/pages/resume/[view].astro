@@ -2,8 +2,8 @@
 // Local-only preview of the resume sheet in each accent variant
 // (src/data/resume-sheet.ts). Dynamic route with an empty getStaticPaths in
 // production, so `astro build` emits nothing: the page exists on `astro dev`
-// only, at /resume/preview-<slug>. `scripts/make-resume-pdf.ts --view <slug>`
-// prints from here.
+// only, at /resume/preview-<slug>. Printing a variant from here is issue #50;
+// until then export it by hand.
 //
 // TODO: once tailored resumes need sharing by link, promote this to a public
 // page behind the same Convex auth the private /app area uses.
@@ -42,38 +42,3 @@ const variant = resumeSheetVariants[slug]
     <ResumeSheet accent={variant.accent} />
   </section>
 </Layout>
-
-<style is:global>
-  /* Must stay identical to the print block in resume.astro, or this preview
-     stops predicting the real PDF — which is the only reason it exists. */
-  @page {
-    size: 8.5in 11in;
-    margin: 0;
-  }
-
-  @media print {
-    header.site-header,
-    footer,
-    .skip-link,
-    .print-hidden {
-      display: none !important;
-    }
-
-    html,
-    body {
-      margin: 0 !important;
-      background: #f4f2ec !important;
-    }
-
-    body::before {
-      display: none !important;
-    }
-
-    .resume-shell {
-      width: 816px !important;
-      max-width: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-  }
-</style>

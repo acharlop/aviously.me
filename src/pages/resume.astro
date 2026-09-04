@@ -31,43 +31,9 @@ const hasPdf = fs.existsSync('public/resume.pdf')
   </script>
 
   <section class="shell section resume-shell">
-    {/* The sheet is the one-pager; the PDF is printed from this exact page.
-        The full bullet set stays in /resume.md, .txt and .json. */}
+    {/* The sheet is the one-pager. public/resume.pdf is a static export of the
+        same design until #50 prints it from this page. The full bullet set
+        stays in /resume.md, .txt and .json. */}
     <ResumeSheet />
   </section>
 </Layout>
-
-<style is:global>
-  /* The sheet IS the printed page: US Letter, no margins, no site chrome.
-     Keep identical to the print block in src/pages/resume/[view].astro. */
-  @page {
-    size: 8.5in 11in;
-    margin: 0;
-  }
-
-  @media print {
-    header.site-header,
-    footer,
-    .skip-link,
-    .print-hidden {
-      display: none !important;
-    }
-
-    html,
-    body {
-      margin: 0 !important;
-      background: #f4f2ec !important;
-    }
-
-    body::before {
-      display: none !important;
-    }
-
-    .resume-shell {
-      width: 816px !important;
-      max-width: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-  }
-</style>
