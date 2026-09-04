@@ -707,27 +707,93 @@ h3 {
   top: 104px;
 }
 
+/* Prose: rendered markdown (blog, case studies, the app's mission and learning
+   records). Deliberately minimal; #48 defines the full ledger prose styles. */
 .prose {
+  max-width: 68ch;
   color: var(--muted);
+  font-family: var(--font-body);
+  line-height: var(--leading-body);
 }
 
-.prose :where(h2, h3) {
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose :where(h1, h2, h3, h4) {
+  margin: 1.4em 0 0.5em;
   color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--tracking-numbers);
+  line-height: 1.15;
+}
+
+.prose :where(h1) {
+  font-size: var(--text-xl);
+}
+
+.prose :where(h2) {
+  font-size: var(--text-lg);
+}
+
+.prose :where(h3, h4) {
+  font-size: var(--text-base);
+}
+
+.prose :where(p, ul, ol, pre, blockquote) {
+  margin: 0.7em 0;
+}
+
+.prose :where(ul, ol) {
+  padding-left: 1.4em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose strong {
+  color: var(--text);
+}
+
+.prose a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
 }
 
 .prose code {
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg), transparent 10%);
-  color: var(--green);
+  background: var(--bg-2);
+  color: var(--text);
   font-family: var(--font-mono);
+  font-size: 0.88em;
   padding: 0.12em 0.34em;
 }
 
 .prose pre {
   overflow-x: auto;
-  padding: 18px;
+  padding: 16px;
   border: 1px solid var(--line);
   background: var(--bg-2);
+}
+
+.prose pre code {
+  border: 0;
+  padding: 0;
+  font-size: 0.88em;
+}
+
+.prose blockquote {
+  padding-left: 1em;
+  border-left: 1.5px solid var(--text);
 }
 
 .blog-filter {

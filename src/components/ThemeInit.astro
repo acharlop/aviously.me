@@ -1,0 +1,20 @@
+---
+// Pre-paint preferences (theme and accent), shared by Layout.astro and
+// AppLayout.astro so /app honours the same stored choices as the rest of the
+// site. Inline so it runs before first paint (no flash of the wrong theme or
+// accent); re-applied after view-transition swaps because the router replaces
+// <html>'s attributes. The writers are src/lib/theme.ts (theme) and
+// src/components/AccentPicker.astro (accent).
+---
+
+<script is:inline>
+  const applyPreferences = () => {
+    const storedTheme = localStorage.getItem('theme')
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    document.documentElement.dataset.theme = storedTheme || (prefersDark ? 'dark' : 'light')
+    const storedAccent = localStorage.getItem('accent')
+    if (storedAccent) document.documentElement.dataset.accent = storedAccent
+  }
+  applyPreferences()
+  document.addEventListener('astro:after-swap', applyPreferences)
+</script>

@@ -1,5 +1,7 @@
 import {useAuthActions} from '@convex-dev/auth/react'
 import {useState} from 'react'
+import {AppHeader} from './AppHeader'
+import {buttonAccent, input, label} from './ui'
 
 // Single-user auth. "Create account" is only used once, for the very first
 // sign-in; the Convex `ALLOWED_EMAIL` guard rejects any other email, so there is
@@ -11,68 +13,61 @@ export function SignIn() {
   const [submitting, setSubmitting] = useState(false)
 
   return (
-    <div className='mx-auto flex min-h-screen max-w-sm flex-col justify-center px-5'>
-      <h1
-        className='mb-1'
-        style={{fontFamily: 'var(--font-display)', fontSize: '1.6rem', lineHeight: 1.2, margin: '0 0 0.25rem'}}
-      >
-        {flow === 'signIn' ? 'Sign in' : 'Create account'}
-      </h1>
-      <p className='mb-6 text-sm text-[var(--faint)]'>Private learning area.</p>
+    <>
+      <AppHeader signedIn={false} />
+      <div className='mx-auto max-w-sm px-5 py-16'>
+        <h1 className='font-[family-name:var(--font-display)] text-[length:var(--text-xl)] leading-[var(--leading-display)] font-bold tracking-[var(--tracking-display)] uppercase'>
+          {flow === 'signIn' ? 'Sign in' : 'Create account'}
+        </h1>
+        <p className={`${label} mt-3 mb-8 text-[var(--faint)]`}>Private learning area.</p>
 
-      <form
-        className='flex flex-col gap-3'
-        onSubmit={async (e) => {
-          e.preventDefault()
-          setSubmitting(true)
-          setError(null)
-          const form = new FormData(e.currentTarget)
-          form.set('flow', flow)
-          try {
-            await signIn('password', form)
-          } catch {
-            setError(flow === 'signIn' ? 'Wrong email or password.' : 'Could not create the account.')
-          } finally {
-            setSubmitting(false)
-          }
-        }}
-      >
-        <input
-          name='email'
-          type='email'
-          required
-          autoComplete='email'
-          placeholder='Email'
-          className='border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
-        />
-        <input
-          name='password'
-          type='password'
-          required
-          autoComplete={flow === 'signIn' ? 'current-password' : 'new-password'}
-          placeholder='Password'
-          className='border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
-        />
-        {error && <p className='text-sm text-[var(--danger)]'>{error}</p>}
-        <button
-          type='submit'
-          disabled={submitting}
-          className='bg-[var(--accent)] px-3 py-2 font-medium text-[var(--on-accent)] disabled:opacity-60'
+        <form
+          className='flex flex-col gap-5'
+          onSubmit={async (e) => {
+            e.preventDefault()
+            setSubmitting(true)
+            setError(null)
+            const form = new FormData(e.currentTarget)
+            form.set('flow', flow)
+            try {
+              await signIn('password', form)
+            } catch {
+              setError(flow === 'signIn' ? 'Wrong email or password.' : 'Could not create the account.')
+            } finally {
+              setSubmitting(false)
+            }
+          }}
         >
-          {submitting ? '…' : flow === 'signIn' ? 'Sign in' : 'Create account'}
-        </button>
-      </form>
+          <input name='email' type='email' required autoComplete='email' placeholder='Email' className={input} />
+          <input
+            name='password'
+            type='password'
+            required
+            autoComplete={flow === 'signIn' ? 'current-password' : 'new-password'}
+            placeholder='Password'
+            className={input}
+          />
+          {error && (
+            <p role='alert' className={`${label} text-[var(--text)]`}>
+              Error — {error}
+            </p>
+          )}
+          <button type='submit' disabled={submitting} className={`${buttonAccent} mt-2`}>
+            {submitting ? '…' : flow === 'signIn' ? 'Sign in' : 'Create account'}
+          </button>
+        </form>
 
-      <button
-        type='button'
-        onClick={() => {
-          setFlow(flow === 'signIn' ? 'signUp' : 'signIn')
-          setError(null)
-        }}
-        className='mt-4 text-sm text-[var(--faint)] underline underline-offset-4 hover:text-[var(--muted)]'
-      >
-        {flow === 'signIn' ? 'First time? Create the account' : 'Have an account? Sign in'}
-      </button>
-    </div>
+        <button
+          type='button'
+          onClick={() => {
+            setFlow(flow === 'signIn' ? 'signUp' : 'signIn')
+            setError(null)
+          }}
+          className={`${label} mt-6 text-[var(--faint)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[var(--text)]`}
+        >
+          {flow === 'signIn' ? 'First time? Create the account' : 'Have an account? Sign in'}
+        </button>
+      </div>
+    </>
   )
 }
