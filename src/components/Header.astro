@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from '@/components/ThemeToggle.astro'
+import {resumeSheet} from '@/data/resume-sheet'
 import {navigation, site} from '@/data/site'
 
 const currentPath = Astro.url.pathname
@@ -10,32 +11,38 @@ function isCurrent(href: string) {
 ---
 
 <header class="site-header">
-  <div class="shell nav-shell">
-    <a class="brand" href="/" aria-label="Avi Charlop home">
-      <span class="brand-mark" aria-hidden="true">ac</span>
-      <span>{site.name}</span>
+  <div class="masthead-shell">
+    <a class="masthead-brand" href="/" aria-label="Avi Charlop home">
+      <span class="masthead-name">{site.name}</span>
+      <span class="masthead-role">{resumeSheet.title}</span>
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      {
-        navigation.map((item) => (
-          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-    <div class="nav-actions">
-      <ThemeToggle />
-      <div class="mobile-nav">
-        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
-          <span aria-hidden="true">☰</span>
+    <div class="masthead-side">
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        {
+          navigation.map((item) => (
+            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="nav-actions">
+        <ThemeToggle />
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
+          menu
         </button>
-        <nav class="mobile-panel" id="mobile-panel" aria-label="Mobile navigation" data-mobile-panel hidden>
-          {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
-        </nav>
       </div>
     </div>
   </div>
+  <nav class="mobile-panel" id="mobile-panel" aria-label="Mobile navigation" data-mobile-panel hidden>
+    {
+      navigation.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
 </header>
 
 <script>
