@@ -92,11 +92,38 @@
   --danger: #ff6b7a;
 }
 
-/* Print always uses the light palette on white, regardless of the on-screen theme. */
+/* Site accent palette (#44). The picker (src/components/AccentPicker.astro)
+   stores the choice as data-accent on <html>; no attribute, "mint", or an
+   unknown value falls through to the mint above. All six are light enough
+   for ink text, so --on-accent never changes. */
+:root[data-accent='yellow'] {
+  --accent: #e8ff3a;
+}
+
+:root[data-accent='orange'] {
+  --accent: #ff6a1a;
+}
+
+:root[data-accent='pink'] {
+  --accent: #ff3d9a;
+}
+
+:root[data-accent='cyan'] {
+  --accent: #2ee6ff;
+}
+
+:root[data-accent='lilac'] {
+  --accent: #c9a6ff;
+}
+
+/* Print always uses the light palette on white with the mint accent, regardless
+   of the on-screen theme or the picked accent. */
 @media print {
   :root,
-  :root[data-theme='dark'] {
+  :root[data-theme='dark'],
+  :root[data-accent] {
     color-scheme: light;
+    --accent: #4dffb4;
     --bg: #fff;
     --text: var(--ink);
     --muted: #444;

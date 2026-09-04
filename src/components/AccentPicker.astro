@@ -1,0 +1,87 @@
+---
+// Site accent picker (#44): six swatches; the choice lives as data-accent on
+// <html> and in localStorage. The palette must match the :root[data-accent]
+// rules in src/styles/global.css. The inline script in Layout.astro applies
+// the stored choice before paint; this component only reflects and sets it.
+// The resume sheet carries its own accent and ignores this on purpose.
+const accents = [
+  {name: 'mint', label: 'mint', hex: '#4dffb4'},
+  {name: 'yellow', label: 'yellow', hex: '#e8ff3a'},
+  {name: 'orange', label: 'orange', hex: '#ff6a1a'},
+  {name: 'pink', label: 'hot pink', hex: '#ff3d9a'},
+  {name: 'cyan', label: 'cyan', hex: '#2ee6ff'},
+  {name: 'lilac', label: 'lilac', hex: '#c9a6ff'},
+]
+---
+
+<div class="accent-picker" role="group" aria-label="Accent colour">
+  {
+    accents.map((accent) => (
+      <button
+        class="accent-swatch"
+        type="button"
+        aria-label={`Accent: ${accent.label}`}
+        aria-pressed={accent.name === 'mint' ? 'true' : 'false'}
+        data-accent-swatch={accent.name}
+        style={`--swatch:${accent.hex}`}
+      />
+    ))
+  }
+</div>
+
+<script>
+  const syncPressed = () => {
+    const current = document.documentElement.dataset.accent || 'mint'
+    document.querySelectorAll<HTMLButtonElement>('[data-accent-swatch]').forEach((swatch) => {
+      swatch.setAttribute('aria-pressed', String(swatch.dataset.accentSwatch === current))
+    })
+  }
+  // Delegated so the listener survives view-transition swaps of the header.
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return
+    const accent = event.target.closest<HTMLElement>('[data-accent-swatch]')?.dataset.accentSwatch
+    if (!accent) return
+    document.documentElement.dataset.accent = accent
+    localStorage.setItem('accent', accent)
+    syncPressed()
+  })
+  syncPressed()
+  document.addEventListener('astro:after-swap', syncPressed)
+</script>
+
+<style>
+  .accent-picker {
+    display: flex;
+    align-items: center;
+  }
+
+  /* A 24px hit area around a 16px ink-bordered square. */
+  .accent-swatch {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .accent-swatch::before {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--text);
+    background: var(--swatch);
+    content: '';
+  }
+
+  /* Selected: heavier border with a gap of the page background inside it. */
+  .accent-swatch[aria-pressed='true']::before {
+    border-width: 1.5px;
+    box-shadow: inset 0 0 0 1.5px var(--bg);
+  }
+
+  .accent-swatch:focus-visible {
+    outline-offset: 0;
+  }
+</style>
