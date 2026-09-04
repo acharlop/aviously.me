@@ -35,13 +35,21 @@
 
 /* Ledger tokens. Paper and ink by default; dark is the same set inverted.
    Values come from the resume canvas (epic #37): copy them, do not round.
-   --accent is the only place the accent colour lives (#44 adds a picker). */
+   --accent is the only place the SITE accent lives (#44 adds a picker); the
+   resume sheet carries its own (src/data/resume-sheet.ts). */
 :root {
   color-scheme: light;
-  --bg: #f4f2ec;
+
+  /* Theme-invariant: the ink band and accent tiles look the same in both themes. */
+  --ink: #111;
+  --paper: #f4f2ec;
+  --paper-muted: #cfcbc2;
+  --on-accent: var(--ink);
+
+  --bg: var(--paper);
   --bg-2: var(--bg);
   --surface: var(--bg);
-  --text: #111;
+  --text: var(--ink);
   --muted: #444;
   --faint: #6b6b6b;
   --line: #d3d0c6;
@@ -49,8 +57,6 @@
   --green: #167c4a;
   --amber: #9d6100;
   --danger: #b3261e;
-  --shadow: none;
-  --radius: 0;
   --rule-strong: 1.5px solid var(--text);
   --rule: 1px solid var(--line);
   --font-body: 'Space Grotesk', system-ui, sans-serif;
@@ -69,13 +75,15 @@
   --tracking-numbers: -0.03em;
   --tracking-mono: 0.08em;
   --tracking-chip: 0.12em;
+  --leading-display: 0.9;
+  --leading-body: 1.4;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #111;
-  --text: #f4f2ec;
-  --muted: #cfcbc2;
+  --bg: var(--ink);
+  --text: var(--paper);
+  --muted: var(--paper-muted);
   --faint: #8a8a8a;
   --line: #2c2c2c;
   --green: #75e3a0;
@@ -89,7 +97,7 @@
   :root[data-theme='dark'] {
     color-scheme: light;
     --bg: #fff;
-    --text: #111;
+    --text: var(--ink);
     --muted: #444;
     --faint: #6b6b6b;
     --line: #d3d0c6;
@@ -97,19 +105,6 @@
     --amber: #9d6100;
     --danger: #b3261e;
   }
-}
-
-/* Tailwind's rounded-* utilities (private app area) resolve to these; zero
-   them so nothing renders a corner radius. */
-@theme {
-  --radius-xs: 0;
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
-  --radius-2xl: 0;
-  --radius-3xl: 0;
-  --radius-4xl: 0;
 }
 
 * {
@@ -173,7 +168,6 @@ select {
   left: 12px;
   z-index: 100;
   padding: 10px 14px;
-  border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   transform: translateY(-160%);
@@ -213,9 +207,8 @@ select {
   height: 32px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in srgb, var(--accent), transparent 80%);
-  color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: var(--font-mono);
 }
 
@@ -227,7 +220,6 @@ select {
 
 .desktop-nav a,
 .mobile-panel a {
-  border-radius: var(--radius);
   color: var(--muted);
   font-size: 0.92rem;
   padding: 9px 11px;
@@ -253,7 +245,6 @@ select {
   height: 40px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   cursor: pointer;
@@ -281,7 +272,6 @@ select {
   min-width: 210px;
   padding: 10px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--surface);
 }
 
@@ -351,7 +341,6 @@ h3 {
   min-height: 44px;
   gap: 9px;
   border: 1px solid color-mix(in srgb, var(--accent), transparent 42%);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--accent), transparent 80%);
   color: var(--text);
   font-weight: 700;
@@ -376,7 +365,6 @@ h3 {
 
 .social-row a {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.82rem;
@@ -396,7 +384,6 @@ h3 {
 .timeline-item,
 .post-card {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--surface);
 }
 
@@ -419,7 +406,6 @@ h3 {
   align-items: center;
   gap: 9px;
   border: 1px solid color-mix(in srgb, var(--green), transparent 48%);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--green), transparent 91%);
   color: var(--text);
   font-family: var(--font-mono);
@@ -430,7 +416,6 @@ h3 {
 .status-dot {
   width: 9px;
   height: 9px;
-  border-radius: var(--radius);
   background: var(--green);
   animation: pulse 2.4s infinite;
 }
@@ -445,7 +430,6 @@ h3 {
   margin-top: 24px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--bg), transparent 18%);
   color: var(--muted);
   font-family: var(--font-mono);
@@ -459,7 +443,6 @@ h3 {
   gap: 1px;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--line);
 }
 
@@ -559,7 +542,6 @@ h3 {
   align-items: center;
   gap: 6px;
   border: 1px solid color-mix(in srgb, var(--green), transparent 48%);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--green), transparent 91%);
   color: var(--text);
   font-family: var(--font-mono);
@@ -571,7 +553,6 @@ h3 {
 .repo-status-dot {
   width: 7px;
   height: 7px;
-  border-radius: var(--radius);
   background: var(--green);
 }
 
@@ -603,7 +584,6 @@ h3 {
 
 .tag {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.74rem;
@@ -694,7 +674,6 @@ h3 {
 
 .prose code {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--bg), transparent 10%);
   color: var(--green);
   font-family: var(--font-mono);
@@ -705,7 +684,6 @@ h3 {
   overflow-x: auto;
   padding: 18px;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: var(--bg-2);
 }
 
@@ -718,7 +696,6 @@ h3 {
 
 .blog-filter a {
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -734,7 +711,6 @@ h3 {
   display: inline-flex;
   width: fit-content;
   border: 1px solid color-mix(in srgb, var(--amber), transparent 45%);
-  border-radius: var(--radius);
   color: var(--amber);
   font-family: var(--font-mono);
   font-size: 0.72rem;
@@ -762,7 +738,6 @@ h3 {
 .contact-form textarea {
   width: 100%;
   border: 1px solid var(--line);
-  border-radius: var(--radius);
   background: color-mix(in srgb, var(--bg), transparent 18%);
   color: var(--text);
   padding: 12px 13px;

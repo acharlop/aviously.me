@@ -43,7 +43,7 @@ export function SignIn() {
           required
           autoComplete='email'
           placeholder='Email'
-          className='rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
+          className='border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
         />
         <input
           name='password'
@@ -51,13 +51,13 @@ export function SignIn() {
           required
           autoComplete={flow === 'signIn' ? 'current-password' : 'new-password'}
           placeholder='Password'
-          className='rounded-md border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
+          className='border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[var(--text)] outline-none focus:border-[var(--accent)]'
         />
         {error && <p className='text-sm text-[var(--danger)]'>{error}</p>}
         <button
           type='submit'
           disabled={submitting}
-          className='rounded-md bg-[var(--accent)] px-3 py-2 font-medium text-[var(--bg)] disabled:opacity-60'
+          className='bg-[var(--accent)] px-3 py-2 font-medium text-[var(--on-accent)] disabled:opacity-60'
         >
           {submitting ? '…' : flow === 'signIn' ? 'Sign in' : 'Create account'}
         </button>
