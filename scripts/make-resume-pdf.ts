@@ -1,3 +1,6 @@
+// PARKED (epic #37): /resume now renders the fixed resume sheet and public/resume.pdf
+// is a static file. This script still prints with 0.5in margins and will overwrite the
+// good PDF with a wrong one; see docs/design/resume-document.md before running it.
 // Regenerate public/resume.pdf from the built /resume page.
 // Usage: bun run build && bun scripts/make-resume-pdf.ts
 // The Download button on /resume only appears when public/resume.pdf is committed.

@@ -8,6 +8,31 @@
   src: url('/fonts/CalSans-SemiBold.ttf') format('truetype');
 }
 
+/* Resume sheet type (see src/components/ResumeSheet.astro). Latin subsets from Google Fonts, self-hosted. */
+@font-face {
+  font-display: swap;
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  src: url('/fonts/SpaceGrotesk-Variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/SpaceMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
+}
+
 :root {
   color-scheme: dark;
   --bg: #090b0f;

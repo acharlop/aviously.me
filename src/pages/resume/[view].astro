@@ -1,74 +1,44 @@
 ---
-// Local-only preview of the print-first resume document (see docs/design/resume-document.md).
-// Dynamic route with an empty getStaticPaths in production, so `astro build` emits
-// nothing: the page exists on `astro dev` only, at /resume/preview and
-// /resume/preview-one-page.
+// Local-only preview of the resume sheet in each accent variant
+// (src/data/resume-sheet.ts). Dynamic route with an empty getStaticPaths in
+// production, so `astro build` emits nothing: the page exists on `astro dev`
+// only, at /resume/preview-<slug>. Printing a variant from here is issue #50;
+// until then export it by hand.
 //
-// TODO: once this layout is settled, promote it to a public page behind auth —
-// same Convex auth the private /app area uses — instead of a dev-only route,
-// so tailored resumes can be shared with a link.
+// TODO: once tailored resumes need sharing by link, promote this to a public
+// page behind the same Convex auth the private /app area uses.
 import Layout from '@/components/Layout.astro'
-import ResumeDocument from '@/components/ResumeDocument.astro'
-import {defaultResumeOptions, onePageResumeOptions} from '@/data/resume-options'
+import ResumeSheet from '@/components/ResumeSheet.astro'
+import {resumeSheetVariants} from '@/data/resume-sheet'
 
-const VIEWS = {
-  preview: {label: 'Full', options: defaultResumeOptions},
-  'preview-one-page': {label: 'One page', options: onePageResumeOptions},
-} as const
-
+// Hoisted by Astro: may only reference imports, not the frontmatter above.
 export function getStaticPaths() {
   if (!import.meta.env.DEV) return []
-  return [{params: {view: 'preview'}}, {params: {view: 'preview-one-page'}}]
+  return Object.keys(resumeSheetVariants).map((slug) => ({params: {view: `preview-${slug}`}}))
 }
 
-const view = VIEWS[Astro.params.view as keyof typeof VIEWS]
+const slug = (Astro.params.view as string).replace(/^preview-/, '')
+const variant = resumeSheetVariants[slug]
 ---
 
-<Layout title="Resume document preview (local)" description="Local-only preview of the print-first resume layout.">
+<Layout title="Resume sheet preview (local)" description="Local-only preview of the resume sheet accent variants.">
   <section class="shell page-hero print-hidden">
     <p class="eyebrow">`local only`</p>
-    <h1>Resume document — {view.label}</h1>
+    <h1>Resume sheet — {variant.label}</h1>
     <p class="lead">Not built or deployed. Print this page to check the PDF layout.</p>
     <div class="button-row">
       <button class="button secondary" type="button" onclick="window.print()">Print this page</button>
-      <a class="button secondary" href="/resume/preview">Full</a>
-      <a class="button secondary" href="/resume/preview-one-page">One page</a>
+      {
+        Object.entries(resumeSheetVariants).map(([key, v]) => (
+          <a class="button secondary" href={`/resume/preview-${key}`}>
+            {v.label}
+          </a>
+        ))
+      }
     </div>
   </section>
 
-  <section class="shell section">
-    <ResumeDocument options={view.options} />
+  <section class="shell section resume-shell">
+    <ResumeSheet accent={variant.accent} />
   </section>
 </Layout>
-
-<style is:global>
-  /* The document draws its own header, so nothing else prints: no site chrome,
-     no page hero. Everything else about the layout lives in ResumeDocument. */
-  @media print {
-    header.site-header,
-    footer,
-    .skip-link,
-    .print-hidden {
-      display: none !important;
-    }
-
-    html,
-    body {
-      background: #fff !important;
-    }
-
-    body::before {
-      display: none !important;
-    }
-
-    /* Must stay identical to the print block in resume.astro, or this preview
-       stops predicting the real PDF — which is the only reason it exists. */
-    .section {
-      padding: 0 !important;
-    }
-
-    .shell {
-      width: 100% !important;
-    }
-  }
-</style>

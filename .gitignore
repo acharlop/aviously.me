@@ -58,3 +58,8 @@ next-env.d.ts
 
 # local task queue for HIL work (see TODO.md)
 /TODO.md
+graphify-out/
+tmp/
+
+# seeded design canvas kept locally as the resume pixel reference (2 MB, not for git)
+/resume-preview.html
