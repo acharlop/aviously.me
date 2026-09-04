@@ -1,0 +1,54 @@
+---
+// Bullet list with the resume sheet's hanging `▸` marker (`.role li` + `.mark`).
+// The marker is --ledger-gutter wide and hangs into the gutter to the left of
+// the list, so the first line and every wrapped line start on the text axis.
+// Meant to sit in a LedgerRow's content column (or anywhere with a gutter's
+// room to its left). Pass `items` or fill the default slot with <li> elements.
+type Props = {items?: string[]; mono?: boolean; class?: string}
+
+const {items, mono = false, class: className} = Astro.props
+---
+
+<ul class:list={['triangle-list', {mono}, className]}>
+  {items ? items.map((item) => <li>{item}</li>) : <slot />}
+</ul>
+
+<style>
+  .triangle-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(2 * var(--ledger-unit));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .triangle-list :global(li) {
+    text-indent: calc(-1 * var(--ledger-gutter));
+  }
+
+  .triangle-list :global(li)::before {
+    display: inline-block;
+    width: var(--ledger-gutter);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 1.15em;
+    line-height: 1;
+    text-indent: 0;
+    content: '\25B8';
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-mono);
+  }
+
+  /* Once LedgerRow stacks its columns there is no gutter to hang into, so the
+     marker moves inside the list and the text indents by its width instead. */
+  @media (max-width: 620px) {
+    .triangle-list {
+      padding-left: var(--ledger-gutter);
+    }
+  }
+</style>

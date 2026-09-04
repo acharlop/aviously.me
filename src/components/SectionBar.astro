@@ -1,0 +1,70 @@
+---
+// Section chip on a 1.5px rule (the resume sheet's `.sec` + `.chip`). The chip
+// is --ledger-axis wide so its right edge lands on the text axis. Optional
+// `note` slot: right-aligned mono note on the rule (the AI-tools list on the
+// resume, an "All work" link on the site).
+//
+// Chip colours are --text on --bg rather than --ink on --paper on purpose: the
+// dark theme swaps those two, which is exactly the inversion the epic asks for
+// (paper chip, ink label), with no theme-specific rule.
+type Props = {
+  label: string
+  /** Element for the chip. Use 'div' when the section already has its own heading. */
+  as?: 'h2' | 'h3' | 'div'
+  id?: string
+  class?: string
+}
+
+const {label, as: Tag = 'h2', id, class: className} = Astro.props
+---
+
+<div class:list={['section-bar', className]}>
+  <Tag class="section-chip" id={id}>{label}</Tag>
+  {
+    Astro.slots.has('note') && (
+      <p class="section-note">
+        <slot name="note" />
+      </p>
+    )
+  }
+</div>
+
+<style>
+  .section-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0 var(--ledger-gutter);
+    margin: 0 0 calc(3 * var(--ledger-unit));
+    border-bottom: var(--rule-strong);
+  }
+
+  .section-chip {
+    width: var(--ledger-axis);
+    margin: 0;
+    padding: calc(3 * var(--ledger-unit)) calc(7.75 * var(--ledger-unit)) calc(2 * var(--ledger-unit));
+    overflow: hidden;
+    background: var(--text);
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: var(--leading-body);
+    letter-spacing: var(--tracking-chip);
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-note {
+    margin: 0 0 0 auto;
+    padding-bottom: calc(3 * var(--ledger-unit));
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-mono);
+    text-align: right;
+    text-transform: uppercase;
+  }
+</style>

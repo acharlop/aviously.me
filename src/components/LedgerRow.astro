@@ -1,0 +1,108 @@
+---
+// One ledger row on the two-axis grid (the resume sheet's `.row`): a fixed
+// label column, a gutter, and the content column starting on the text axis.
+// Sibling rows divide with a 1px line; the first has none. Columns stack on
+// narrow screens.
+//
+// Label column: `label` / `sub` / `meta` are the resume's company / role /
+// dates lines (`href` makes the label a link). For anything else fill the
+// `label` slot with your own elements using the same classes: .ledger-title,
+// .ledger-sub, .ledger-meta. Content: the default slot; a `.ledger-stack`
+// line inside it renders like the resume's technology line.
+type Props = {
+  label?: string
+  href?: string
+  sub?: string
+  meta?: string
+  class?: string
+}
+
+const {label, href, sub, meta, class: className} = Astro.props
+---
+
+<div class:list={['ledger-row', className]}>
+  <div class="ledger-row-label">
+    <slot name="label">
+      {
+        label &&
+          (href ? (
+            <a class="ledger-title" href={href}>
+              {label}
+            </a>
+          ) : (
+            <p class="ledger-title">{label}</p>
+          ))
+      }
+      {sub && <p class="ledger-sub">{sub}</p>}
+      {meta && <p class="ledger-meta">{meta}</p>}
+    </slot>
+  </div>
+  <div class="ledger-row-body"><slot /></div>
+</div>
+
+<style>
+  .ledger-row {
+    display: grid;
+    grid-template-columns: var(--ledger-label) minmax(0, 1fr);
+    column-gap: var(--ledger-gutter);
+    padding: calc(5 * var(--ledger-unit)) 0 calc(6 * var(--ledger-unit));
+  }
+
+  .ledger-row + .ledger-row {
+    border-top: var(--rule);
+  }
+
+  .ledger-row-label :global(:is(p, a)) {
+    display: block;
+    margin: 0;
+  }
+
+  .ledger-row-label :global(.ledger-title) {
+    font-weight: 700;
+    line-height: var(--leading-body);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .ledger-row-label :global(a.ledger-title) {
+    width: fit-content;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.22em;
+  }
+
+  .ledger-row-label :global(.ledger-sub),
+  .ledger-row-label :global(.ledger-meta) {
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+  }
+
+  .ledger-row-label :global(.ledger-meta) {
+    font-family: var(--font-mono);
+  }
+
+  .ledger-row-body :global(:is(p, ul, ol)) {
+    margin: 0;
+  }
+
+  .ledger-row-body > :global(* + *) {
+    margin-top: calc(4 * var(--ledger-unit));
+  }
+
+  .ledger-row-body :global(.ledger-stack) {
+    color: var(--faint);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-body);
+  }
+
+  @media (max-width: 620px) {
+    .ledger-row {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: calc(3 * var(--ledger-unit));
+    }
+  }
+</style>
