@@ -1,5 +1,6 @@
 ---
 import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
+import ExternalLink from '@/components/ExternalLink.astro'
 import LedgerRow from '@/components/LedgerRow.astro'
 import Layout from '@/components/Layout.astro'
 import SectionBar from '@/components/SectionBar.astro'
@@ -24,7 +25,7 @@ import {site} from '@/data/site'
         <p>
           Featured work includes Rails syntax highlighting, Astro CMS tooling, and Tailwind developer tooling contributions.
         </p>
-        <p><a class='button' href={site.github}>See more on GitHub</a></p>
+        <p><ExternalLink class='button outline' href={site.github}>See more on GitHub</ExternalLink></p>
       </LedgerRow>
     </div>
   </section>

@@ -1,5 +1,6 @@
 ---
 import {getCollection, render} from 'astro:content'
+import ExternalLink from '@/components/ExternalLink.astro'
 import LedgerRow from '@/components/LedgerRow.astro'
 import Layout from '@/components/Layout.astro'
 import SectionBar from '@/components/SectionBar.astro'
@@ -70,9 +71,7 @@ const {Content} = await render(project)
         {
           project.data.links.map((link) => (
             <LedgerRow label={link.label}>
-              <a class='case-link' href={link.href}>
-                {new URL(link.href).hostname}
-              </a>
+              <ExternalLink class='case-link' href={link.href}>{new URL(link.href).hostname}</ExternalLink>
             </LedgerRow>
           ))
         }

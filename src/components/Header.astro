@@ -29,8 +29,15 @@ function isCurrent(href: string) {
     <div class="nav-actions">
       <AccentPicker />
       <ThemeToggle />
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
-        menu
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="mobile-panel"
+        data-menu-toggle
+      >
+        <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
       </button>
     </div>
   </div>

@@ -126,22 +126,39 @@ const accents = [
     background: var(--accent);
   }
 
-  /* Flyout: an ink panel hanging off the band's bottom rule. */
+  /* Flyout: an ink column the width of the trigger, hanging straight down
+     from it so it never crosses the masthead. */
   .accent-flyout {
     position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
+    top: calc(100% + 6px);
+    left: 0;
     z-index: 20;
     display: flex;
+    flex-direction: column;
     gap: 6px;
-    padding: 8px;
+    width: 40px;
+    padding: 7px;
     border: 1px solid var(--paper);
     background: var(--ink);
     color: var(--paper);
+    transform-origin: top center;
+    animation: flyout-in var(--dur-slow) var(--ease) both;
   }
 
   .accent-flyout[hidden] {
     display: none;
+  }
+
+  @keyframes flyout-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scaleY(0.92);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   /* A 24px hit area around a 16px bordered square. */
@@ -162,10 +179,26 @@ const accents = [
     border: 1px solid var(--paper);
     background: var(--swatch);
     content: '';
+    transition: transform var(--dur) var(--ease);
   }
 
+  .accent-swatch:hover::before,
+  .accent-swatch:focus-visible::before {
+    transform: scale(1.15);
+  }
+
+  .accent-swatch:active::before {
+    transform: scale(1);
+  }
+
+  /* Paper ring in the ink panel; the global --text ring is ink in light mode. */
   .accent-swatch:focus-visible {
+    outline: 2px solid var(--paper);
     outline-offset: 0;
+  }
+
+  .accent-current {
+    transition: background-color var(--dur) var(--ease);
   }
 
   /* Selected: heavier border with a gap of the panel background just inside

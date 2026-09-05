@@ -1,6 +1,7 @@
 ---
 import {getCollection} from 'astro:content'
 import BlogRow from '@/components/BlogRow.astro'
+import LedgerRow from '@/components/LedgerRow.astro'
 import SectionBar from '@/components/SectionBar.astro'
 import Layout from '@/components/Layout.astro'
 import {slugify} from '@/lib/slugs'
@@ -40,7 +41,14 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort()
           </div>
         </>
       ) : (
-        <p class='lead'>Posts coming soon.</p>
+        <div class='ledger-rows'>
+          <LedgerRow label='status' sub='in draft'>
+            <p>
+              The first posts are being written. Until they land, the <a href='/work/'>case studies</a> carry the
+              long-form thinking, and the <a href='/rss.xml'>RSS feed</a> is already live.
+            </p>
+          </LedgerRow>
+        </div>
       )
     }
   </section>
