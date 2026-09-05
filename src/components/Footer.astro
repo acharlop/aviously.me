@@ -5,19 +5,24 @@ const year = new Date().getFullYear()
 ---
 
 <footer class="site-footer">
-  <div class="shell footer-shell">
-    <div>
-      <strong>{site.name}</strong>
-      <div>Built with Astro, TypeScript, Tailwind CSS, and a preference for calm shipping.</div>
-      <div>© {year}</div>
+  <div class="masthead-shell">
+    <div class="footer-brand">
+      <a class="masthead-name footer-name" href="/">{site.name}</a>
+      <p class="footer-note">Built with Astro, TypeScript, Tailwind CSS, and a preference for calm shipping.</p>
+      <p class="footer-note">© {year}</p>
     </div>
-    <nav class="footer-links" aria-label="Footer links">
-      <a href="/resume/">Resume</a>
-      <a href="/now/">Now</a>
-      <a href={site.github}>GitHub</a>
-      <a href={site.linkedin}>LinkedIn</a>
-      <a href={`mailto:${site.email}`}>Email</a>
-      <a href="/rss.xml">RSS</a>
-    </nav>
+    <div class="footer-cols">
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="/resume/">Resume</a>
+        <a href="/now/">Now</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+      <address class="footer-contact">
+        <a href={`mailto:${site.email}`}>Email</a>
+        <a href={site.github}>GitHub</a>
+        <a href={site.linkedin}>LinkedIn</a>
+        <span>{site.location}</span>
+      </address>
+    </div>
   </div>
 </footer>

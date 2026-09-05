@@ -19,7 +19,7 @@ test('header navigation reaches every page', async ({page, isMobile}) => {
       }).toPass()
       await page.locator('[data-mobile-panel]').getByRole('link', {name: label}).click()
     } else {
-      await page.locator('header nav.desktop-nav').getByRole('link', {name: label}).click()
+      await page.locator('header nav.site-nav').getByRole('link', {name: label}).click()
     }
     // Wait for the navigation to actually commit before asserting content —
     // the h1 check alone can pass against the previous page (every page has

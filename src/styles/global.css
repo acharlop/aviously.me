@@ -77,6 +77,7 @@
   --tracking-chip: 0.12em;
   --leading-display: 0.9;
   --leading-body: 1.4;
+  --shell-max: 1180px;
 }
 
 :root[data-theme='dark'] {
@@ -158,7 +159,7 @@ select {
 }
 
 .shell {
-  width: min(1180px, calc(100% - 32px));
+  width: min(var(--shell-max), calc(100% - 32px));
   margin-inline: auto;
 }
 
@@ -177,59 +178,79 @@ select {
   transform: translateY(0);
 }
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg);
-}
-
-.nav-shell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 72px;
-  gap: 20px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-}
-
-.brand-mark {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border: 1px solid var(--line);
-  background: var(--accent);
-  color: var(--on-accent);
+/* Masthead: the resume's ink band. Always ink in both themes; the 1.5px rule
+   beneath it is --text, so it is invisible on paper and reads as a paper rule in
+   dark mode where the band would otherwise merge into the page. */
+.site-header,
+.site-footer {
+  padding: 20px 40px 16px;
+  background: var(--ink);
+  color: var(--paper);
   font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
 }
 
-.desktop-nav {
+.site-header {
+  border-bottom: var(--rule-strong);
+}
+
+.masthead-shell {
   display: flex;
-  align-items: center;
-  gap: 6px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: var(--shell-max);
+  margin-inline: auto;
 }
 
-.desktop-nav a,
-.mobile-panel a {
-  color: var(--muted);
-  font-size: 0.92rem;
-  padding: 9px 11px;
+.masthead-brand {
+  display: grid;
+  gap: 8px;
 }
 
-.desktop-nav a:hover,
-.desktop-nav a[aria-current='page'],
-.mobile-panel a:hover {
-  background: color-mix(in srgb, var(--accent), transparent 88%);
-  color: var(--text);
+.masthead-name {
+  font-family: var(--font-display);
+  font-size: clamp(var(--text-xl), 4vw, var(--text-display));
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-display);
+}
+
+.masthead-role {
+  color: var(--accent);
+}
+
+/* Desktop: a row pushed to the right, sized to sit level with the 40px toggles. */
+.site-nav {
+  display: flex;
+  gap: 18px;
+  margin-left: auto;
+  line-height: 40px;
+}
+
+/* Band links are plain mono; the body's accent-underline rule for unclassed
+   links is reserved for marking the current page below. */
+.site-nav a,
+.footer-links a,
+.footer-contact a {
+  color: var(--paper-muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.footer-links a:hover,
+.footer-contact a:hover {
+  color: var(--paper);
+}
+
+.site-nav a[aria-current='page'] {
+  color: var(--paper);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.35em;
 }
 
 .nav-actions {
@@ -241,38 +262,26 @@ select {
 .theme-toggle,
 .menu-toggle {
   display: inline-grid;
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   place-items: center;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--text);
+  padding: 0 10px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   cursor: pointer;
 }
 
 .theme-toggle:hover,
 .menu-toggle:hover {
-  border-color: color-mix(in srgb, var(--accent), transparent 48%);
+  color: var(--accent);
 }
 
-.mobile-nav {
+.menu-toggle {
   display: none;
-  position: relative;
-}
-
-.mobile-panel[hidden] {
-  display: none;
-}
-
-.mobile-panel {
-  position: absolute;
-  top: 50px;
-  right: 0;
-  display: grid;
-  min-width: 210px;
-  padding: 10px;
-  border: 1px solid var(--line);
-  background: var(--surface);
 }
 
 .hero {
@@ -750,31 +759,87 @@ h3 {
 
 .site-footer {
   margin-top: 48px;
-  border-top: 1px solid var(--line);
-  padding: 34px 0;
-  color: var(--muted);
+  border-top: var(--rule-strong);
 }
 
-.footer-shell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
+.footer-brand {
+  display: grid;
+  gap: 8px;
+  color: var(--paper-muted);
 }
 
-.footer-links {
+.footer-name {
+  font-size: var(--text-xl);
+  color: var(--paper);
+}
+
+.footer-note {
+  margin: 0;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.footer-cols {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  gap: 40px;
+}
+
+.footer-links,
+.footer-contact {
+  display: grid;
+  gap: 6px;
+  font-style: normal;
+  text-align: right;
+}
+
+/* Print forces the light palette: the band becomes ink text on the page with
+   its rule, and the interactive chrome goes. /resume hides the bands outright. */
+@media print {
+  .site-header,
+  .site-footer {
+    background: none;
+    color: var(--ink);
+  }
+
+  .site-header a,
+  .site-footer a,
+  .masthead-role,
+  .footer-brand {
+    color: var(--ink);
+  }
+
+  .site-nav,
+  .nav-actions {
+    display: none;
+  }
 }
 
 @media (max-width: 920px) {
-  .desktop-nav {
+  .site-header .masthead-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+  }
+
+  .site-nav {
+    display: grid;
+    grid-column: 1 / -1;
+    order: 1;
+    margin: 16px 0 0;
+    line-height: inherit;
+  }
+
+  .site-nav:not([data-open]) {
     display: none;
   }
 
-  .mobile-nav {
-    display: block;
+  .site-nav a {
+    padding: 12px 0;
+    border-top: 1px solid color-mix(in srgb, var(--paper-muted) 30%, var(--ink));
   }
 
   .hero,
@@ -800,7 +865,7 @@ h3 {
 
 @media (max-width: 620px) {
   .shell {
-    width: min(100% - 24px, 1180px);
+    width: min(100% - 24px, var(--shell-max));
   }
 
   .metrics-strip,
@@ -813,13 +878,24 @@ h3 {
     padding-top: 44px;
   }
 
-  .section-head,
-  .footer-shell {
+  .section-head {
     display: grid;
   }
 
-  .brand span:last-child {
-    display: none;
+  .site-header,
+  .site-footer {
+    padding: 16px 12px 12px;
+  }
+
+  .site-footer .masthead-shell,
+  .footer-cols {
+    display: grid;
+    gap: 20px;
+  }
+
+  .footer-links,
+  .footer-contact {
+    text-align: left;
   }
 }
 
