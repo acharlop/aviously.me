@@ -16,11 +16,15 @@ export default async function handler(request: Request): Promise<Response> {
   const token = form.get('cf-turnstile-response')
   if (typeof token !== 'string' || !token) return redirect('/contact/?error=captcha')
 
+  // Refuse to deliver anything when verification can't run at all.
+  const secret = process.env.CF_TURNSTILE_SECRET_KEY
+  if (!secret) return redirect('/contact/?error=captcha')
+
   const verify = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      secret: process.env.CF_TURNSTILE_SECRET_KEY,
+      secret,
       response: token,
       remoteip: request.headers.get('cf-connecting-ip') ?? request.headers.get('x-forwarded-for'),
     }),

@@ -49,6 +49,8 @@ test('contact form posts to a real backend', async ({page}) => {
   await expect(form).toHaveAttribute('method', 'post')
   await expect(form.locator('input[name="email"]')).toHaveAttribute('required', '')
   await expect(form.locator('.cf-turnstile')).toHaveAttribute('data-sitekey', /.+/)
+  await expect(form).toHaveAttribute('data-turnstile', 'ready')
+  await expect(form.locator('button[type="submit"]')).toBeEnabled()
 })
 
 test('contact page shows success notice after redirect', async ({page}) => {

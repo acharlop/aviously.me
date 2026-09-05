@@ -37,7 +37,23 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
         <p class='form-notice form-notice--error' data-form-invalid hidden aria-live='polite'>
           Please fill in your name, a valid email address, and a message.
         </p>
-        <form class='contact-form' action='/api/contact' method='post' novalidate>
+        <p class='form-notice form-notice--error' data-form-captcha hidden aria-live='polite'>
+          Please complete the verification check before sending.
+        </p>
+        {
+          !turnstileSiteKey && (
+            <p class='form-notice form-notice--error' data-form-unconfigured aria-live='polite'>
+              The form is offline because spam protection isn’t configured. Email me directly instead.
+            </p>
+          )
+        }
+        <form
+          class='contact-form'
+          action='/api/contact'
+          method='post'
+          novalidate
+          data-turnstile={turnstileSiteKey ? 'ready' : 'missing'}
+        >
           <input type='text' name='_honey' style='display:none' tabindex='-1' autocomplete='off' />
           <label>
             Name
@@ -52,7 +68,9 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
             <textarea name='message' required></textarea>
           </label>
           {turnstileSiteKey && <div class='cf-turnstile' data-sitekey={turnstileSiteKey} data-theme='auto' />}
-          <button class='button contact-submit' type='submit'>Send message</button>
+          <button class='button contact-submit' type='submit' disabled={!turnstileSiteKey}>
+            Send message
+          </button>
         </form>
       </div>
       <aside class='contact-direct'>
@@ -98,6 +116,16 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
         form.querySelector('[aria-invalid="true"]')?.focus()
         return
       }
+      // Never post without a solved Turnstile challenge: the API rejects it anyway,
+      // but a round-trip to an error page is a worse experience than a notice here.
+      const captchaToken = form.querySelector('[name="cf-turnstile-response"]')?.value
+      const captchaNotice = document.querySelector('[data-form-captcha]')
+      if (form.dataset.turnstile !== 'ready' || !captchaToken) {
+        event.preventDefault()
+        captchaNotice?.removeAttribute('hidden')
+        return
+      }
+      captchaNotice?.setAttribute('hidden', '')
       form.querySelector('button[type="submit"]')?.setAttribute('disabled', '')
       document.querySelector('[data-form-submitting]')?.removeAttribute('hidden')
     })
