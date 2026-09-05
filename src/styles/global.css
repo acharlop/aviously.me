@@ -49,7 +49,7 @@
   --on-accent-muted: #444;
 
   --bg: var(--paper);
-  --bg-2: var(--bg);
+  --bg-2: #ebe9e3;
   --surface: var(--bg);
   --text: var(--ink);
   --muted: #444;
@@ -101,6 +101,7 @@
 :root[data-theme='dark'] {
   color-scheme: dark;
   --bg: var(--ink);
+  --bg-2: #1c1c1c;
   --text: var(--paper);
   --muted: var(--paper-muted);
   --faint: #8a8a8a;
@@ -143,6 +144,7 @@
     color-scheme: light;
     --accent: var(--accent-mint);
     --bg: #fff;
+    --bg-2: #ebe9e3;
     --text: var(--ink);
     --muted: #444;
     --faint: #6b6b6b;
@@ -678,8 +680,8 @@ h3 {
 
 .case-study {
   display: grid;
-  grid-template-columns: minmax(0, 0.74fr) minmax(280px, 0.26fr);
-  gap: 32px;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+  gap: clamp(28px, 5vw, 64px);
   align-items: start;
 }
 
@@ -688,13 +690,29 @@ h3 {
   top: 104px;
 }
 
+.case-body {
+  margin-top: clamp(24px, 4vw, 44px);
+  padding-top: clamp(20px, 3vw, 32px);
+  border-top: var(--rule-strong);
+}
+
+.case-link {
+  width: fit-content;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
+}
+
 /* Prose: rendered markdown (blog, case studies, the app's mission and learning
-   records). Deliberately minimal; #48 defines the full ledger prose styles. */
+   records). Keep the reading measure and rhythm shared across every content
+   surface so the blog can use the same rules as case studies. */
 .prose {
   max-width: 68ch;
   color: var(--muted);
   font-family: var(--font-body);
-  line-height: var(--leading-body);
+  font-size: 17px;
+  line-height: 1.55;
 }
 
 .prose > :first-child {
@@ -707,7 +725,7 @@ h3 {
   font-family: var(--font-display);
   font-weight: 700;
   letter-spacing: var(--tracking-display);
-  line-height: 1.15;
+  line-height: 1.05;
 }
 
 .prose :where(h1) {
@@ -723,11 +741,15 @@ h3 {
 }
 
 .prose :where(p, ul, ol, pre, blockquote) {
-  margin: 0.7em 0;
+  margin: 1em 0;
 }
 
 .prose :where(ul, ol) {
   padding-left: 1.4em;
+}
+
+.prose li + li {
+  margin-top: 0.35em;
 }
 
 .prose ul {
@@ -774,7 +796,35 @@ h3 {
 
 .prose blockquote {
   padding-left: 1em;
-  border-left: 1.5px solid var(--text);
+  border-left: 1.5px solid var(--accent);
+  color: var(--text);
+}
+
+.prose :where(table) {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.prose :where(th, td) {
+  min-width: 10rem;
+  padding: 0.55em 0.75em;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose :where(th) {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.prose :where(img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
 }
 
 /* Private app (/app, src/components/app). Plain classes for the pieces the
