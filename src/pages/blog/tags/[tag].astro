@@ -1,6 +1,7 @@
 ---
 import {getCollection} from 'astro:content'
-import BlogCard from '@/components/BlogCard.astro'
+import BlogRow from '@/components/BlogRow.astro'
+import SectionBar from '@/components/SectionBar.astro'
 import Layout from '@/components/Layout.astro'
 import {slugify} from '@/lib/slugs'
 
@@ -11,21 +12,39 @@ export async function getStaticPaths() {
 }
 
 const {tag} = Astro.props
+const tags = Array.from(
+  new Set((await getCollection('blog')).filter((post) => !post.data.draft).flatMap((post) => post.data.tags)),
+).sort()
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .filter((post) => post.data.tags.includes(tag))
   .sort((a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf())
 ---
 
-<Layout title={`${tag} writing - Avi Charlop`} description={`Writing tagged ${tag} by Avi Charlop.`} canonical={`/blog/tags/${slugify(tag)}/`}>
-  <section class="shell page-hero">
-    <p class="eyebrow">`tag`</p>
+<Layout
+  title={`${tag} writing - Avi Charlop`}
+  description={`Writing tagged ${tag} by Avi Charlop.`}
+  canonical={`/blog/tags/${slugify(tag)}/`}
+>
+  <section class='shell page-hero'>
+    <p class='eyebrow'>`tag`</p>
     <h1>{tag}</h1>
-    <p class="lead">Draft outlines and essays tagged with {tag}.</p>
+    <p class='lead'>Draft outlines and essays tagged with {tag}.</p>
   </section>
-  <section class="shell section">
-    <div class="grid-3">
-      {posts.map((post) => <BlogCard post={post} />)}
+  <section class='shell ledger-section'>
+    <SectionBar label='Posts' />
+    <nav class='blog-filter' aria-label='Blog tags'>
+      <a href='/blog/'>All</a>
+      {
+        tags.map((item) => (
+          <a href={`/blog/tags/${slugify(item)}/`} aria-current={item === tag ? 'page' : undefined}>
+            {item}
+          </a>
+        ))
+      }
+    </nav>
+    <div class='ledger-rows'>
+      {posts.map((post) => <BlogRow post={post} />)}
     </div>
   </section>
 </Layout>

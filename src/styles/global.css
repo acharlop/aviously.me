@@ -432,8 +432,7 @@ h3 {
 .project-card,
 .repo-card,
 .contact-card,
-.timeline-item,
-.post-card {
+.timeline-item {
   border: 1px solid var(--line);
   background: var(--surface);
 }
@@ -527,7 +526,6 @@ h3 {
 .card,
 .project-card,
 .repo-card,
-.post-card,
 .contact-card {
   padding: 22px;
 }
@@ -535,13 +533,11 @@ h3 {
 .card p,
 .project-card p,
 .repo-card p,
-.post-card p,
 .contact-card p {
   color: var(--muted);
 }
 
 .project-card,
-.post-card,
 .repo-card {
   display: flex;
   min-height: 100%;
@@ -550,7 +546,6 @@ h3 {
 }
 
 .project-card:hover,
-.post-card:hover,
 .repo-card:hover {
   border-color: color-mix(in srgb, var(--accent), transparent 44%);
   transform: translateY(-2px);
@@ -873,31 +868,33 @@ h3 {
 .blog-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
+  gap: 4px 12px;
   margin-bottom: 24px;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
 }
 
 .blog-filter a {
-  border: 1px solid var(--line);
+  padding: 3px 7px;
   color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  padding: 7px 10px;
 }
 
 .blog-filter a:hover {
-  border-color: color-mix(in srgb, var(--accent), transparent 45%);
-  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
 }
 
-.draft-pill {
-  display: inline-flex;
-  width: fit-content;
-  border: 1px solid color-mix(in srgb, var(--amber), transparent 45%);
-  color: var(--amber);
+.blog-filter a[aria-current='page'] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.draft-label {
+  color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  padding: 4px 8px;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-mono);
 }
 
 .contact-grid {
