@@ -1,0 +1,100 @@
+---
+// Site accent picker (#44): six swatches; the choice lives as data-accent on
+// <html> and in localStorage. Colours come from the --accent-<name> tokens in
+// src/styles/global.css, which is also where data-accent selects --accent.
+// The inline script in Layout.astro applies the stored choice before paint;
+// this component only reflects and sets it. The resume sheet carries its own
+// accent and ignores this on purpose.
+const accents = [
+  {name: 'mint', label: 'mint'},
+  {name: 'yellow', label: 'yellow'},
+  {name: 'orange', label: 'orange'},
+  {name: 'pink', label: 'hot pink'},
+  {name: 'cyan', label: 'cyan'},
+  {name: 'lilac', label: 'lilac'},
+]
+---
+
+<div class="accent-picker" role="group" aria-label="Accent colour">
+  {
+    accents.map((accent) => (
+      <button
+        class="accent-swatch"
+        type="button"
+        aria-label={`Accent: ${accent.label}`}
+        aria-pressed={accent.name === 'mint' ? 'true' : 'false'}
+        data-accent-swatch={accent.name}
+        style={`--swatch:var(--accent-${accent.name})`}
+      />
+    ))
+  }
+</div>
+
+<script>
+  // aria-pressed is for assistive tech; the visible ring is CSS keyed off
+  // <html data-accent>, so it is right before this script runs.
+  const syncPressed = () => {
+    const current = document.documentElement.dataset.accent || 'mint'
+    document.querySelectorAll<HTMLButtonElement>('[data-accent-swatch]').forEach((swatch) => {
+      swatch.setAttribute('aria-pressed', String(swatch.dataset.accentSwatch === current))
+    })
+  }
+  // Delegated so the listener survives view-transition swaps of the header.
+  document.addEventListener('click', (event) => {
+    if (!(event.target instanceof Element)) return
+    const accent = event.target.closest<HTMLElement>('[data-accent-swatch]')?.dataset.accentSwatch
+    if (!accent) return
+    document.documentElement.dataset.accent = accent
+    localStorage.setItem('accent', accent)
+    syncPressed()
+  })
+  syncPressed()
+  document.addEventListener('astro:after-swap', syncPressed)
+</script>
+
+{/* Global, not scoped: the selected-state rules start from :root. */}
+<style is:global>
+  .accent-picker {
+    display: flex;
+    align-items: center;
+  }
+
+  /* A 24px hit area around a 16px ink-bordered square. */
+  .accent-swatch {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .accent-swatch::before {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--text);
+    background: var(--swatch);
+    content: '';
+  }
+
+  .accent-swatch:focus-visible {
+    outline-offset: 0;
+  }
+
+  /* Selected: heavier border with a gap of the page background just inside
+     it, drawn as an inset outline (no shadows in this design). Keyed off the
+     <html> attribute so it is correct before any script runs. */
+  :root:not([data-accent]) [data-accent-swatch='mint']::before,
+  :root[data-accent='mint'] [data-accent-swatch='mint']::before,
+  :root[data-accent='yellow'] [data-accent-swatch='yellow']::before,
+  :root[data-accent='orange'] [data-accent-swatch='orange']::before,
+  :root[data-accent='pink'] [data-accent-swatch='pink']::before,
+  :root[data-accent='cyan'] [data-accent-swatch='cyan']::before,
+  :root[data-accent='lilac'] [data-accent-swatch='lilac']::before {
+    border-width: 1.5px;
+    outline: 1.5px solid var(--bg);
+    outline-offset: -3px;
+  }
+</style>

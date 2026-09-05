@@ -68,13 +68,17 @@ const jsonLd = [
     <meta name="twitter:image" content={new URL('/og.png', site.url).toString()} />
     <ClientRouter />
     <script is:inline>
-      const applyTheme = () => {
+      // Theme and accent, applied before first paint and again after every
+      // view-transition swap (the router replaces <html>'s attributes).
+      const applyPreferences = () => {
         const storedTheme = localStorage.getItem('theme')
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
         document.documentElement.dataset.theme = storedTheme || (prefersDark ? 'dark' : 'light')
+        const storedAccent = localStorage.getItem('accent')
+        if (storedAccent) document.documentElement.dataset.accent = storedAccent
       }
-      applyTheme()
-      document.addEventListener('astro:after-swap', applyTheme)
+      applyPreferences()
+      document.addEventListener('astro:after-swap', applyPreferences)
     </script>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     {/* Analytics. Bundled + deferred, so it never blocks render, and it no-ops
