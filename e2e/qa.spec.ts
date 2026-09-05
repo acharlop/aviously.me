@@ -98,4 +98,7 @@ test('social preview image and OG tags are valid', async ({page, request, baseUR
 test('404 page renders with site chrome', async ({page}) => {
   const response = await page.goto('/definitely-not-a-page/')
   expect(response?.status()).toBe(404)
+  await expect(page.getByRole('heading', {level: 1})).toContainText('isn’t in the ledger')
+  await expect(page.getByRole('navigation', {name: 'Primary navigation'})).toBeAttached()
+  await expect(page.getByRole('link', {name: 'Back home'})).toHaveAttribute('href', '/')
 })

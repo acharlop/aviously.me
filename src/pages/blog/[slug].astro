@@ -37,7 +37,7 @@ const structuredData = {
 >
   <article class='shell page-hero content-panel'>
     {post.data.draft && <span class='draft-label'>draft outline</span>}
-    <p class='eyebrow'>`{post.data.tags[0] ?? 'blog'}`</p>
+    <p class='eyebrow'>{post.data.tags[0] ?? 'blog'}</p>
     <h1>{post.data.title}</h1>
     <p class='lead'>{post.data.description}</p>
     <p class='meta-label'>

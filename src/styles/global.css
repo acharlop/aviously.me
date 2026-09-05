@@ -327,7 +327,7 @@ select {
 }
 
 .hero {
-  padding: clamp(44px, 7vw, 88px) 0 clamp(36px, 5vw, 58px);
+  padding: clamp(28px, 4vw, 48px) 0 clamp(28px, 4vw, 44px);
 }
 
 .eyebrow,
@@ -352,13 +352,18 @@ h3 {
   overflow-wrap: break-word;
 }
 
+h1,
+h2 {
+  text-wrap: balance;
+}
+
 h1 {
   max-width: 940px;
-  font-size: clamp(2.8rem, 5.7vw, 5rem);
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
 }
 
 h2 {
-  font-size: clamp(2.1rem, 5vw, 4rem);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
 }
 
 h3 {
@@ -532,12 +537,11 @@ h3 {
 }
 
 .page-hero {
-  padding: clamp(58px, 10vw, 116px) 0 44px;
+  padding: clamp(28px, 4vw, 48px) 0 clamp(28px, 4vw, 40px);
 }
 
 .page-hero h1 {
   max-width: 960px;
-  font-size: clamp(2.8rem, 6vw, 5.6rem);
 }
 
 .content-panel {
@@ -856,16 +860,20 @@ h3 {
 
 .contact-submit {
   width: fit-content;
-  border-color: var(--ink);
+  border-color: var(--text);
   border-radius: 0;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--text);
+  color: var(--bg);
 }
 
 .contact-submit:hover {
-  border-color: var(--ink);
-  background: var(--text);
-  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
+.contact-form [aria-invalid='true'] {
+  border-bottom-color: var(--danger);
 }
 
 .contact-submit:disabled {
@@ -947,7 +955,15 @@ h3 {
   .site-header .masthead-shell {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
+    align-items: start;
+  }
+
+  .site-header .masthead-brand {
+    min-width: 0;
+  }
+
+  .site-header .nav-actions {
+    padding-top: 4px;
   }
 
   .menu-toggle {
@@ -1012,4 +1028,8 @@ h3 {
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+.resume-shell {
+  padding-top: 0;
 }
