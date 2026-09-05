@@ -79,7 +79,7 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
     document.querySelector('form.contact-form')?.addEventListener('submit', (event) => {
       const form = event.currentTarget
       if (!(form instanceof HTMLFormElement)) return
-      form.querySelector<HTMLButtonElement>('button[type="submit"]')?.setAttribute('disabled', '')
+      form.querySelector('button[type="submit"]')?.setAttribute('disabled', '')
       document.querySelector('[data-form-submitting]')?.removeAttribute('hidden')
     })
   </script>
