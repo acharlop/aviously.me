@@ -1,6 +1,8 @@
 export const site = {
   name: 'Avi Charlop',
   title: 'Avi Charlop - Senior Full-Stack Engineer',
+  // Role line under the name in the site masthead.
+  role: 'Senior Full-Stack Engineer & Team Lead',
   description:
     'Senior full-stack engineer and team lead building modern web products with React, TypeScript, Next.js, Astro, Node.js, Go, Rails, cloud infrastructure, and practical product leadership.',
   url: 'https://aviously.me',

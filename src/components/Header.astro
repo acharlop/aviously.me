@@ -1,6 +1,5 @@
 ---
 import ThemeToggle from '@/components/ThemeToggle.astro'
-import {resumeSheet} from '@/data/resume-sheet'
 import {navigation, site} from '@/data/site'
 
 const currentPath = Astro.url.pathname
@@ -14,35 +13,25 @@ function isCurrent(href: string) {
   <div class="masthead-shell">
     <a class="masthead-brand" href="/" aria-label="Avi Charlop home">
       <span class="masthead-name">{site.name}</span>
-      <span class="masthead-role">{resumeSheet.title}</span>
+      <span class="masthead-role">{site.role}</span>
     </a>
-    <div class="masthead-side">
-      <nav class="desktop-nav" aria-label="Primary navigation">
-        {
-          navigation.map((item) => (
-            <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
-      <div class="nav-actions">
-        <ThemeToggle />
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
-          menu
-        </button>
-      </div>
+    {/* One list for every width: a row in the band on desktop, a ruled panel under it on mobile (CSS switches). */}
+    <nav class="site-nav" id="mobile-panel" aria-label="Primary navigation" data-mobile-panel>
+      {
+        navigation.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="nav-actions">
+      <ThemeToggle />
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-panel" data-menu-toggle>
+        menu
+      </button>
     </div>
   </div>
-  <nav class="mobile-panel" id="mobile-panel" aria-label="Mobile navigation" data-mobile-panel hidden>
-    {
-      navigation.map((item) => (
-        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-          {item.label}
-        </a>
-      ))
-    }
-  </nav>
 </header>
 
 <script>
@@ -55,9 +44,9 @@ function isCurrent(href: string) {
     const nextState = menuToggle.getAttribute('aria-expanded') !== 'true'
     menuToggle.setAttribute('aria-expanded', String(nextState))
     if (nextState) {
-      mobilePanel?.removeAttribute('hidden')
+      mobilePanel?.setAttribute('data-open', '')
     } else {
-      mobilePanel?.setAttribute('hidden', '')
+      mobilePanel?.removeAttribute('data-open')
     }
   })
 </script>
