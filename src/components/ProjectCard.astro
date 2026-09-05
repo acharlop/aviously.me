@@ -1,5 +1,6 @@
 ---
 import type {CollectionEntry} from 'astro:content'
+import LedgerRow from '@/components/LedgerRow.astro'
 
 type Props = {
   project: CollectionEntry<'projects'>
@@ -9,11 +10,7 @@ const {project} = Astro.props
 const href = `/work/${project.id.replace(/\.mdx?$/, '')}/`
 ---
 
-<article class="project-card">
-  <p class="meta-label">{project.data.type}</p>
-  <h3><a href={href}>{project.data.title}</a></h3>
+<LedgerRow label={project.data.title} href={href} sub={project.data.type} meta={project.data.dates}>
   <p>{project.data.summary}</p>
-  <div class="tag-row">
-    {project.data.stack.slice(0, 5).map((tag) => <span class="tag">{tag}</span>)}
-  </div>
-</article>
+  {project.data.stack.length > 0 && <p class='ledger-stack'>{project.data.stack.slice(0, 5).join(' · ')}</p>}
+</LedgerRow>
