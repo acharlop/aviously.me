@@ -52,9 +52,7 @@ export function WorkspaceView({slug}: {slug: string}) {
     <>
       <AppHeader backTo={{href: '/app', label: 'Topics'}} />
       <div className='mx-auto max-w-3xl px-5 py-10'>
-        <h1 className='font-[family-name:var(--font-display)] text-[length:var(--text-xl)] leading-[var(--leading-display)] font-bold tracking-[var(--tracking-display)] uppercase'>
-          {workspace.title}
-        </h1>
+        <h1 className='app-title'>{workspace.title}</h1>
         {workspace.mission && <Markdown source={workspace.mission} className='mt-3 text-[var(--muted)]' />}
 
         <Section title='Lessons'>
@@ -127,11 +125,12 @@ export function WorkspaceView({slug}: {slug: string}) {
   )
 }
 
-// Section bar: an ink chip sitting on a 1.5px rule, like the resume sections.
+// Section bar: an ink chip sitting on a 1.5px rule (.app-section-title in
+// global.css), like the resume sections.
 function Section({title, children}: {title: string; children: React.ReactNode}) {
   return (
     <section className='mt-10'>
-      <h2 className='mb-0 border-b-[1.5px] border-b-[var(--text)]'>
+      <h2 className='app-section-title'>
         <span
           className={`${label} inline-block bg-[var(--text)] px-2 pt-[3px] pb-[2px] font-bold tracking-[var(--tracking-chip)] text-[var(--bg)]`}
         >

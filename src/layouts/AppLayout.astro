@@ -25,11 +25,3 @@ const {title = 'Learning'} = Astro.props
     <slot />
   </body>
 </html>
-
-<style is:global>
-  /* The ink band is theme-invariant, so on the dark (ink) page it needs a rule
-     to separate it from the body. On paper the band's own edge is enough. */
-  :root[data-theme='dark'] .app-band {
-    border-bottom: 1px solid var(--line);
-  }
-</style>

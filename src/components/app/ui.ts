@@ -18,5 +18,6 @@ export const buttonAccent = `${label} inline-flex items-center justify-center bo
 // Padding absorbs the extra half pixel so the field does not shift.
 export const input = `w-full border-b border-[var(--line)] bg-transparent px-0 pt-2 pb-[8.5px] text-[var(--text)] outline-none placeholder:text-[var(--faint)] focus:border-b-[1.5px] focus:border-[var(--accent)] focus:pb-2`
 
-// Mono link in the ink band.
-export const bandLink = `${label} text-[var(--paper-muted)] hover:text-[var(--paper)]`
+// Mono link in the ink band. Colours are plain CSS (.band-link in global.css)
+// because the site's unlayered `a { color: inherit }` beats text-* utilities.
+export const bandLink = `${label} band-link`

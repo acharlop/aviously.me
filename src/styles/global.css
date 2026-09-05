@@ -725,7 +725,7 @@ h3 {
   color: var(--text);
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: var(--tracking-numbers);
+  letter-spacing: var(--tracking-display);
   line-height: 1.15;
 }
 
@@ -794,6 +794,49 @@ h3 {
 .prose blockquote {
   padding-left: 1em;
   border-left: 1.5px solid var(--text);
+}
+
+/* Private app (/app, src/components/app). Plain classes for the pieces the
+   unlayered element rules above (h1/h2, a) would otherwise override, since
+   Tailwind's utilities sit in @layer utilities and lose to them. */
+.app-band {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* The band is theme-invariant, so on the dark (ink) page it needs a rule to
+   separate it from the body. On paper the band's own edge is enough. */
+:root[data-theme='dark'] .app-band {
+  border-bottom: 1px solid var(--line);
+}
+
+.app-brand,
+.app-title {
+  margin: 0;
+  font: 700 var(--text-xl) / var(--leading-display) var(--font-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+
+.app-brand {
+  color: var(--paper);
+  font-size: var(--text-lg);
+}
+
+/* Section bar: an ink chip sitting on a 1.5px rule, like the resume sections. */
+.app-section-title {
+  margin: 0;
+  border-bottom: 1.5px solid var(--text);
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.band-link {
+  color: var(--paper-muted);
+}
+
+.band-link:hover {
+  color: var(--paper);
 }
 
 .blog-filter {

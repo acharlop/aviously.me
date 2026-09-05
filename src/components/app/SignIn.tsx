@@ -16,9 +16,7 @@ export function SignIn() {
     <>
       <AppHeader signedIn={false} />
       <div className='mx-auto max-w-sm px-5 py-16'>
-        <h1 className='font-[family-name:var(--font-display)] text-[length:var(--text-xl)] leading-[var(--leading-display)] font-bold tracking-[var(--tracking-display)] uppercase'>
-          {flow === 'signIn' ? 'Sign in' : 'Create account'}
-        </h1>
+        <h1 className='app-title'>{flow === 'signIn' ? 'Sign in' : 'Create account'}</h1>
         <p className={`${label} mt-3 mb-8 text-[var(--faint)]`}>Private learning area.</p>
 
         <form

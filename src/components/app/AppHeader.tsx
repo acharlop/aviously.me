@@ -8,12 +8,9 @@ import {bandLink, mono} from './ui'
 export function AppHeader({backTo, signedIn = true}: {backTo?: {href: string; label: string}; signedIn?: boolean}) {
   const {signOut} = useAuthActions()
   return (
-    <header className='app-band bg-[var(--ink)] text-[var(--paper)]'>
+    <header className='app-band'>
       <div className='mx-auto flex max-w-3xl items-center justify-between gap-4 px-5 py-4'>
-        <a
-          href='/app'
-          className='font-[family-name:var(--font-display)] text-[length:var(--text-lg)] leading-[var(--leading-display)] font-bold tracking-[var(--tracking-display)] text-[var(--paper)] uppercase'
-        >
+        <a href='/app' className='app-brand'>
           Learning
         </a>
         <nav className='flex items-center gap-5' aria-label='App navigation'>
@@ -22,12 +19,7 @@ export function AppHeader({backTo, signedIn = true}: {backTo?: {href: string; la
               ← {backTo.label}
             </a>
           )}
-          <button
-            type='button'
-            onClick={toggleTheme}
-            aria-label='Toggle color theme'
-            className={`${mono} text-[var(--paper-muted)] hover:text-[var(--paper)]`}
-          >
+          <button type='button' onClick={toggleTheme} aria-label='Toggle color theme' className={`${mono} band-link`}>
             <span aria-hidden>◐</span>
           </button>
           {signedIn && (
