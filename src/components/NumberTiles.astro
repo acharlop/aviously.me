@@ -97,20 +97,19 @@ const {items, label} = Astro.props
   }
 
   /* Two by two once four tiles no longer fit; there is no text axis to hit
-     here because LedgerRow stacks its columns at the same width. */
+     here because LedgerRow stacks its columns at the same width. Even tiles
+     keep the divider from `.tile + .tile`; only the odd ones that start a row
+     lose it. The selector repeats the sibling combinator on purpose: Astro
+     scopes both sides of `+`, so a plain `:nth-child` rule would be
+     out-specified by the desktop rule above. */
   @media (max-width: 920px) {
     .number-tiles {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .tile + .tile {
+    .tile + .tile:nth-child(odd) {
       border-left: 0;
       padding-left: calc(12 * var(--ledger-unit));
-    }
-
-    .tile:nth-child(even) {
-      border-left: var(--rule-strong);
-      padding-left: var(--ledger-gutter);
     }
 
     .tile:nth-child(n + 3) {
