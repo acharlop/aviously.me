@@ -2,8 +2,8 @@
 // Local-only preview of the resume sheet in each accent variant
 // (src/data/resume-sheet.ts). Dynamic route with an empty getStaticPaths in
 // production, so `astro build` emits nothing: the page exists on `astro dev`
-// only, at /resume/preview-<slug>. Printing a variant from here is issue #50;
-// until then export it by hand.
+// only, at /resume/preview-<slug>. scripts/make-resume-pdf.ts prints variants
+// from this route when passed --view and --out.
 //
 // TODO: once tailored resumes need sharing by link, promote this to a public
 // page behind the same Convex auth the private /app area uses.

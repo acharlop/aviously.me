@@ -31,9 +31,8 @@ const hasPdf = fs.existsSync('public/resume.pdf')
   </script>
 
   <section class="shell section resume-shell">
-    {/* The sheet is the one-pager. public/resume.pdf is a static export of the
-        same design until #50 prints it from this page. The full bullet set
-        stays in /resume.md, .txt and .json. */}
+    {/* The sheet is the one-pager and the source for public/resume.pdf. The
+        full bullet set stays in /resume.md, .txt and .json. */}
     <ResumeSheet />
   </section>
 </Layout>
