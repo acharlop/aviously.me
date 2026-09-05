@@ -11,6 +11,20 @@ for (const path of pages) {
   })
 }
 
+test('experience renders as ledger rows', async ({page}) => {
+  await page.goto('/experience/')
+
+  const experience = page.locator('section[aria-label="Professional experience"]')
+  await expect(experience.locator('.section-chip')).toHaveText('Experience')
+  await expect(experience.locator('.ledger-row')).toHaveCount(7)
+  await expect(experience.locator('.triangle-list')).toHaveCount(7)
+  await expect(experience.locator('[class*="timeline"]')).toHaveCount(0)
+
+  const education = page.locator('section[aria-label="Education"]')
+  await expect(education.locator('.section-chip')).toHaveText('Education')
+  await expect(education.locator('.ledger-row')).toHaveCount(2)
+})
+
 test('blog is not linked in navigation', async ({page}) => {
   await page.goto('/')
   await expect(page.locator('nav a[href*="/blog"]')).toHaveCount(0)
