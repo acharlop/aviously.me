@@ -6,8 +6,8 @@
 //
 // Label column: `label` / `sub` / `meta` are the resume's company / role /
 // dates lines (`href` makes the label a link). For anything else fill the
-// `label` slot with your own elements using the same classes: .ledger-title,
-// .ledger-sub, .ledger-meta. Content: the default slot; a `.ledger-stack`
+// `label` slot with your own elements using the same classes: .ledger-title
+// (wrapping an a.ledger-link when it links), .ledger-sub, .ledger-meta. Content: the default slot; a `.ledger-stack`
 // line inside it renders like the resume's technology line.
 type Props = {
   label?: string
@@ -17,7 +17,10 @@ type Props = {
   class?: string
 }
 
+import ExternalIcon from '@/components/ExternalIcon.astro'
+
 const {label, href, sub, meta, class: className} = Astro.props
+const external = href ? /^https?:/.test(href) : false
 ---
 
 <div class:list={['ledger-row', className]}>
@@ -26,9 +29,18 @@ const {label, href, sub, meta, class: className} = Astro.props
       {
         label &&
           (href ? (
-            <a class="ledger-title" href={href}>
-              {label}
-            </a>
+            <p class="ledger-title">
+              <a
+                class="ledger-link"
+                href={href}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener' : undefined}
+              >
+                {label}
+                {external && <ExternalIcon />}
+                {external && <span class="sr-only"> (opens in new tab)</span>}
+              </a>
+            </p>
           ) : (
             <p class="ledger-title">{label}</p>
           ))
@@ -64,12 +76,10 @@ const {label, href, sub, meta, class: className} = Astro.props
     text-transform: uppercase;
   }
 
-  .ledger-row-label :global(a.ledger-title) {
-    width: fit-content;
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.22em;
+  /* The link stays inline so its highlighter underline runs under every
+     wrapped line (see the `a` rules in global.css). */
+  .ledger-row-label :global(a.ledger-link) {
+    display: inline;
   }
 
   .ledger-row-label :global(.ledger-sub),

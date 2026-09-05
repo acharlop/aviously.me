@@ -1,4 +1,5 @@
 ---
+import ExternalLink from '@/components/ExternalLink.astro'
 import Layout from '@/components/Layout.astro'
 import SectionBar from '@/components/SectionBar.astro'
 import SocialLinks from '@/components/SocialLinks.astro'
@@ -50,7 +51,7 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
             Message
             <textarea name='message' required></textarea>
           </label>
-          <div class='cf-turnstile' data-sitekey={turnstileSiteKey} data-theme='auto'></div>
+          {turnstileSiteKey && <div class='cf-turnstile' data-sitekey={turnstileSiteKey} data-theme='auto' />}
           <button class='button contact-submit' type='submit'>Send message</button>
         </form>
       </div>
@@ -61,14 +62,14 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
           <p>No phone number is published here by default. Email, LinkedIn, and GitHub are the primary contact paths.</p>
           <div class='button-row'>
             <a class='button' href={`mailto:${site.email}`}>{site.email}</a>
-            <a class='button secondary' href={site.linkedin}>LinkedIn</a>
-            <a class='button secondary' href={site.github}>GitHub</a>
+            <ExternalLink class='button outline' href={site.linkedin}>LinkedIn</ExternalLink>
+            <ExternalLink class='button outline' href={site.github}>GitHub</ExternalLink>
           </div>
         </div>
       </aside>
     </div>
   </section>
-  <script is:inline src='https://challenges.cloudflare.com/turnstile/v0/api.js' async defer></script>
+  {turnstileSiteKey && <script is:inline src='https://challenges.cloudflare.com/turnstile/v0/api.js' async defer />}
   <script is:inline data-astro-rerun>
     const contactParams = new URLSearchParams(location.search)
     if (contactParams.get('sent') === 'true') {

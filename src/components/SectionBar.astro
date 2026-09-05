@@ -67,4 +67,20 @@ const {label, as: Tag = 'h2', id, class: className} = Astro.props
     text-align: right;
     text-transform: uppercase;
   }
+
+  /* Narrow: the note drops beneath the chip on its own left-aligned line
+     instead of wrapping into the chip's row. */
+  @media (max-width: 620px) {
+    .section-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .section-note {
+      margin: 0;
+      padding: calc(3 * var(--ledger-unit)) 0;
+      text-align: left;
+      text-wrap: pretty;
+    }
+  }
 </style>

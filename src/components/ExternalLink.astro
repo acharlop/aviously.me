@@ -1,0 +1,15 @@
+---
+// A link that leaves the site: new tab, no opener, arrow-out icon after the
+// text, and "(opens in new tab)" for screen readers. Any class passes through,
+// so `class="button outline"` makes the outline CTA variant.
+import ExternalIcon from '@/components/ExternalIcon.astro'
+
+type Props = {href: string; class?: string}
+const {href, class: className} = Astro.props
+---
+
+<a class:list={['ext-link', className]} href={href} target="_blank" rel="noopener">
+  <slot />
+  <ExternalIcon />
+  <span class="sr-only"> (opens in new tab)</span>
+</a>

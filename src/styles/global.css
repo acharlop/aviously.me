@@ -57,6 +57,9 @@
   --accent-cyan: #2ee6ff;
   --accent-lilac: #c9a6ff;
   --accent: var(--accent-mint);
+  /* No derived accent-as-text token: the raw swatches are too light on paper,
+     so text links stay --text and wear the true accent as a highlighter
+     underline (see the `a` rules below). */
   --green: #167c4a;
   --amber: #9d6100;
   --danger: #b3261e;
@@ -81,6 +84,12 @@
   --leading-display: 0.9;
   --leading-body: 1.4;
   --shell-max: 1180px;
+  --shell-margin: 16px;
+
+  /* Motion: one short curve for every hover, toggle and flyout. */
+  --dur: 160ms;
+  --dur-slow: 260ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 
   /* Ledger grid (epic #37): the resume's label column 152px + gutter 14px on
      the same 10.5px base as the type ramp, so it scales with it. The text axis
@@ -157,10 +166,13 @@
 html {
   background: var(--bg);
   scroll-behavior: smooth;
+  scroll-padding-top: 24px;
 }
 
 body {
+  display: flex;
   min-height: 100vh;
+  flex-direction: column;
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -169,18 +181,86 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Short pages (blog, 404): main grows so the footer band sits at the bottom. */
+main {
+  flex: 1 0 auto;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
 }
 
-/* Accent as a text colour is unreadable on paper, so body links keep the ink and take the accent as their underline. */
-a:not([class]) {
+/* Text links: the true accent as a highlighter. Ink text sits on a thick
+   accent underline drawn as a background so it can grow into a full swatch on
+   hover (ink text on accent, like the number tiles). Works in both themes
+   because the accent never has to carry the text itself. .prose, ledger titles
+   and case links share the rule. */
+main a:not([class]):not(.social-row a, .blog-filter a),
+.prose a,
+.case-link,
+.ledger-row-label a.ledger-link,
+.section-note a {
+  --hl-size: 0.14em;
   color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.22em;
+  background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 100% var(--hl-size);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  text-decoration: none;
+  transition:
+    color var(--dur) var(--ease),
+    background-size var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+main a:not([class]):not(.social-row a, .blog-filter a):hover,
+.prose a:hover,
+.case-link:hover,
+.ledger-row-label a.ledger-link:hover,
+.section-note a:hover {
+  --hl-size: 100%;
+  color: var(--on-accent);
+}
+
+main a:not([class]):not(.social-row a, .blog-filter a):active,
+.prose a:active,
+.case-link:active,
+.ledger-row-label a.ledger-link:active,
+.section-note a:active {
+  opacity: 0.8;
+}
+
+/* Highlighter for a phrase inside a heading (the hero's key words). Drawn as
+   a band just taller than the caps rather than a full box, so with a tight
+   display line-height it never paints over the line above. */
+mark,
+.hl {
+  padding: 0 0.06em;
+  background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 100% 0.96em;
+  color: var(--on-accent);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Arrow-out glyph on links that leave the site (src/components/ExternalIcon.astro). */
+.ext-icon {
+  display: inline-block;
+  flex: none;
+  width: 0.85em;
+  height: 0.85em;
+  margin-left: 0.3em;
+  vertical-align: -0.05em;
+  transition: transform var(--dur) var(--ease);
+}
+
+a:hover > .ext-icon,
+.button:hover > .ext-icon {
+  transform: translate(1px, -1px);
 }
 
 button,
@@ -195,13 +275,21 @@ select {
   outline-offset: 4px;
 }
 
+/* Inside the ink bands --text is ink in light mode, so the ring would vanish. */
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.accent-flyout :focus-visible {
+  outline-color: var(--paper);
+  outline-offset: 2px;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--accent), transparent 68%);
   color: var(--text);
 }
 
 .shell {
-  width: min(var(--shell-max), calc(100% - 32px));
+  width: min(var(--shell-max), calc(100% - 2 * var(--shell-margin)));
   margin-inline: auto;
 }
 
@@ -287,6 +375,12 @@ select {
   color: var(--paper);
 }
 
+.site-nav a:active,
+.footer-links a:active,
+.footer-contact a:active {
+  color: var(--accent);
+}
+
 .site-nav a[aria-current='page'] {
   color: var(--paper);
   text-decoration: underline;
@@ -317,13 +411,86 @@ select {
   cursor: pointer;
 }
 
+.theme-toggle,
+.menu-toggle,
+.accent-trigger {
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
 .theme-toggle:hover,
 .menu-toggle:hover {
   color: var(--accent);
 }
 
+.theme-toggle:active,
+.menu-toggle:active,
+.accent-trigger:active {
+  background: color-mix(in srgb, var(--paper), transparent 88%);
+  transform: scale(0.96);
+}
+
+.theme-toggle:hover .theme-glyph {
+  transform: rotate(180deg);
+}
+
+.theme-glyph {
+  display: inline-block;
+  transition: transform var(--dur-slow) var(--ease);
+}
+
 .menu-toggle {
   display: none;
+}
+
+/* Hamburger: three paper bars that fold into an X when the panel is open. */
+.burger {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 12px;
+}
+
+.burger i {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  transition:
+    transform var(--dur-slow) var(--ease),
+    opacity var(--dur) var(--ease),
+    top var(--dur-slow) var(--ease);
+}
+
+.burger i:nth-child(1) {
+  top: 0;
+}
+
+.burger i:nth-child(2) {
+  top: 5.25px;
+}
+
+.burger i:nth-child(3) {
+  top: 10.5px;
+}
+
+.menu-toggle[aria-expanded='true'] .burger i:nth-child(1) {
+  top: 5.25px;
+  transform: rotate(45deg);
+}
+
+.menu-toggle[aria-expanded='true'] .burger i:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.menu-toggle[aria-expanded='true'] .burger i:nth-child(3) {
+  top: 5.25px;
+  transform: rotate(-45deg);
 }
 
 .hero {
@@ -332,11 +499,25 @@ select {
 
 .eyebrow,
 .meta-label {
-  color: var(--green);
+  display: inline-block;
+  margin: 0 0 calc(6 * var(--ledger-unit));
+  padding: calc(1.5 * var(--ledger-unit)) calc(4 * var(--ledger-unit));
+  background: var(--text);
+  color: var(--bg);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0;
-  text-transform: lowercase;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-chip);
+  text-transform: uppercase;
+}
+
+/* Quiet mono metadata that may carry links (formats, dates); never a chip. */
+.meta-line {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-mono);
 }
 
 h1,
@@ -357,9 +538,22 @@ h2 {
   text-wrap: balance;
 }
 
+p {
+  text-wrap: pretty;
+}
+
 h1 {
   max-width: 940px;
   font-size: clamp(2.1rem, 4vw, 3.4rem);
+}
+
+/* Home hero: one step up the ramp, the resume's display weight and tracking. */
+.hero h1 {
+  max-width: 1000px;
+  font-size: clamp(2.5rem, 5.4vw, 4.6rem);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1;
 }
 
 h2 {
@@ -396,15 +590,60 @@ h3 {
   color: var(--text);
   font-weight: 700;
   padding: 11px 16px;
+  cursor: pointer;
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
 }
 
 .button:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent), transparent 62%);
   transform: translateY(-1px);
+}
+
+.button:active {
+  background: var(--accent);
+  color: var(--on-accent);
+  transform: translateY(0);
 }
 
 .button.secondary {
   border-color: var(--line);
   background: var(--surface);
+}
+
+.button.secondary:hover {
+  border-color: var(--text);
+  background: var(--bg-2);
+}
+
+.button.secondary:active {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* Outline: for CTAs that leave the site (paired with ExternalLink.astro). */
+.button.outline {
+  border-color: var(--text);
+  background: transparent;
+}
+
+.button.outline:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent), transparent 85%);
+}
+
+.button.outline:active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.button > .ext-icon {
+  margin-left: 0;
 }
 
 .social-row {
@@ -415,6 +654,8 @@ h3 {
 }
 
 .social-row a {
+  display: inline-flex;
+  align-items: center;
   border: 1px solid var(--line);
   color: var(--muted);
   font-family: var(--font-mono);
@@ -423,8 +664,14 @@ h3 {
 }
 
 .social-row a:hover {
-  border-color: color-mix(in srgb, var(--accent), transparent 45%);
+  border-color: var(--accent);
   color: var(--text);
+}
+
+.social-row a:active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 
 .card,
@@ -434,8 +681,13 @@ h3 {
 }
 
 .availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
   margin: 0;
-  color: var(--accent);
+  padding: calc(1.5 * var(--ledger-unit)) calc(4 * var(--ledger-unit));
+  background: var(--accent);
+  color: var(--on-accent);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   letter-spacing: var(--tracking-mono);
@@ -443,8 +695,70 @@ h3 {
   text-transform: uppercase;
 }
 
+.page-hero > .availability {
+  margin-top: calc(2 * var(--ledger-unit));
+}
+
+/* A small ink square that breathes: the one moving thing on the page at rest. */
+.availability::before {
+  width: 0.5em;
+  height: 0.5em;
+  background: var(--on-accent);
+  content: '';
+  animation: pulse 2.4s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Chip plus the location line, on one mono row above the headline. */
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(3 * var(--ledger-unit)) calc(6 * var(--ledger-unit));
+  margin: 0 0 calc(7 * var(--ledger-unit));
+}
+
+.hero-meta-loc {
+  margin: 0;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+}
+
 .section {
   padding: clamp(58px, 9vw, 104px) 0;
+}
+
+/* Running section numbers in the chips (01, 02, ...), like a ledger's folios.
+   Pseudo content, so it stays out of headings' accessible names. */
+main {
+  counter-reset: ledger-section;
+}
+
+main .section-chip::before {
+  counter-increment: ledger-section;
+  margin-right: 0.8em;
+  opacity: 0.55;
+  font-weight: 400;
+  content: counter(ledger-section, decimal-leading-zero);
+}
+
+/* Sidebars (case study details) and nested chips are not folios. */
+.case-sidebar .section-chip::before,
+.contact-direct .section-chip::before {
+  display: none;
 }
 
 /* Ledger page blocks. The primitives live in src/components/{NumberTiles,
@@ -498,6 +812,21 @@ h3 {
   margin-top: calc(8 * var(--ledger-unit));
 }
 
+/* Rows whose label links somewhere read as one target: the row tints on hover
+   (bleeding one gutter past the text edges so the fill is not flush with the
+   words) and the title's highlighter fills. Rows keep their rule. */
+.ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
+  /* Bleed no further than the shell margin so narrow viewports never scroll sideways. */
+  --row-bleed: var(--shell-margin);
+  margin-inline: calc(-1 * var(--row-bleed));
+  padding-inline: var(--row-bleed);
+  transition: background-color var(--dur) var(--ease);
+}
+
+.ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link:hover) {
+  background: var(--bg-2);
+}
+
 .card,
 .project-card {
   padding: 22px;
@@ -514,6 +843,12 @@ h3 {
   min-height: 100%;
   flex-direction: column;
   gap: 14px;
+}
+
+.project-card {
+  transition:
+    border-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
 }
 
 .project-card:hover {
@@ -572,6 +907,7 @@ h3 {
 
 .case-study {
   display: grid;
+  padding-top: clamp(32px, 4.5vw, 52px);
   grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
   gap: clamp(28px, 5vw, 64px);
   align-items: start;
@@ -588,12 +924,23 @@ h3 {
   border-top: var(--rule-strong);
 }
 
+/* Reading rule ahead of the essay: 'Notes' chip, no folio. */
+.case-body::before {
+  display: inline-block;
+  margin-bottom: 1em;
+  padding: calc(1.5 * var(--ledger-unit)) calc(4 * var(--ledger-unit));
+  background: var(--text);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-chip);
+  text-transform: uppercase;
+  content: 'Notes';
+}
+
 .case-link {
   width: fit-content;
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.22em;
 }
 
 /* Prose: rendered markdown (blog, case studies, the app's mission and learning
@@ -654,14 +1001,6 @@ h3 {
 
 .prose strong {
   color: var(--text);
-}
-
-.prose a {
-  color: var(--text);
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.22em;
 }
 
 .prose code {
@@ -777,8 +1116,11 @@ h3 {
 }
 
 .blog-filter a:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
+  color: var(--text);
+}
+
+.blog-filter a:active {
+  background: var(--bg-2);
 }
 
 .blog-filter a[aria-current='page'] {
@@ -827,6 +1169,11 @@ h3 {
   outline: none;
 }
 
+.contact-form input,
+.contact-form textarea {
+  transition: border-color var(--dur) var(--ease);
+}
+
 .contact-form input:focus,
 .contact-form textarea:focus {
   border-bottom: 1.5px solid var(--accent);
@@ -838,6 +1185,16 @@ h3 {
   resize: vertical;
 }
 
+/* Turnstile mounts into this box asynchronously; until it does (or when the
+   script is blocked) it must not hold a grid track open above the button. */
+.cf-turnstile:empty {
+  display: none;
+}
+
+.contact-form label:focus-within {
+  color: var(--text);
+}
+
 .form-notice {
   margin: 0 0 calc(8 * var(--ledger-unit));
   font-family: var(--font-mono);
@@ -847,7 +1204,7 @@ h3 {
 }
 
 .form-notice--success {
-  color: var(--accent);
+  color: var(--text);
 }
 
 .form-notice--error {
@@ -869,6 +1226,12 @@ h3 {
 .contact-submit:hover {
   background: var(--accent);
   border-color: var(--accent);
+  color: var(--ink);
+}
+
+.contact-submit:active {
+  background: color-mix(in srgb, var(--accent) 80%, var(--ink));
+  border-color: color-mix(in srgb, var(--accent) 80%, var(--ink));
   color: var(--ink);
 }
 
@@ -951,6 +1314,12 @@ h3 {
   }
 }
 
+@media (min-width: 921px) {
+  .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
+    --row-bleed: var(--ledger-gutter);
+  }
+}
+
 @media (max-width: 920px) {
   .site-header .masthead-shell {
     display: grid;
@@ -982,6 +1351,10 @@ h3 {
     display: none;
   }
 
+  .site-nav[data-open] {
+    animation: panel-in var(--dur-slow) var(--ease) both;
+  }
+
   .site-nav a {
     padding: 12px 0;
     border-top: 1px solid color-mix(in srgb, var(--paper-muted) 30%, var(--ink));
@@ -998,8 +1371,8 @@ h3 {
 }
 
 @media (max-width: 620px) {
-  .shell {
-    width: min(100% - 24px, var(--shell-max));
+  :root {
+    --shell-margin: 12px;
   }
 
   .site-header,
@@ -1017,6 +1390,72 @@ h3 {
   .footer-contact {
     text-align: left;
   }
+
+  /* Stacked ledger rows keep the text axis: the body indents by the gutter so
+     hanging ▸ markers still land at the container edge and paragraphs line up
+     with the bullet text. */
+  .ledger-row-body {
+    padding-left: var(--ledger-gutter);
+  }
+}
+
+/* Entrance motion: hero blocks rise in on load, the mobile nav and the accent
+   flyout unfold. Every duration collapses under prefers-reduced-motion below. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero > *,
+.page-hero > *,
+.number-tiles > .tile {
+  animation: rise-in 0.42s var(--ease) both;
+}
+
+.number-tiles > .tile:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.number-tiles > .tile:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.number-tiles > .tile:nth-child(4) {
+  animation-delay: 280ms;
+}
+
+.hero > :nth-child(2),
+.page-hero > :nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.hero > :nth-child(3),
+.page-hero > :nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.hero > :nth-child(n + 4),
+.page-hero > :nth-child(n + 4) {
+  animation-delay: 180ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

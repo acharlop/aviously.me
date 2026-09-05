@@ -1,6 +1,7 @@
 ---
 import {getCollection} from 'astro:content'
 import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
+import ExternalLink from '@/components/ExternalLink.astro'
 import Layout from '@/components/Layout.astro'
 import LedgerRow from '@/components/LedgerRow.astro'
 import NumberTiles from '@/components/NumberTiles.astro'
@@ -26,8 +27,11 @@ const technicalFocus = [
 
 <Layout>
   <section class="shell hero">
-    <AvailabilityBadge />
-    <h1>Senior full-stack engineer building fast, thoughtful product systems.</h1>
+    <div class="hero-meta">
+      <AvailabilityBadge />
+      <p class="hero-meta-loc">{site.location}</p>
+    </div>
+    <h1>Senior full-stack engineer building fast, thoughtful <mark>product systems</mark>.</h1>
     <p class="lead">
       I’m Avi Charlop, a senior full-stack engineer and team lead with 10+ years of experience across React, TypeScript,
       Next.js, Astro, Angular, React Native, Node.js, Go, Rails, cloud infrastructure, and remote product teams.
@@ -107,7 +111,7 @@ const technicalFocus = [
     </p>
     <div class="button-row">
       <a class="button" href={`mailto:${site.email}`}>Email Avi</a>
-      <a class="button secondary" href={site.linkedin}>LinkedIn</a>
+      <ExternalLink class="button outline" href={site.linkedin}>LinkedIn</ExternalLink>
     </div>
   </section>
 </Layout>

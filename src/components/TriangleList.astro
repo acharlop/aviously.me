@@ -44,11 +44,7 @@ const {items, mono = false, class: className} = Astro.props
     letter-spacing: var(--tracking-mono);
   }
 
-  /* Once LedgerRow stacks its columns there is no gutter to hang into, so the
-     marker moves inside the list and the text indents by its width instead. */
-  @media (max-width: 620px) {
-    .triangle-list {
-      padding-left: var(--ledger-gutter);
-    }
-  }
+  /* When LedgerRow stacks its columns the body indents by one gutter (see
+     global.css), so the marker keeps hanging and stays aligned with the
+     paragraphs around it. */
 </style>
