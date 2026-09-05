@@ -9,7 +9,8 @@ in the PDF, and on a recruiter's dark-mode laptop.
 | ---------------------------------- | ----------------------------------------------------------------- |
 | `src/components/ResumeSheet.astro` | Layout and styles. Geometry is documented at the top of the file. |
 | `src/data/resume-sheet.ts`         | Hand-tuned copy plus accent variants (`mint` default, `primer`).  |
-| `public/resume.pdf`                | The file the Download button serves. **Static for now.**          |
+| `scripts/make-resume-pdf.ts`       | Prints the built sheet or a local accent variant to PDF.          |
+| `public/resume.pdf`                | Generated file served by the Download button.                     |
 
 `src/pages/resume/[view].astro` renders each accent variant at
 `/resume/preview-<slug>` on `astro dev` only; `getStaticPaths` returns `[]`
@@ -25,11 +26,16 @@ on the sheet. The text exports (`/resume.md`, `.txt`, `.json`) keep using
 
 ## The PDF
 
-`public/resume.pdf` was rendered from the design canvas, not from the site.
-`scripts/make-resume-pdf.ts` still prints the old way (0.5in margins from the
-built `/resume` page) and will produce the wrong file until the "print the PDF
-from the site" ticket under epic #37 lands; do not run `bun run resume:pdf`
-until then. To ship a new PDF meanwhile, replace the file by hand.
+Run `bun run resume:pdf` to build the site and regenerate `public/resume.pdf`
+from `/resume/`. The script waits for the self-hosted fonts and prints the CSS
+Letter page with zero margins and background colours enabled.
+
+To print a local-only accent variant, run Astro in development mode through the
+same script and choose the output path:
+
+```sh
+bun scripts/make-resume-pdf.ts --view primer --out /tmp/resume-primer.pdf
+```
 
 ## Reference
 
