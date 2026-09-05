@@ -11,8 +11,9 @@ secondary text `#444`, tertiary text `#6b6b6b`, row divider `#d3d0c6`, and defau
 mint `#4dffb4`. Space Grotesk supplies body/display type; Space Mono supplies
 labels and metadata. Both are self-hosted WOFF2 files under `public/fonts/`.
 
-Dark mode inverts paper and ink, changes secondary text and dividers, and preserves
-the accent. `ThemeInit` applies saved choices before paint; `ThemeToggle` and
+Dark mode keeps paper text and the ink masthead but sets the page on a warm
+charcoal `#17160f` (ink tinted toward paper) so the bands stay distinct; secondary
+text `#bdb8ab`, dividers `#33312a`, and the accent is preserved (decided on #40). `ThemeInit` applies saved choices before paint; `ThemeToggle` and
 `AccentPicker` update them. Site accents all flow through `--accent`. The resume
 sheet keeps its document palette and selected company accent independently.
 

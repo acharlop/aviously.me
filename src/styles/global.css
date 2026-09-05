@@ -25,8 +25,10 @@
   src: url('/fonts/SpaceMono-Bold.woff2') format('woff2');
 }
 
-/* Ledger tokens. Paper and ink by default; dark is the same set inverted.
-   Values come from the resume canvas (epic #37): copy them, do not round.
+/* Ledger tokens. Paper and ink by default; dark inverts the pair, except the
+   page sits on a paper-tinted charcoal one step above ink (#40) so the ink
+   masthead and footer still read as bands. Values come from the resume canvas
+   (epic #37): copy them, do not round.
    --accent is the only place the SITE accent lives (#44 adds a picker); the
    resume sheet carries its own (src/data/resume-sheet.ts). */
 :root {
@@ -92,12 +94,13 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: var(--ink);
-  --bg-2: #1c1c1c;
+  /* Warm charcoal (#40 option B): --ink with the paper's warmth mixed in. */
+  --bg: #17160f;
+  --bg-2: #211f17;
   --text: var(--paper);
-  --muted: var(--paper-muted);
-  --faint: #8a8a8a;
-  --line: #2c2c2c;
+  --muted: #bdb8ab;
+  --faint: #857f72;
+  --line: #33312a;
   --green: #75e3a0;
   --amber: #ffd166;
   --danger: #ff6b7a;
@@ -219,7 +222,7 @@ select {
 
 /* Masthead: the resume's ink band. Always ink in both themes; the 1.5px rule
    beneath it is --text, so it is invisible on paper and reads as a paper rule in
-   dark mode where the band would otherwise merge into the page. */
+   dark mode, where the charcoal page already lifts the band a step. */
 .site-header,
 .site-footer {
   padding: 20px 40px 16px;
