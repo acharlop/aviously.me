@@ -1366,6 +1366,10 @@ main .section-chip::before {
 }
 
 @media (max-width: 620px) {
+  .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
+    --row-bleed: 12px;
+  }
+
   .shell {
     width: min(100% - 24px, var(--shell-max));
   }
