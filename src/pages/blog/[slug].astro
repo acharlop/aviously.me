@@ -40,7 +40,7 @@ const structuredData = {
     <p class='eyebrow'>{post.data.tags[0] ?? 'blog'}</p>
     <h1>{post.data.title}</h1>
     <p class='lead'>{post.data.description}</p>
-    <p class='meta-label'>
+    <p class='meta-line'>
       {post.data.publishedDate.toLocaleDateString('en', {month: 'long', day: 'numeric', year: 'numeric'})} · {
         post.data.readingTime
       }

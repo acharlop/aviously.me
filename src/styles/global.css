@@ -57,11 +57,9 @@
   --accent-cyan: #2ee6ff;
   --accent-lilac: #c9a6ff;
   --accent: var(--accent-mint);
-  /* Accent as running text (blog filter hover, notices): the raw swatches are
-     too light on paper, so this is the accent pulled toward ink; dark mode
-     uses the swatch as is. Text links do NOT use it: they stay --text and wear
-     the true accent as a highlighter underline (see the `a` rules below). */
-  --accent-text: color-mix(in oklab, var(--accent) 40%, var(--ink));
+  /* No derived accent-as-text token: the raw swatches are too light on paper,
+     so text links stay --text and wear the true accent as a highlighter
+     underline (see the `a` rules below). */
   --green: #167c4a;
   --amber: #9d6100;
   --danger: #b3261e;
@@ -86,6 +84,7 @@
   --leading-display: 0.9;
   --leading-body: 1.4;
   --shell-max: 1180px;
+  --shell-margin: 16px;
 
   /* Motion: one short curve for every hover, toggle and flyout. */
   --dur: 160ms;
@@ -111,7 +110,6 @@
   --muted: #bdb8ab;
   --faint: #857f72;
   --line: #33312a;
-  --accent-text: var(--accent);
   --green: #75e3a0;
   --amber: #ffd166;
   --danger: #ff6b7a;
@@ -155,7 +153,6 @@
     --muted: #444;
     --faint: #6b6b6b;
     --line: #d3d0c6;
-    --accent-text: color-mix(in oklab, var(--accent) 46%, var(--ink));
     --green: #167c4a;
     --amber: #9d6100;
     --danger: #b3261e;
@@ -225,8 +222,7 @@ main a:not([class]):not(.social-row a, .blog-filter a):hover,
 .prose a:hover,
 .case-link:hover,
 .ledger-row-label a.ledger-link:hover,
-.section-note a:hover,
-.ledger-row:has(> .ledger-row-label a.ledger-link:hover) a.ledger-title {
+.section-note a:hover {
   --hl-size: 100%;
   color: var(--on-accent);
 }
@@ -293,7 +289,7 @@ select {
 }
 
 .shell {
-  width: min(var(--shell-max), calc(100% - 32px));
+  width: min(var(--shell-max), calc(100% - 2 * var(--shell-margin)));
   margin-inline: auto;
 }
 
@@ -513,6 +509,15 @@ select {
   font-weight: 700;
   letter-spacing: var(--tracking-chip);
   text-transform: uppercase;
+}
+
+/* Quiet mono metadata that may carry links (formats, dates); never a chip. */
+.meta-line {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-mono);
 }
 
 h1,
@@ -812,7 +817,7 @@ main .section-chip::before {
    words) and the title's highlighter fills. Rows keep their rule. */
 .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
   /* Bleed no further than the shell margin so narrow viewports never scroll sideways. */
-  --row-bleed: 16px;
+  --row-bleed: var(--shell-margin);
   margin-inline: calc(-1 * var(--row-bleed));
   padding-inline: var(--row-bleed);
   transition: background-color var(--dur) var(--ease);
@@ -1111,7 +1116,7 @@ main .section-chip::before {
 }
 
 .blog-filter a:hover {
-  color: var(--accent-text);
+  color: var(--text);
 }
 
 .blog-filter a:active {
@@ -1199,7 +1204,7 @@ main .section-chip::before {
 }
 
 .form-notice--success {
-  color: var(--accent-text);
+  color: var(--text);
 }
 
 .form-notice--error {
@@ -1366,12 +1371,8 @@ main .section-chip::before {
 }
 
 @media (max-width: 620px) {
-  .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
-    --row-bleed: 12px;
-  }
-
-  .shell {
-    width: min(100% - 24px, var(--shell-max));
+  :root {
+    --shell-margin: 12px;
   }
 
   .site-header,
