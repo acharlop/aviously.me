@@ -181,7 +181,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Short pages (blog, 404): main grows so the footer band sits at the bottom. */
+/* Short pages (blog, 404): main grows so the footer band sits at the bottom.
+   The /app shell wraps its slot in main.app-main for the same reason. */
 main {
   flex: 1 0 auto;
 }
@@ -1237,6 +1238,10 @@ main .section-chip::before {
 
 .contact-form [aria-invalid='true'] {
   border-bottom-color: var(--danger);
+}
+
+.contact-form[data-turnstile='missing'] .contact-submit:disabled {
+  cursor: not-allowed;
 }
 
 .contact-submit:disabled {
