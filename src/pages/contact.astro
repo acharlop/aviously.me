@@ -12,7 +12,6 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
   description='Contact Avi Charlop for senior engineering, frontend architecture, full-stack product, team lead, and consulting conversations.'
 >
   <section class='shell page-hero'>
-    <p class='eyebrow'>`contact`</p>
     <h1>Let’s talk about the product or platform challenge in front of you.</h1>
     <p class='lead'>
       I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting
@@ -34,7 +33,10 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
         <p class='form-notice form-notice--submitting' data-form-submitting hidden aria-live='polite'>
           Sending your message…
         </p>
-        <form class='contact-form' action='/api/contact' method='post'>
+        <p class='form-notice form-notice--error' data-form-invalid hidden aria-live='polite'>
+          Please fill in your name, a valid email address, and a message.
+        </p>
+        <form class='contact-form' action='/api/contact' method='post' novalidate>
           <input type='text' name='_honey' style='display:none' tabindex='-1' autocomplete='off' />
           <label>
             Name
@@ -76,11 +78,32 @@ const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
       document.querySelector('[data-form-error]')?.removeAttribute('hidden')
     }
 
-    document.querySelector('form.contact-form')?.addEventListener('submit', (event) => {
+    const contactForm = document.querySelector('form.contact-form')
+    const markValidity = () => {
+      let valid = true
+      contactForm.querySelectorAll('[required]').forEach((field) => {
+        const ok = field.checkValidity()
+        field.setAttribute('aria-invalid', String(!ok))
+        if (!ok) valid = false
+      })
+      document.querySelector('[data-form-invalid]')?.toggleAttribute('hidden', valid)
+      return valid
+    }
+    contactForm?.addEventListener('submit', (event) => {
       const form = event.currentTarget
       if (!(form instanceof HTMLFormElement)) return
+      if (!markValidity()) {
+        event.preventDefault()
+        form.querySelector('[aria-invalid="true"]')?.focus()
+        return
+      }
       form.querySelector('button[type="submit"]')?.setAttribute('disabled', '')
       document.querySelector('[data-form-submitting]')?.removeAttribute('hidden')
+    })
+    contactForm?.addEventListener('input', (event) => {
+      if (event.target.getAttribute('aria-invalid') === 'true' && event.target.checkValidity()) {
+        event.target.setAttribute('aria-invalid', 'false')
+      }
     })
   </script>
 </Layout>

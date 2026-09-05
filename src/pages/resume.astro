@@ -12,7 +12,6 @@ const hasPdf = fs.existsSync('public/resume.pdf')
   {/* No name or tagline here — the sheet draws its own masthead, and
       repeating them would show the name twice and ship a second <h1>. */}
   <section class="shell page-hero print-hidden">
-    <p class="eyebrow">`resume`</p>
     <div class="button-row">
       {hasPdf && <a id="resume-download" class="button" href="/resume.pdf" download="avi-charlop_resume.pdf">Download PDF</a>}
       <button class="button secondary" type="button" onclick="window.print()">Print this page</button>

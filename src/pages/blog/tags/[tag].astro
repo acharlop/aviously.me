@@ -27,7 +27,6 @@ const posts = (await getCollection('blog'))
   canonical={`/blog/tags/${slugify(tag)}/`}
 >
   <section class='shell page-hero'>
-    <p class='eyebrow'>`tag`</p>
     <h1>{tag}</h1>
     <p class='lead'>Draft outlines and essays tagged with {tag}.</p>
   </section>

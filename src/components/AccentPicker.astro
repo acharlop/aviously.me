@@ -1,6 +1,7 @@
 ---
-// Site accent picker (#44): six swatches; the choice lives as data-accent on
-// <html> and in localStorage. Colours come from the --accent-<name> tokens in
+// Site accent picker (#44): a single swatch button in the band that opens a
+// flyout of six swatches. The choice lives as data-accent on <html> and in
+// localStorage. Colours come from the --accent-<name> tokens in
 // src/styles/global.css, which is also where data-accent selects --accent.
 // The inline script in Layout.astro applies the stored choice before paint;
 // this component only reflects and sets it. The resume sheet carries its own
@@ -15,19 +16,32 @@ const accents = [
 ]
 ---
 
-<div class="accent-picker" role="group" aria-label="Accent colour">
-  {
-    accents.map((accent) => (
-      <button
-        class="accent-swatch"
-        type="button"
-        aria-label={`Accent: ${accent.label}`}
-        aria-pressed={accent.name === 'mint' ? 'true' : 'false'}
-        data-accent-swatch={accent.name}
-        style={`--swatch:var(--accent-${accent.name})`}
-      />
-    ))
-  }
+<div class="accent-picker" data-accent-picker>
+  <button
+    class="accent-trigger"
+    type="button"
+    aria-label="Choose accent colour"
+    aria-haspopup="true"
+    aria-expanded="false"
+    aria-controls="accent-flyout"
+    data-accent-trigger
+  >
+    <span class="accent-current" aria-hidden="true"></span>
+  </button>
+  <div class="accent-flyout" id="accent-flyout" role="group" aria-label="Accent colour" hidden>
+    {
+      accents.map((accent) => (
+        <button
+          class="accent-swatch"
+          type="button"
+          aria-label={`Accent: ${accent.label}`}
+          aria-pressed={accent.name === 'mint' ? 'true' : 'false'}
+          data-accent-swatch={accent.name}
+          style={`--swatch:var(--accent-${accent.name})`}
+        />
+      ))
+    }
+  </div>
 </div>
 
 <script>
@@ -39,14 +53,41 @@ const accents = [
       swatch.setAttribute('aria-pressed', String(swatch.dataset.accentSwatch === current))
     })
   }
-  // Delegated so the listener survives view-transition swaps of the header.
+
+  const setOpen = (open: boolean) => {
+    const trigger = document.querySelector<HTMLButtonElement>('[data-accent-trigger]')
+    const flyout = document.getElementById('accent-flyout')
+    if (!trigger || !flyout) return
+    trigger.setAttribute('aria-expanded', String(open))
+    flyout.toggleAttribute('hidden', !open)
+    if (open) flyout.querySelector<HTMLButtonElement>('[aria-pressed="true"]')?.focus()
+  }
+
+  // Delegated so the listeners survive view-transition swaps of the header.
   document.addEventListener('click', (event) => {
     if (!(event.target instanceof Element)) return
-    const accent = event.target.closest<HTMLElement>('[data-accent-swatch]')?.dataset.accentSwatch
-    if (!accent) return
-    document.documentElement.dataset.accent = accent
-    localStorage.setItem('accent', accent)
-    syncPressed()
+    if (event.target.closest('[data-accent-trigger]')) {
+      const trigger = event.target.closest('[data-accent-trigger]')!
+      setOpen(trigger.getAttribute('aria-expanded') !== 'true')
+      return
+    }
+    const swatch = event.target.closest<HTMLElement>('[data-accent-swatch]')
+    if (swatch?.dataset.accentSwatch) {
+      document.documentElement.dataset.accent = swatch.dataset.accentSwatch
+      localStorage.setItem('accent', swatch.dataset.accentSwatch)
+      syncPressed()
+      setOpen(false)
+      document.querySelector<HTMLButtonElement>('[data-accent-trigger]')?.focus()
+      return
+    }
+    if (!event.target.closest('[data-accent-picker]')) setOpen(false)
+  })
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    const trigger = document.querySelector<HTMLButtonElement>('[data-accent-trigger]')
+    if (trigger?.getAttribute('aria-expanded') !== 'true') return
+    setOpen(false)
+    trigger.focus()
   })
   syncPressed()
   document.addEventListener('astro:after-swap', syncPressed)
@@ -55,11 +96,55 @@ const accents = [
 {/* Global, not scoped: the selected-state rules start from :root. */}
 <style is:global>
   .accent-picker {
+    position: relative;
     display: flex;
     align-items: center;
   }
 
-  /* A 24px hit area around a 16px ink-bordered square. */
+  /* Same 40px box as the theme and menu toggles, showing the current accent. */
+  .accent-trigger {
+    display: inline-grid;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    place-items: center;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .accent-trigger:hover,
+  .accent-trigger[aria-expanded='true'] {
+    color: var(--accent);
+  }
+
+  .accent-current {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--paper);
+    background: var(--accent);
+  }
+
+  /* Flyout: an ink panel hanging off the band's bottom rule. */
+  .accent-flyout {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 20;
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border: 1px solid var(--paper);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .accent-flyout[hidden] {
+    display: none;
+  }
+
+  /* A 24px hit area around a 16px bordered square. */
   .accent-swatch {
     display: grid;
     width: 24px;
@@ -74,7 +159,7 @@ const accents = [
   .accent-swatch::before {
     width: 16px;
     height: 16px;
-    border: 1px solid var(--text);
+    border: 1px solid var(--paper);
     background: var(--swatch);
     content: '';
   }
@@ -83,7 +168,7 @@ const accents = [
     outline-offset: 0;
   }
 
-  /* Selected: heavier border with a gap of the page background just inside
+  /* Selected: heavier border with a gap of the panel background just inside
      it, drawn as an inset outline (no shadows in this design). Keyed off the
      <html> attribute so it is correct before any script runs. */
   :root:not([data-accent]) [data-accent-swatch='mint']::before,
@@ -94,7 +179,7 @@ const accents = [
   :root[data-accent='cyan'] [data-accent-swatch='cyan']::before,
   :root[data-accent='lilac'] [data-accent-swatch='lilac']::before {
     border-width: 1.5px;
-    outline: 1.5px solid var(--bg);
+    outline: 1.5px solid var(--ink);
     outline-offset: -3px;
   }
 </style>
