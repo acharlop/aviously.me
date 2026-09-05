@@ -1,5 +1,6 @@
 ---
 import {getCollection, render} from 'astro:content'
+import SectionBar from '@/components/SectionBar.astro'
 import Layout from '@/components/Layout.astro'
 
 export async function getStaticPaths() {
@@ -27,16 +28,33 @@ const structuredData = {
 }
 ---
 
-<Layout title={`${post.data.title} - Avi Charlop`} description={post.data.description} canonical={`/blog/${post.id.replace(/\.mdx?$/, '')}/`} type="article" structuredData={structuredData}>
-  <article class="shell page-hero content-panel">
-    {post.data.draft && <span class="draft-pill">draft outline</span>}
-    <p class="eyebrow">`{post.data.tags[0] ?? 'blog'}`</p>
+<Layout
+  title={`${post.data.title} - Avi Charlop`}
+  description={post.data.description}
+  canonical={`/blog/${post.id.replace(/\.mdx?$/, '')}/`}
+  type='article'
+  structuredData={structuredData}
+>
+  <article class='shell page-hero content-panel'>
+    {post.data.draft && <span class='draft-label'>draft outline</span>}
+    <p class='eyebrow'>`{post.data.tags[0] ?? 'blog'}`</p>
     <h1>{post.data.title}</h1>
-    <p class="lead">{post.data.description}</p>
-    <p class="meta-label">{post.data.publishedDate.toLocaleDateString('en', {month: 'long', day: 'numeric', year: 'numeric'})} · {post.data.readingTime}</p>
+    <p class='lead'>{post.data.description}</p>
+    <p class='meta-label'>
+      {post.data.publishedDate.toLocaleDateString('en', {month: 'long', day: 'numeric', year: 'numeric'})} · {
+        post.data.readingTime
+      }
+    </p>
   </article>
 
-  <section class="shell section content-panel prose">
-    <Content />
+  <section class='shell ledger-section'>
+    <SectionBar label='Article' />
+    <div class='prose blog-prose'><Content /></div>
   </section>
 </Layout>
+
+<style>
+  .blog-prose {
+    margin-inline: auto;
+  }
+</style>
