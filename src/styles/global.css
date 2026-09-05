@@ -490,20 +490,6 @@ h3 {
   margin-top: calc(8 * var(--ledger-unit));
 }
 
-.grid-2,
-.grid-3 {
-  display: grid;
-  gap: 18px;
-}
-
-.grid-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .card,
 .project-card {
   padding: 22px;
@@ -987,11 +973,6 @@ h3 {
     grid-template-columns: 1fr;
   }
 
-  .grid-3,
-  .grid-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .case-sidebar {
     position: static;
   }
@@ -1000,11 +981,6 @@ h3 {
 @media (max-width: 620px) {
   .shell {
     width: min(100% - 24px, var(--shell-max));
-  }
-
-  .grid-3,
-  .grid-2 {
-    grid-template-columns: 1fr;
   }
 
   .site-header,
