@@ -70,9 +70,9 @@ const {Content} = await render(project)
         }
         {
           project.data.links.map((link) => (
-            <LedgerRow label={link.href.includes('github.com') ? 'Repo' : 'Demo'}>
+            <LedgerRow label={link.label}>
               <a class='case-link' href={link.href}>
-                {link.label}
+                {new URL(link.href).hostname}
               </a>
             </LedgerRow>
           ))
@@ -81,3 +81,10 @@ const {Content} = await render(project)
     </aside>
   </section>
 </Layout>
+
+<style>
+  .case-sidebar :global(.ledger-row) {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: calc(3 * var(--ledger-unit));
+  }
+</style>
