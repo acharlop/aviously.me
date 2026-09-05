@@ -48,9 +48,16 @@ test('contact form posts to a real backend', async ({page}) => {
   await expect(form).toHaveAttribute('action', '/api/contact')
   await expect(form).toHaveAttribute('method', 'post')
   await expect(form.locator('input[name="email"]')).toHaveAttribute('required', '')
-  await expect(form.locator('.cf-turnstile')).toHaveAttribute('data-sitekey', /.+/)
-  await expect(form).toHaveAttribute('data-turnstile', 'ready')
-  await expect(form.locator('button[type="submit"]')).toBeEnabled()
+  // Production builds carry CF_TURNSTILE_SITE_KEY; a local build without it must
+  // render the form offline rather than post unverified messages.
+  if ((await form.getAttribute('data-turnstile')) === 'ready') {
+    await expect(form.locator('.cf-turnstile')).toHaveAttribute('data-sitekey', /.+/)
+    await expect(form.locator('button[type="submit"]')).toBeEnabled()
+  } else {
+    await expect(form).toHaveAttribute('data-turnstile', 'missing')
+    await expect(form.locator('button[type="submit"]')).toBeDisabled()
+    await expect(page.locator('[data-form-unconfigured]')).toBeVisible()
+  }
 })
 
 test('contact page shows success notice after redirect', async ({page}) => {

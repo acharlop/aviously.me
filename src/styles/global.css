@@ -187,11 +187,6 @@ main {
   flex: 1 0 auto;
 }
 
-.app-main {
-  display: flex;
-  flex-direction: column;
-}
-
 a {
   color: inherit;
   text-decoration: none;
