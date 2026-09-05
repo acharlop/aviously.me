@@ -1,58 +1,86 @@
 ---
 import Layout from '@/components/Layout.astro'
+import SectionBar from '@/components/SectionBar.astro'
 import SocialLinks from '@/components/SocialLinks.astro'
 import {site} from '@/data/site'
 
 const turnstileSiteKey = import.meta.env.CF_TURNSTILE_SITE_KEY
 ---
 
-<Layout title="Contact Avi Charlop" description="Contact Avi Charlop for senior engineering, frontend architecture, full-stack product, team lead, and consulting conversations.">
-  <section class="shell page-hero">
-    <p class="eyebrow">`contact`</p>
+<Layout
+  title='Contact Avi Charlop'
+  description='Contact Avi Charlop for senior engineering, frontend architecture, full-stack product, team lead, and consulting conversations.'
+>
+  <section class='shell page-hero'>
+    <p class='eyebrow'>`contact`</p>
     <h1>Let’s talk about the product or platform challenge in front of you.</h1>
-    <p class="lead">I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting conversations.</p>
+    <p class='lead'>
+      I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting
+      conversations.
+    </p>
     <SocialLinks />
   </section>
 
-  <section class="shell section contact-grid">
-    <p class="lead" data-form-success hidden>Thanks — your message is on its way. I’ll get back to you by email.</p>
-    <p class="lead" data-form-error hidden>Something went wrong sending your message. Please try again, or email me directly below.</p>
-    <form class="contact-card contact-form" action="/api/contact" method="post">
-      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-      <label>
-        Name
-        <input name="name" autocomplete="name" required />
-      </label>
-      <label>
-        Email
-        <input name="email" type="email" autocomplete="email" required />
-      </label>
-      <label>
-        Message
-        <textarea name="message" required></textarea>
-      </label>
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
-      <button class="button" type="submit">Send message</button>
-    </form>
-    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <script is:inline data-astro-rerun>
-      const contactParams = new URLSearchParams(location.search)
-      if (contactParams.get('sent') === 'true') {
-        document.querySelector('[data-form-success]')?.removeAttribute('hidden')
-      }
-      if (contactParams.get('error')) {
-        document.querySelector('[data-form-error]')?.removeAttribute('hidden')
-      }
-    </script>
-    <aside class="contact-card">
-      <p class="meta-label">direct</p>
-      <h2>Email is best.</h2>
-      <p>No phone number is published here by default. Email, LinkedIn, and GitHub are the primary contact paths.</p>
-      <div class="button-row">
-        <a class="button" href={`mailto:${site.email}`}>{site.email}</a>
-        <a class="button secondary" href={site.linkedin}>LinkedIn</a>
-        <a class="button secondary" href={site.github}>GitHub</a>
+  <section class='shell ledger-section contact-section'>
+    <SectionBar label='Contact' as='h2' />
+    <div class='contact-grid'>
+      <div>
+        <p class='form-notice form-notice--success' data-form-success hidden aria-live='polite'>
+          Thanks — your message is on its way. I’ll get back to you by email.
+        </p>
+        <p class='form-notice form-notice--error' data-form-error hidden aria-live='polite'>
+          Something went wrong sending your message. Please try again, or email me directly below.
+        </p>
+        <p class='form-notice form-notice--submitting' data-form-submitting hidden aria-live='polite'>
+          Sending your message…
+        </p>
+        <form class='contact-form' action='/api/contact' method='post'>
+          <input type='text' name='_honey' style='display:none' tabindex='-1' autocomplete='off' />
+          <label>
+            Name
+            <input name='name' autocomplete='name' required />
+          </label>
+          <label>
+            Email
+            <input name='email' type='email' autocomplete='email' required />
+          </label>
+          <label>
+            Message
+            <textarea name='message' required></textarea>
+          </label>
+          <div class='cf-turnstile' data-sitekey={turnstileSiteKey} data-theme='auto'></div>
+          <button class='button contact-submit' type='submit'>Send message</button>
+        </form>
       </div>
-    </aside>
+      <aside class='contact-direct'>
+        <SectionBar label='Direct' as='h3' />
+        <div class='contact-direct-body'>
+          <h2>Email is best.</h2>
+          <p>No phone number is published here by default. Email, LinkedIn, and GitHub are the primary contact paths.</p>
+          <div class='button-row'>
+            <a class='button' href={`mailto:${site.email}`}>{site.email}</a>
+            <a class='button secondary' href={site.linkedin}>LinkedIn</a>
+            <a class='button secondary' href={site.github}>GitHub</a>
+          </div>
+        </div>
+      </aside>
+    </div>
   </section>
+  <script is:inline src='https://challenges.cloudflare.com/turnstile/v0/api.js' async defer></script>
+  <script is:inline data-astro-rerun>
+    const contactParams = new URLSearchParams(location.search)
+    if (contactParams.get('sent') === 'true') {
+      document.querySelector('[data-form-success]')?.removeAttribute('hidden')
+    }
+    if (contactParams.get('error')) {
+      document.querySelector('[data-form-error]')?.removeAttribute('hidden')
+    }
+
+    document.querySelector('form.contact-form')?.addEventListener('submit', (event) => {
+      const form = event.currentTarget
+      if (!(form instanceof HTMLFormElement)) return
+      form.querySelector('button[type="submit"]')?.setAttribute('disabled', '')
+      document.querySelector('[data-form-submitting]')?.removeAttribute('hidden')
+    })
+  </script>
 </Layout>
