@@ -1,0 +1,119 @@
+---
+// Accent number tiles (the resume sheet's `.numbers`, at web scale). The first
+// tile is exactly --ledger-axis wide so its right edge, and the divider of the
+// tile after it, land on the text axis; the remaining tiles share the rest.
+// Theme-invariant: accent background and ink text in both themes, like the sheet.
+export type NumberTile = {
+  value: string
+  /** When set, the tile reads "value ▸ to" (e.g. "1 day ▸ 12 min"). */
+  to?: string
+  /** Mono uppercase caption under the number. */
+  caption: string
+  /** Secondary line under the caption. */
+  source?: string
+}
+
+type Props = {items: NumberTile[]; label?: string}
+const {items, label} = Astro.props
+---
+
+<ul class="number-tiles" aria-label={label} style={`--tiles:${Math.max(items.length - 1, 1)}`}>
+  {
+    items.map((n) => (
+      <li class="tile">
+        <p class="tile-value">
+          {n.value}
+          {n.to && (
+            <>
+              <span class="tile-arrow" aria-hidden="true">
+                &#9656;
+              </span>
+              <span class="sr-only">to</span>
+              {n.to}
+            </>
+          )}
+        </p>
+        <p class="tile-caption">{n.caption}</p>
+        {n.source && <p class="tile-source">{n.source}</p>}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .number-tiles {
+    display: grid;
+    grid-template-columns: var(--ledger-axis) repeat(var(--tiles), minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    border-bottom: var(--rule-strong);
+    list-style: none;
+  }
+
+  .tile {
+    padding: calc(8 * var(--ledger-unit)) calc(12 * var(--ledger-unit)) calc(7 * var(--ledger-unit));
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  .tile + .tile {
+    border-left: var(--rule-strong);
+    padding-left: var(--ledger-gutter);
+  }
+
+  .tile p {
+    margin: 0;
+  }
+
+  .tile-value {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: var(--tracking-numbers);
+    line-height: 1;
+  }
+
+  .tile-arrow {
+    display: inline-block;
+    margin: 0 0.1em;
+    font-size: 1.27em;
+    line-height: 0;
+    vertical-align: -0.09em;
+  }
+
+  .tile-caption {
+    margin-top: calc(5 * var(--ledger-unit));
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+  }
+
+  .tile-source {
+    margin-top: 1px;
+    font-size: var(--text-sm);
+    line-height: 1.3;
+    color: var(--on-accent-muted);
+  }
+
+  /* Two by two once four tiles no longer fit; there is no text axis to hit
+     here because LedgerRow stacks its columns at the same width. Even tiles
+     keep the divider from `.tile + .tile`; only the odd ones that start a row
+     lose it. The selector repeats the sibling combinator on purpose: Astro
+     scopes both sides of `+`, so a plain `:nth-child` rule would be
+     out-specified by the desktop rule above. */
+  @media (max-width: 920px) {
+    .number-tiles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tile + .tile:nth-child(odd) {
+      border-left: 0;
+      padding-left: calc(12 * var(--ledger-unit));
+    }
+
+    .tile:nth-child(n + 3) {
+      border-top: var(--rule-strong);
+    }
+  }
+</style>

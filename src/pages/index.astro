@@ -2,40 +2,54 @@
 import {getCollection} from 'astro:content'
 import AvailabilityBadge from '@/components/AvailabilityBadge.astro'
 import Layout from '@/components/Layout.astro'
-import ProjectCard from '@/components/ProjectCard.astro'
-import SectionHeading from '@/components/SectionHeading.astro'
+import LedgerRow from '@/components/LedgerRow.astro'
+import NumberTiles from '@/components/NumberTiles.astro'
+import SectionBar from '@/components/SectionBar.astro'
 import SocialLinks from '@/components/SocialLinks.astro'
+import TriangleList from '@/components/TriangleList.astro'
+import {resumeSheet} from '@/data/resume-sheet'
 import {site} from '@/data/site'
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order)
 const featuredProjects = projects.filter((project) => project.data.featured).slice(0, 6)
+
+const focus = ['product', 'architecture', 'delivery', 'developer_experience']
+const technicalFocus = [
+  'Frontend architecture',
+  'Full-stack product systems',
+  'Legacy modernization',
+  'Remote team leadership',
+  'Cloud/devops automation',
+  'Developer experience and tooling',
+]
 ---
 
 <Layout>
   <section class="shell hero">
-    <div>
-      <p class="eyebrow">`currently`</p>
-      <AvailabilityBadge />
-      <h1>Senior full-stack engineer building fast, thoughtful product systems.</h1>
-      <p class="lead">
-        I’m Avi Charlop, a senior full-stack engineer and team lead with 10+ years of experience across React,
-        TypeScript, Next.js, Astro, Angular, React Native, Node.js, Go, Rails, cloud infrastructure, and remote product
-        teams.
-      </p>
-      <div class="hero-actions">
-        <a class="button" href="/work/">View work</a>
-        <a class="button secondary" href="/contact/">Get in touch</a>
-      </div>
-      <SocialLinks />
+    <p class="eyebrow">`currently`</p>
+    <AvailabilityBadge />
+    <h1>Senior full-stack engineer building fast, thoughtful product systems.</h1>
+    <p class="lead">
+      I’m Avi Charlop, a senior full-stack engineer and team lead with 10+ years of experience across React, TypeScript,
+      Next.js, Astro, Angular, React Native, Node.js, Go, Rails, cloud infrastructure, and remote product teams.
+    </p>
+    <div class="hero-actions">
+      <a class="button" href="/work/">View work</a>
+      <a class="button secondary" href="/contact/">Get in touch</a>
     </div>
-    <aside class="signal-card" aria-label="Avi Charlop quick signal">
-      <p class="meta-label">{site.bio}</p>
-      <pre class="code-note">{`const focus = [
-  "product",
-  "architecture",
-  "delivery",
-  "developer_experience"
-];`}</pre>
+    <SocialLinks />
+  </section>
+
+  <section class="shell" aria-label="Professional highlights">
+    <NumberTiles items={resumeSheet.numbers} />
+  </section>
+
+  <section class="shell ledger-section" aria-label="Avi Charlop quick signal">
+    <SectionBar label="Profile">
+      <Fragment slot="note">{site.bio}</Fragment>
+    </SectionBar>
+    <LedgerRow label="focus">
+      <TriangleList items={focus} mono />
       <p>
         I help teams modernize legacy systems, ship greenfield products, build better developer workflows, and turn
         customer feedback into production software.
@@ -45,57 +59,56 @@ const featuredProjects = projects.filter((project) => project.data.featured).sli
         about interfaces that feel simple, systems that are easy to change, and engineering cultures that make shipping
         feel calm.
       </p>
-    </aside>
+    </LedgerRow>
   </section>
 
-  <section class="shell" aria-label="Professional highlights">
-    <div class="metrics-strip">
-      <div class="metric"><strong>10+ years</strong><span>Building web and mobile applications.</span></div>
-      <div class="metric"><strong>Team lead</strong><span>Remote teams and greenfield product delivery.</span></div>
-      <div class="metric"><strong>Modernizer</strong><span>Legacy Angular systems with React micro frontends.</span></div>
-      <div class="metric"><strong>Open source</strong><span>Rails, Astro, and Tailwind tooling.</span></div>
+  <section class="shell ledger-section">
+    <SectionBar label="Selected work" as="div">
+      <a slot="note" href="/work/">All work</a>
+    </SectionBar>
+    <h2 class="ledger-headline">Work that moved systems forward.</h2>
+    <p class="ledger-summary">
+      Case studies across enterprise SaaS, communication platforms, commerce, AI tooling, Web3 launches, and open source.
+    </p>
+    <div class="ledger-rows">
+      {
+        featuredProjects.map((project) => (
+          <LedgerRow
+            label={project.data.title}
+            href={`/work/${project.id.replace(/\.mdx?$/, '')}/`}
+            sub={project.data.type}
+            meta={project.data.dates}
+          >
+            <p>{project.data.summary}</p>
+            {project.data.stack.length > 0 && <p class="ledger-stack">{project.data.stack.slice(0, 5).join(', ')}</p>}
+          </LedgerRow>
+        ))
+      }
     </div>
   </section>
 
-  <section class="shell section">
-    <SectionHeading
-      kicker="selected_work"
-      title="Work that moved systems forward."
-      text="Case studies across enterprise SaaS, communication platforms, commerce, AI tooling, Web3 launches, and open source."
-      href="/work/"
-      linkLabel="All work"
-    />
-    <div class="grid-3">
-      {featuredProjects.map((project) => <ProjectCard project={project} />)}
+  <section class="shell ledger-section">
+    <SectionBar label="Technical focus" as="div" />
+    <h2 class="ledger-headline">A practical stack, not a trophy shelf.</h2>
+    <p class="ledger-summary">The through-line is making product systems easier to ship, reason about, and evolve.</p>
+    <div class="ledger-rows">
+      <LedgerRow label="focus">
+        <TriangleList items={technicalFocus} />
+        <p>Typed paths, clear interfaces, useful automation, and UI foundations that keep delivery moving.</p>
+      </LedgerRow>
     </div>
   </section>
 
-  <section class="shell section">
-    <SectionHeading
-      kicker="technical_focus"
-      title="A practical stack, not a trophy shelf."
-      text="The through-line is making product systems easier to ship, reason about, and evolve."
-    />
-    <div class="grid-3">
-      {['Frontend architecture', 'Full-stack product systems', 'Legacy modernization', 'Remote team leadership', 'Cloud/devops automation', 'Developer experience and tooling'].map((item) => (
-        <article class="card">
-          <p class="meta-label">focus</p>
-          <h3>{item}</h3>
-          <p>Typed paths, clear interfaces, useful automation, and UI foundations that keep delivery moving.</p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="shell section">
-    <div class="signal-card">
-      <p class="meta-label">`next_step`</p>
-      <h2>Have a product, platform, or frontend architecture challenge?</h2>
-      <p class="lead">I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting conversations.</p>
-      <div class="button-row">
-        <a class="button" href={`mailto:${site.email}`}>Email Avi</a>
-        <a class="button secondary" href={site.linkedin}>LinkedIn</a>
-      </div>
+  <section class="shell ledger-section">
+    <SectionBar label="Next step" as="div" />
+    <h2 class="ledger-headline">Have a product, platform, or frontend architecture challenge?</h2>
+    <p class="ledger-summary">
+      I’m interested in senior engineering, team lead, frontend architecture, full-stack product, and consulting
+      conversations.
+    </p>
+    <div class="button-row">
+      <a class="button" href={`mailto:${site.email}`}>Email Avi</a>
+      <a class="button secondary" href={site.linkedin}>LinkedIn</a>
     </div>
   </section>
 </Layout>
