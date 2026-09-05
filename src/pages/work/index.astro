@@ -21,7 +21,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
   </section>
 
   <section class='shell ledger-section'>
-    <SectionBar label='Case studies' as='div'>
+    <SectionBar label='Case studies'>
       <span slot='note'>{projects.length} projects</span>
     </SectionBar>
     <div class='ledger-rows'>
