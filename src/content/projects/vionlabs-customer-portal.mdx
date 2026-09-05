@@ -14,11 +14,18 @@ featured: true
 order: 1
 ---
 
-The important shape of the work was greenfield product delivery with enough platform discipline to keep rapid customer iteration from turning into operational drag.
+The important shape of the work was greenfield product delivery with enough platform discipline to keep rapid customer iteration from turning into operational drag. The approach was a single Turborepo monorepo holding every surface — portal, public API, sync services, docs, design system — so the 4-engineer team shared one set of types, conventions, and deploy paths.
 
-## Highlights
+## What shipped
 
-- Led a 4-engineer remote team.
-- Unified multiple upstream systems behind a customer portal.
-- Established monorepo standards for frontend, backend, and documentation surfaces.
-- Built deployment paths around Terraform-managed GCP infrastructure and GitLab CI/CD.
+- A Turborepo monorepo: Next.js 15 / React 19 portal, tRPC app API, a public Fastify API for customer integrations, Drizzle ORM on Cloud SQL Postgres, and a Fumadocs developer-docs site.
+- Two Fastify data-sync services pulling catalog data from Vionlabs' upstream content-fingerprinting systems into the portal database — the "multi-source" part of the platform.
+- Catalog browsing and management for large video catalogs: list and table views, filtering and sorting, tagging, smart lists, and multi-tenant orgs with per-catalog entitlements.
+- Enterprise auth: WorkOS SSO, scoped API keys, and machine-to-machine auth.
+- A Figma-driven Tailwind design system with Storybook stories.
+- GCP infrastructure entirely in Terraform — Cloud Run, Cloud SQL, Pub/Sub, Eventarc, Secret Manager, VPC, Artifact Registry — deployed through GitLab CI/CD.
+
+## Outcome
+
+- Second-most-active contributor (~480 commits) while leading the 4-engineer remote team.
+- Enterprise customers onboarded onto the portal, with Sales feedback shipping same-day against a stable platform foundation.
