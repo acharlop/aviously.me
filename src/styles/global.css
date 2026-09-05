@@ -811,8 +811,10 @@ main .section-chip::before {
    (bleeding one gutter past the text edges so the fill is not flush with the
    words) and the title's highlighter fills. Rows keep their rule. */
 .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
-  margin-inline: calc(-1 * var(--ledger-gutter));
-  padding-inline: var(--ledger-gutter);
+  /* Bleed no further than the shell margin so narrow viewports never scroll sideways. */
+  --row-bleed: 16px;
+  margin-inline: calc(-1 * var(--row-bleed));
+  padding-inline: var(--row-bleed);
   transition: background-color var(--dur) var(--ease);
 }
 
@@ -1304,6 +1306,12 @@ main .section-chip::before {
   .site-nav,
   .nav-actions {
     display: none;
+  }
+}
+
+@media (min-width: 921px) {
+  .ledger-rows > .ledger-row:has(> .ledger-row-label a.ledger-link) {
+    --row-bleed: var(--ledger-gutter);
   }
 }
 
