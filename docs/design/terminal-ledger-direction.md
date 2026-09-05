@@ -1,3 +1,5 @@
+> Historical design exploration. The shipped design is documented in [ledger.md](ledger.md) and epic #37.
+
 # Terminal Ledger — the aviously.me design system
 
 A personal brand system for **Avi Charlop**, senior full-stack engineer and team lead

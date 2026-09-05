@@ -1,13 +1,5 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-display: swap;
-  font-family: 'Cal Sans';
-  font-style: normal;
-  font-weight: 600;
-  src: url('/fonts/CalSans-SemiBold.ttf') format('truetype');
-}
-
 /* Resume sheet type (see src/components/ResumeSheet.astro). Latin subsets from Google Fonts, self-hosted. */
 @font-face {
   font-display: swap;
