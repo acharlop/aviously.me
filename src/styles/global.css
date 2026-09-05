@@ -707,27 +707,136 @@ h3 {
   top: 104px;
 }
 
+/* Prose: rendered markdown (blog, case studies, the app's mission and learning
+   records). Deliberately minimal; #48 defines the full ledger prose styles. */
 .prose {
+  max-width: 68ch;
   color: var(--muted);
+  font-family: var(--font-body);
+  line-height: var(--leading-body);
 }
 
-.prose :where(h2, h3) {
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose :where(h1, h2, h3, h4) {
+  margin: 1.4em 0 0.5em;
   color: var(--text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.15;
+}
+
+.prose :where(h1) {
+  font-size: var(--text-xl);
+}
+
+.prose :where(h2) {
+  font-size: var(--text-lg);
+}
+
+.prose :where(h3, h4) {
+  font-size: var(--text-base);
+}
+
+.prose :where(p, ul, ol, pre, blockquote) {
+  margin: 0.7em 0;
+}
+
+.prose :where(ul, ol) {
+  padding-left: 1.4em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose strong {
+  color: var(--text);
+}
+
+.prose a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
 }
 
 .prose code {
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg), transparent 10%);
-  color: var(--green);
+  background: var(--bg-2);
+  color: var(--text);
   font-family: var(--font-mono);
+  font-size: 0.88em;
   padding: 0.12em 0.34em;
 }
 
 .prose pre {
   overflow-x: auto;
-  padding: 18px;
+  padding: 16px;
   border: 1px solid var(--line);
   background: var(--bg-2);
+}
+
+.prose pre code {
+  border: 0;
+  padding: 0;
+  font-size: 0.88em;
+}
+
+.prose blockquote {
+  padding-left: 1em;
+  border-left: 1.5px solid var(--text);
+}
+
+/* Private app (/app, src/components/app). Plain classes for the pieces the
+   unlayered element rules above (h1/h2, a) would otherwise override, since
+   Tailwind's utilities sit in @layer utilities and lose to them. */
+.app-band {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* The band is theme-invariant, so on the dark (ink) page it needs a rule to
+   separate it from the body. On paper the band's own edge is enough. */
+:root[data-theme='dark'] .app-band {
+  border-bottom: 1px solid var(--line);
+}
+
+.app-brand,
+.app-title {
+  margin: 0;
+  font: 700 var(--text-xl) / var(--leading-display) var(--font-display);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+
+.app-brand {
+  color: var(--paper);
+  font-size: var(--text-lg);
+}
+
+/* Section bar: an ink chip sitting on a 1.5px rule, like the resume sections. */
+.app-section-title {
+  margin: 0;
+  border-bottom: 1.5px solid var(--text);
+  font-size: var(--text-sm);
+  line-height: 1;
+}
+
+.band-link {
+  color: var(--paper-muted);
+}
+
+.band-link:hover {
+  color: var(--paper);
 }
 
 .blog-filter {

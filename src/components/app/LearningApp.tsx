@@ -3,6 +3,7 @@ import {Authenticated, AuthLoading, Unauthenticated} from 'convex/react'
 import {useEffect, useState} from 'react'
 import {convex} from '@/lib/convex'
 import {SignIn} from './SignIn'
+import {label} from './ui'
 import {WorkspaceList} from './WorkspaceList'
 import {WorkspaceView} from './WorkspaceView'
 
@@ -29,7 +30,7 @@ export function LearningApp() {
   return (
     <ConvexAuthProvider client={convex}>
       <AuthLoading>
-        <div className='mx-auto max-w-3xl px-5 py-16 text-[var(--faint)]'>Loading…</div>
+        <div className={`${label} mx-auto max-w-3xl px-5 py-16 text-[var(--faint)]`}>Loading…</div>
       </AuthLoading>
       <Unauthenticated>
         <SignIn />

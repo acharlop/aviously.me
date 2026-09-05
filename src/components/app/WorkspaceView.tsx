@@ -5,11 +5,19 @@ import type {Doc} from '../../../convex/_generated/dataModel'
 import {AppHeader} from './AppHeader'
 import {LessonViewer} from './LessonViewer'
 import {Markdown} from './Markdown'
+import {label} from './ui'
 
-const statusDot: Record<Doc<'lessons'>['status'], string> = {
-  todo: 'var(--faint)',
-  in_progress: 'var(--amber)',
-  done: 'var(--green)',
+// Status is a small square plus a mono label; the ledger palette has no status
+// colours, so "in progress" takes the accent and "done" is filled ink.
+const statusSquare: Record<Doc<'lessons'>['status'], string> = {
+  todo: 'border border-[var(--line)]',
+  in_progress: 'bg-[var(--accent)]',
+  done: 'bg-[var(--text)]',
+}
+const statusText: Record<Doc<'lessons'>['status'], string | null> = {
+  todo: null,
+  in_progress: 'In progress',
+  done: 'Done',
 }
 
 export function WorkspaceView({slug}: {slug: string}) {
@@ -17,14 +25,21 @@ export function WorkspaceView({slug}: {slug: string}) {
   const [openLesson, setOpenLesson] = useState<Doc<'lessons'> | null>(null)
 
   if (data === undefined) {
-    return <div className='mx-auto max-w-3xl px-5 py-10 text-[var(--faint)]'>Loading…</div>
+    return (
+      <>
+        <AppHeader backTo={{href: '/app', label: 'Topics'}} />
+        <div className={`${label} mx-auto max-w-3xl px-5 py-10 text-[var(--faint)]`}>Loading…</div>
+      </>
+    )
   }
   if (data === null) {
     return (
-      <div className='mx-auto max-w-3xl px-5 py-10'>
+      <>
         <AppHeader backTo={{href: '/app', label: 'Topics'}} />
-        <p className='text-[var(--faint)]'>Topic not found.</p>
-      </div>
+        <div className='mx-auto max-w-3xl px-5 py-10'>
+          <p className={`${label} text-[var(--faint)]`}>Topic not found.</p>
+        </div>
+      </>
     )
   }
 
@@ -34,87 +49,93 @@ export function WorkspaceView({slug}: {slug: string}) {
   const liveOpenLesson = openLesson ? (lessons.find((l) => l._id === openLesson._id) ?? null) : null
 
   return (
-    <div className='mx-auto max-w-3xl px-5 py-10'>
+    <>
       <AppHeader backTo={{href: '/app', label: 'Topics'}} />
+      <div className='mx-auto max-w-3xl px-5 py-10'>
+        <h1 className='app-title'>{workspace.title}</h1>
+        {workspace.mission && <Markdown source={workspace.mission} className='mt-3 text-[var(--muted)]' />}
 
-      <h1 style={{fontFamily: 'var(--font-display)', fontSize: '1.9rem', lineHeight: 1.1, margin: 0}}>{workspace.title}</h1>
-      {workspace.mission && <Markdown source={workspace.mission} className='mt-2 text-[var(--muted)]' />}
+        <Section title='Lessons'>
+          {lessons.length === 0 ? (
+            <Empty>No lessons synced yet.</Empty>
+          ) : (
+            <ul>
+              {lessons.map((lesson) => (
+                <li key={lesson._id} className='border-b border-b-[var(--line)]'>
+                  <button
+                    type='button'
+                    onClick={() => setOpenLesson(lesson)}
+                    className='flex w-full items-center gap-3 py-3 text-left hover:bg-[var(--bg-2)]'
+                  >
+                    <span aria-hidden className={`h-2 w-2 shrink-0 ${statusSquare[lesson.status]}`} />
+                    <span className='flex-1 truncate'>{lesson.title}</span>
+                    {statusText[lesson.status] && (
+                      <span className={`${label} shrink-0 text-[var(--faint)]`}>{statusText[lesson.status]}</span>
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Section>
 
-      <Section title='Lessons'>
-        {lessons.length === 0 ? (
-          <Empty>No lessons synced yet.</Empty>
-        ) : (
-          <ul className='flex flex-col gap-1'>
-            {lessons.map((lesson) => (
-              <li key={lesson._id}>
-                <button
-                  type='button'
-                  onClick={() => setOpenLesson(lesson)}
-                  className='flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-[var(--surface)]'
-                >
-                  <span aria-hidden className='h-2 w-2 shrink-0' style={{background: statusDot[lesson.status]}} />
-                  <span className='flex-1 truncate'>{lesson.title}</span>
-                  {lesson.status === 'done' && <span className='text-xs text-[var(--green)]'>done</span>}
-                </button>
-              </li>
-            ))}
-          </ul>
+        {referenceDocs.length > 0 && (
+          <Section title='Reference'>
+            <ul>
+              {referenceDocs.map((doc) => (
+                <li key={doc._id} className='border-b border-b-[var(--line)]'>
+                  <button
+                    type='button'
+                    onClick={() => openInNewTab(doc.html)}
+                    className='flex w-full items-center gap-3 py-3 text-left hover:bg-[var(--bg-2)]'
+                  >
+                    <span className='flex-1 truncate underline decoration-[var(--accent)] underline-offset-4'>
+                      {doc.title}
+                    </span>
+                    <span aria-hidden className={`${label} shrink-0 text-[var(--faint)]`}>
+                      Opens in new tab ↗
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </Section>
         )}
-      </Section>
 
-      {referenceDocs.length > 0 && (
-        <Section title='Reference'>
-          <ul className='flex flex-col gap-1'>
-            {referenceDocs.map((doc) => (
-              <li key={doc._id}>
-                <button
-                  type='button'
-                  onClick={() => openInNewTab(doc.html)}
-                  className='w-full truncate px-3 py-2 text-left text-[var(--accent)] hover:bg-[var(--surface)]'
-                >
-                  {doc.title} ↗
-                </button>
-              </li>
-            ))}
-          </ul>
-        </Section>
-      )}
+        {learningRecords.length > 0 && (
+          <Section title='Learning records'>
+            <ul>
+              {learningRecords.map((rec) => (
+                <li key={rec._id} className='border-b border-b-[var(--line)]'>
+                  <details>
+                    <summary className='cursor-pointer py-3 font-[family-name:var(--font-display)] font-medium'>
+                      {rec.title}
+                    </summary>
+                    <Markdown source={rec.markdown} className='pb-4 text-[length:var(--text-sm)] text-[var(--muted)]' />
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        )}
 
-      {learningRecords.length > 0 && (
-        <Section title='Learning records'>
-          <ul className='flex flex-col gap-2'>
-            {learningRecords.map((rec) => (
-              <li key={rec._id}>
-                <details className='border border-[var(--line)] bg-[var(--surface)]'>
-                  <summary className='cursor-pointer px-3 py-2 font-medium'>{rec.title}</summary>
-                  <Markdown source={rec.markdown} className='px-3 pb-3 text-sm text-[var(--muted)]' />
-                </details>
-              </li>
-            ))}
-          </ul>
-        </Section>
-      )}
-
-      {liveOpenLesson && <LessonViewer lesson={liveOpenLesson} onBack={() => setOpenLesson(null)} />}
-    </div>
+        {liveOpenLesson && <LessonViewer lesson={liveOpenLesson} onBack={() => setOpenLesson(null)} />}
+      </div>
+    </>
   )
 }
 
+// Section bar: an ink chip sitting on a 1.5px rule (.app-section-title in
+// global.css), like the resume sections.
 function Section({title, children}: {title: string; children: React.ReactNode}) {
   return (
-    <section className='mt-8'>
-      <h2
-        className='mb-2 text-[var(--faint)]'
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '0.72rem',
-          fontWeight: 600,
-          letterSpacing: '0.08em',
-          textTransform: 'uppercase',
-          margin: '0 0 0.5rem',
-        }}
-      >
-        {title}
+    <section className='mt-10'>
+      <h2 className='app-section-title'>
+        <span
+          className={`${label} inline-block bg-[var(--text)] px-2 pt-[3px] pb-[2px] font-bold tracking-[var(--tracking-chip)] text-[var(--bg)]`}
+        >
+          {title}
+        </span>
       </h2>
       {children}
     </section>
@@ -122,7 +143,7 @@ function Section({title, children}: {title: string; children: React.ReactNode}) 
 }
 
 function Empty({children}: {children: React.ReactNode}) {
-  return <p className='px-3 text-sm text-[var(--faint)]'>{children}</p>
+  return <p className={`${label} py-3 text-[var(--faint)]`}>{children}</p>
 }
 
 // Reference docs are designed by the teach skill to print well, so open them as
