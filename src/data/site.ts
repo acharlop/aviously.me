@@ -4,7 +4,7 @@ export const site = {
   // Role line under the name in the site masthead.
   role: 'Senior Full-Stack Engineer & Team Lead',
   description:
-    'Senior full-stack engineer and team lead building modern web products with React, TypeScript, Next.js, Astro, Node.js, Go, Rails, cloud infrastructure, and practical product leadership.',
+    'Senior full-stack engineer and team lead who builds and mentors teams that own what they ship: greenfield products in TypeScript, React, Next.js, Node.js, and Go, with the tooling and cloud infrastructure to keep them running.',
   url: 'https://aviously.me',
   email: 'avicharlop@gmail.com',
   // Shown on the resume header and pasted into LinkedIn's location field.
@@ -12,14 +12,14 @@ export const site = {
   linkedin: 'https://linkedin.com/in/acharlop',
   github: 'https://github.com/acharlop',
   githubHandle: '@acharlop',
+  // Mirrors the resume sheet headline (src/data/resume-sheet.ts); LinkedIn caps this at 220 characters.
   tagline:
-    'Senior full-stack TypeScript engineer and team lead building greenfield products, platform tooling, and the infrastructure to run them.',
-  bio: 'Learning new ways not to do things every day',
+    'Senior full-stack TypeScript engineer and team lead. I build and mentor teams that own what they ship: greenfield products, platform tooling, and the infrastructure to run them.',
   // First-person LinkedIn "About" (and long-form intro). Keep in sync with the resume.
   about: [
-    "I'm a full-stack engineer and team lead with ~10 years of shipping, most of it remote since 2017. I gravitate to the zero-to-one end of the work: standing up greenfield products, platform tooling, and the infrastructure to run them, then sticking around to make them solid.",
+    "I'm a full-stack engineer and team lead with 10 years of shipping, most of it remote since 2017. I build and mentor teams that own what they ship: together we carry greenfield products into customers' hands, with the tooling, infrastructure, and working habits to keep them there.",
     'My stack is modern TypeScript: React and Next.js on the front, Node, tRPC, Fastify, and Go on the back, Postgres and Drizzle for data, GCP and AWS with Terraform underneath. I hire and lead teams, most recently a 4-engineer team at Vionlabs, where I kept the existing product live while building its greenfield replacement and supporting sales through the first enterprise customers.',
-    'I care about the parts that make software last: types, tests, CI, clean provisioning, and product feedback loops. Open to senior and lead full-stack roles where the work needs both architecture and shipping momentum.',
+    'I care about the parts that make software last: types, tests, CI, clean provisioning, and product feedback loops. That now includes AI-assisted engineering: reusable Agent Skills and custom workflows that carry a repository’s architecture, conventions, and guardrails from research through review. Open to senior and lead full-stack roles where the work needs both architecture and shipping momentum.',
   ].join('\n\n'),
 } as const
 
