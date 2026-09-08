@@ -1,4 +1,4 @@
-# Closer (closer.earth) — Contract Full-Stack Engineer · 🟢 ACTIVE DEVELOPMENT
+# Closer (closer.earth) — Freelance Full-Stack Engineer · 🟢 ACTIVE DEVELOPMENT
 
 **Status:** Active as of June 2026 — not yet in `experience.ts`. Add it.
 **Dates:** May 2026 – present (first commit 2026-05-29; `TODO.md` logs 32h across 2026-05-29 → 2026-06-05; latest commit 2026-06-13).
@@ -36,4 +36,4 @@
 
 ## Suggested resume bullet
 
-- **Closer (closer.earth) — Contract Full-Stack Engineer (2026):** Built a greenfield "one-click village" provisioning system (Bun monorepo, TypeScript) that stands up a complete community platform instance across DigitalOcean, Vercel, MongoDB, Mailgun, Firebase, and Stripe Connect from a single typed config — with idempotent/resumable workflows, an Ink TUI distributed as compiled binaries, an Elysia control API, and live-provider e2e tests. Also shipped fixes to the core Next.js 15 / Node + MongoDB platform.
+- **Closer (closer.earth) — Freelance Full-Stack Engineer (2026):** Built a greenfield "one-click village" provisioning system (Bun monorepo, TypeScript) that stands up a complete community platform instance across DigitalOcean, Vercel, MongoDB, Mailgun, Firebase, and Stripe Connect from a single typed config — with idempotent/resumable workflows, an Ink TUI distributed as compiled binaries, an Elysia control API, and live-provider e2e tests. Also shipped fixes to the core Next.js 15 / Node + MongoDB platform.

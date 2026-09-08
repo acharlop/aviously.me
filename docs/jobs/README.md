@@ -6,15 +6,15 @@ Each file: real tech stack, what you actually built (from commit history), and s
 
 ## Index
 
-| Writeup                                 | Role                                        | Dates               | Status                                                                       |
-| --------------------------------------- | ------------------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
-| [closer](closer.writeup.md)             | Contract Full-Stack @ Closer (closer.earth) | May 2026 – present  | 🟢 **ACTIVE** — not in `experience.ts`                                       |
-| [ecsfood](ecsfood.writeup.md)           | Freelance — WordPress→Astro rebuild         | ~May 2026 – present | 🟢 **ACTIVE (in progress)** — not in `experience.ts`                         |
-| [vionlabs](vionlabs.writeup.md)         | Team Lead @ Vionlabs                        | Feb 2025 – Feb 2026 | done (your commits run to Dec 2025)                                          |
-| [collect-ai](collect-ai.writeup.md)     | Senior Frontend @ collectAI                 | Aug 2023 – Aug 2024 | done                                                                         |
-| [freelance](freelance.writeup.md)       | Freelance — whocards, J3D.AI, Tezos/NFT     | Oct 2022 – Jun 2023 | whocards still active (commits to Jun 2026)                                  |
-| [net2phone](net2phone.writeup.md)       | Eng Lead / Full-Stack @ Net2Phone           | Feb 2017 – Nov 2022 | done — **source recovered** from external drive (`n2p/`, `LiveNinja/dialer`) |
-| [takt-digital](takt-digital.writeup.md) | Software Engineer @ Takt Digital            | May 2016 – Jan 2017 | done — **source recovered** from external drive (`old/Takt`)                 |
+| Writeup                                 | Role                                         | Dates               | Status                                                                       |
+| --------------------------------------- | -------------------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
+| [closer](closer.writeup.md)             | Freelance Full-Stack @ Closer (closer.earth) | May 2026 – present  | 🟢 **ACTIVE** — not in `experience.ts`                                       |
+| [ecsfood](ecsfood.writeup.md)           | Freelance — WordPress→Astro rebuild          | ~May 2026 – present | 🟢 **ACTIVE (in progress)** — not in `experience.ts`                         |
+| [vionlabs](vionlabs.writeup.md)         | Team Lead @ Vionlabs                         | Feb 2025 – Feb 2026 | done (your commits run to Dec 2025)                                          |
+| [collect-ai](collect-ai.writeup.md)     | Senior Frontend @ collectAI                  | Aug 2023 – Aug 2024 | done                                                                         |
+| [freelance](freelance.writeup.md)       | Freelance — whocards, J3D.AI, Tezos/NFT      | Oct 2022 – Jun 2023 | whocards still active (commits to Jun 2026)                                  |
+| [net2phone](net2phone.writeup.md)       | Eng Lead / Full-Stack @ Net2Phone            | Feb 2017 – Nov 2022 | done — **source recovered** from external drive (`n2p/`, `LiveNinja/dialer`) |
+| [takt-digital](takt-digital.writeup.md) | Software Engineer @ Takt Digital             | May 2016 – Jan 2017 | done — **source recovered** from external drive (`old/Takt`)                 |
 
 ## Gaps vs. current `src/data/experience.ts`
 

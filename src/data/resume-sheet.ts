@@ -1,4 +1,7 @@
 // Copy for the printed one-page resume sheet (src/components/ResumeSheet.astro).
+// The site reuses pieces of it where the wording should match the sheet word
+// for word: the number tiles on the home page, and the strengths, AI-assisted
+// engineering, and open source rows on /about and /open-source.
 //
 // This is hand-tuned copy, settled on the design canvas, and it is deliberately
 // shorter and differently worded than `experience.ts`. Every bullet here must

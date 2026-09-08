@@ -1,0 +1,592 @@
+---
+// TEMPORARY: candidate social preview (og.png) designs for picking one.
+// Delete this page once a design is chosen and ported into scripts/make-og.ts.
+// Standalone document (no Layout) so it carries no site chrome, JSON-LD, or
+// analytics, and it is marked noindex and kept out of the sitemap.
+//
+// The constraint: every share card prints the page title, the description, and
+// the hostname under the image, so the image must not repeat them. It is also
+// shown small (about 650px wide in a chat, 250px as a thumbnail) and some apps
+// crop it to a square or 2:1, so the hook has to be big and near the centre.
+import {resumeSheet} from '@/data/resume-sheet'
+import {site} from '@/data/site'
+import '@/styles/global.css'
+
+const hostname = new URL(site.url).hostname
+
+// D: career lanes on a year axis, derived from the resume sheet dates.
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const now = new Date()
+const toYear = (text: string) => {
+  if (text === 'Present') return now.getFullYear() + now.getMonth() / 12
+  const [month, year] = text.split(' ')
+  return Number(year) + MONTHS.indexOf(month) / 12
+}
+const axisStart = 2016
+const axisEnd = now.getFullYear() + 1
+const axisSpan = axisEnd - axisStart
+const years = Array.from({length: axisSpan}, (_, i) => axisStart + i)
+const lanes = [...resumeSheet.experience, ...resumeSheet.projects]
+  .map((role) => {
+    const [from, to] = role.dates.split(/\s[–-]\s/)
+    const start = toYear(from)
+    const end = toYear(to)
+    return {
+      company: role.company,
+      current: to === 'Present',
+      start,
+      left: ((start - axisStart) / axisSpan) * 100,
+      width: ((end - start) / axisSpan) * 100,
+    }
+  })
+  .sort((a, b) => a.start - b.start)
+
+const candidates = [
+  {
+    id: 'a',
+    name: 'A · One figure',
+    why: 'The single most concrete number on the resume, at poster size. Nothing else competes. Survives every crop and reads at thumbnail size.',
+    crop: 'square-safe',
+  },
+  {
+    id: 'b',
+    name: 'B · Four figures',
+    why: 'The resume number tiles, full-bleed, values at 108px. The mint block is the hook in a light feed. A square crop clips the outer halves of the tiles.',
+    crop: 'wide only',
+  },
+  {
+    id: 'c',
+    name: 'C · Proof sentence',
+    why: 'One outcome the description does not say, as a poster line with the highlighter. Reads in a chat; a square crop loses the line ends.',
+    crop: 'wide only',
+  },
+  {
+    id: 'd',
+    name: 'D · Career lanes',
+    why: 'Ten years as a ledger chart: one lane per company on a year axis, current work in mint. Says who and how long, which no card text does. The shape reads at thumbnail size even when the labels do not.',
+    crop: 'wide only',
+  },
+  {
+    id: 'e',
+    name: 'E · Monogram',
+    why: 'Brand only: the initials under the highlighter. Adds no facts, but never fights the card text and is the most recognisable at 100px.',
+    crop: 'square-safe',
+  },
+]
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG image ideas (temporary)</title>
+  </head>
+  <body>
+    <main class="ideas">
+      <header class="ideas-head">
+        <h1>Social preview ideas</h1>
+        <p>
+          Temporary page. Each 1200 × 630 frame is drawn with the site's tokens and fonts and shown inside a mock share
+          card, which prints the real page title, description, and hostname under it the way iMessage, WhatsApp, Slack,
+          and LinkedIn do. The small card is the thumbnail size. Pick one and the winner gets ported into
+          <code>scripts/make-og.ts</code>; this page is then deleted.
+        </p>
+        <label class="guide-toggle"><input type="checkbox" id="guide" /> Show the square crop some apps apply</label>
+      </header>
+
+      <section class="idea">
+        <h2>Current (for reference)</h2>
+        <p class="why">What ships today: name, role, hostname, tagline. Every line is repeated by the card text under it.</p>
+        <div class="views">
+          <div class="share">
+            <div class="preview"><img class="frame" src="/og.png" alt="Current social preview" width="1200" height="630" /></div>
+            <div class="meta">
+              <p class="t">{site.title}</p>
+              <p class="d">{site.description}</p>
+              <p class="h">{hostname}</p>
+            </div>
+          </div>
+          <div class="thumb"></div>
+        </div>
+      </section>
+
+      {
+        candidates.map((c) => (
+          <section class="idea" id={c.id}>
+            <h2>
+              {c.name} <span class="crop">{c.crop}</span>
+            </h2>
+            <p class="why">{c.why}</p>
+            <div class="views">
+              <div class="share">
+                <div class="preview">
+                  {c.id === 'a' && (
+                    <div class="frame og og-a">
+                      <header class="masthead">
+                        <span class="chip chip-ink">{hostname}</span>
+                        <span class="mono right">Closer · 2026</span>
+                      </header>
+                      <div class="figure">
+                        <p class="from">1 day</p>
+                        <p class="to">
+                          <span class="arrow">▸</span> <mark>12 min</mark>
+                        </p>
+                        <p class="caption">platform provisioning</p>
+                        <p class="source">One manual day became a twelve-minute automated run.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {c.id === 'b' && (
+                    <ul class="frame og og-b">
+                      {resumeSheet.numbers.map((n) => (
+                        <li>
+                          <p class="value">
+                            {n.value}
+                            {n.to && (
+                              <>
+                                <br />
+                                <span class="arrow">▸</span> {n.to}
+                              </>
+                            )}
+                          </p>
+                          <p class="caption">{n.caption}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {c.id === 'c' && (
+                    <div class="frame og og-c">
+                      <header class="masthead">
+                        <span class="chip chip-ink">{hostname}</span>
+                        <span class="mono right">Vionlabs · Team Lead · 2025 – 2026</span>
+                      </header>
+                      <p class="poster">
+                        Hired and led a 4-engineer team that rebuilt an enterprise portal{' '}
+                        <mark>while the legacy product stayed live</mark>.
+                      </p>
+                    </div>
+                  )}
+
+                  {c.id === 'd' && (
+                    <div class="frame og og-d">
+                      <header class="masthead">
+                        <span class="chip chip-ink">{hostname}</span>
+                        <span class="mono">10 years shipping</span>
+                        <span class="mono right">
+                          {axisStart} – {now.getFullYear()}
+                        </span>
+                      </header>
+                      <div class="gantt" style={`--years: ${axisSpan}`}>
+                        <div class="lane years">
+                          <span />
+                          <span class="track">
+                            {years.map((y) => (
+                              <span>{y}</span>
+                            ))}
+                          </span>
+                        </div>
+                        {lanes.map((lane) => (
+                          <div class="lane">
+                            <span class="who">{lane.company}</span>
+                            <span class="track">
+                              <span class:list={['bar', {now: lane.current}]} style={`left: ${lane.left}%; width: ${lane.width}%`} />
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {c.id === 'e' && (
+                    <div class="frame og og-e">
+                      <p class="monogram">
+                        <mark>AC</mark>
+                      </p>
+                      <footer class="masthead foot">
+                        <span class="chip chip-ink">{hostname}</span>
+                        <span class="mono right">est. 2016 · {site.location}</span>
+                      </footer>
+                    </div>
+                  )}
+                </div>
+                <div class="meta">
+                  <p class="t">{site.title}</p>
+                  <p class="d">{site.description}</p>
+                  <p class="h">{hostname}</p>
+                </div>
+              </div>
+              <div class="thumb"></div>
+            </div>
+          </section>
+        ))
+      }
+    </main>
+
+    <script>
+      // Duplicate each card into its thumbnail slot, then scale every fixed
+      // 1200×630 frame to the width of its preview box.
+      for (const views of document.querySelectorAll<HTMLElement>('.views')) {
+        const card = views.querySelector<HTMLElement>('.share')!
+        const small = card.cloneNode(true) as HTMLElement
+        small.classList.add('small')
+        views.querySelector('.thumb')!.replaceWith(small)
+      }
+      const previews = document.querySelectorAll<HTMLElement>('.preview')
+      const fit = () => {
+        for (const preview of previews) preview.style.setProperty('--s', String(preview.clientWidth / 1200))
+      }
+      new ResizeObserver(fit).observe(document.body)
+      fit()
+      document.querySelector<HTMLInputElement>('#guide')!.addEventListener('change', (event) => {
+        document.body.classList.toggle('guide', (event.target as HTMLInputElement).checked)
+      })
+    </script>
+
+    <style>
+      /* Page chrome */
+      .ideas {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+      }
+      .ideas-head p {
+        max-width: 70ch;
+        color: var(--muted);
+      }
+      .guide-toggle {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 14px;
+      }
+      .idea {
+        margin-top: 56px;
+        padding-top: 24px;
+        border-top: var(--rule-strong);
+      }
+      .idea h2 {
+        margin: 0 0 6px;
+      }
+      .crop {
+        margin-left: 12px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .why {
+        max-width: 70ch;
+        margin: 0 0 20px;
+        color: var(--muted);
+      }
+      .views {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: flex-start;
+      }
+
+      /* Mock share card (dark chat look, like iMessage / WhatsApp / Slack) */
+      .share {
+        width: min(100%, 660px);
+        overflow: hidden;
+        border-radius: 14px;
+        background: #1f2c33;
+        color: #e9edef;
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          sans-serif;
+      }
+      .share .meta {
+        padding: 16px 20px 18px;
+      }
+      .share .meta p {
+        margin: 0;
+      }
+      .share .t {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .share .d,
+      .share .h {
+        margin-top: 6px;
+        font-size: 19px;
+        line-height: 1.35;
+        color: #aebac1;
+      }
+      .share .h {
+        margin-top: 12px;
+      }
+      .share.small {
+        width: 250px;
+        border-radius: 8px;
+      }
+      .share.small .meta {
+        padding: 8px 10px 10px;
+      }
+      .share.small .t {
+        font-size: 12px;
+      }
+      .share.small .d,
+      .share.small .h {
+        font-size: 11px;
+        margin-top: 3px;
+      }
+      .share.small .d {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+
+      .preview {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1200 / 630;
+        overflow: hidden;
+        background: var(--paper);
+      }
+      .preview::after {
+        content: '';
+        position: absolute;
+        inset: 0 23.75%;
+        display: none;
+        border: 2px dashed #ff3b30;
+        box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+      }
+      :global(body.guide) .preview::after {
+        display: block;
+      }
+      .frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1200px;
+        height: 630px;
+        transform: scale(var(--s, 1));
+        transform-origin: 0 0;
+      }
+      img.frame {
+        display: block;
+        max-width: none;
+      }
+
+      /* Shared frame vocabulary. Frames use --paper/--ink directly so they never
+         follow the site theme, like the resume sheet. */
+      .og {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 52px 64px 48px;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        overflow: hidden;
+      }
+      .og p,
+      .og ul {
+        margin: 0;
+        padding: 0;
+      }
+      .og ul {
+        list-style: none;
+      }
+      .og .mono {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        line-height: 1.4;
+      }
+      .og .right {
+        margin-left: auto;
+      }
+      .og .chip {
+        display: inline-block;
+        padding: 6px 14px;
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .og .chip-ink {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .og mark {
+        background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 100% 0.96em;
+        color: var(--ink);
+      }
+      .og .masthead {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 0 0 18px;
+        border-bottom: 1.5px solid var(--ink);
+      }
+      .og .foot {
+        padding: 18px 0 0;
+        border-top: 1.5px solid var(--ink);
+        border-bottom: 0;
+      }
+      .og .arrow {
+        display: inline-block;
+        font-size: 0.8em;
+        vertical-align: 0.06em;
+      }
+      .og .caption {
+        font-family: var(--font-mono);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      /* A · One figure */
+      .og-a .figure {
+        margin: auto 0;
+        padding-top: 8px;
+      }
+      .og-a .from,
+      .og-a .to {
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        line-height: 0.95;
+      }
+      .og-a .from {
+        font-size: 84px;
+        color: var(--muted);
+      }
+      .og-a .to {
+        font-size: 196px;
+      }
+      .og-a .caption {
+        margin-top: 22px;
+        font-size: 30px;
+      }
+      .og-a .source {
+        margin-top: 8px;
+        font-size: 28px;
+        color: var(--muted);
+      }
+
+      /* B · Four figures */
+      .og-b {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        padding: 0;
+        background: var(--accent);
+      }
+      .og-b li {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 34px 56px 36px;
+        border: 0.75px solid var(--ink);
+      }
+      .og-b .value {
+        font-family: var(--font-display);
+        font-size: 108px;
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.045em;
+      }
+      .og-b .caption {
+        margin-top: 16px;
+        font-size: 26px;
+      }
+
+      /* C · Proof sentence */
+      .og-c .poster {
+        margin: auto 0;
+        max-width: 1060px;
+        font-size: 72px;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: -0.035em;
+      }
+
+      /* D · Career lanes */
+      .og-d .gantt {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-top: 22px;
+      }
+      .og-d .lane {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        align-items: center;
+        height: 52px;
+      }
+      .og-d .years {
+        height: 30px;
+        align-items: end;
+      }
+      .og-d .years .track {
+        display: grid;
+        grid-template-columns: repeat(var(--years), 1fr);
+        background: none;
+      }
+      .og-d .years .track span {
+        padding-left: 6px;
+        font-family: var(--font-mono);
+        font-size: 19px;
+        line-height: 1;
+        color: var(--muted);
+      }
+      .og-d .who {
+        font-family: var(--font-display);
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+      .og-d .track {
+        position: relative;
+        display: block;
+        height: 100%;
+        background: linear-gradient(to right, var(--ink) 1.5px, transparent 1.5px) 0 0 / calc(100% / var(--years)) 100%;
+      }
+      .og-d .bar {
+        position: absolute;
+        top: 11px;
+        height: 30px;
+        background: var(--ink);
+      }
+      .og-d .bar.now {
+        box-sizing: border-box;
+        border: 1.5px solid var(--ink);
+        background: var(--accent);
+      }
+
+      /* E · Monogram */
+      .og-e .monogram {
+        margin: auto;
+        font-family: var(--font-display);
+        font-size: 400px;
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+      }
+      .og-e .monogram mark {
+        padding: 0 0.04em;
+        background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom 0.26em / 100% 0.5em;
+      }
+    </style>
+  </body>
+</html>
