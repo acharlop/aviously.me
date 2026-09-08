@@ -1,0 +1,554 @@
+---
+// TEMPORARY: candidate social preview (og.png) designs for picking one.
+// Delete this page once a design is chosen and ported into scripts/make-og.ts.
+// Standalone document (no Layout) so it carries no site chrome, JSON-LD, or
+// analytics, and it is marked noindex and kept out of the sitemap.
+import {resumeSheet} from '@/data/resume-sheet'
+import {site} from '@/data/site'
+import '@/styles/global.css'
+
+const hostname = new URL(site.url).hostname
+const stack = 'TypeScript · React · Next.js · Node · Go · Postgres · GCP / AWS'
+const proof = [
+  'Hired and led a 4-engineer team that rebuilt an enterprise portal while the legacy product stayed live',
+  '1.5M customer-facing titles with 10M+ tags, searchable in milliseconds',
+  'Platform provisioning cut from a day to 12 minutes',
+  'Co-founded whocards and built it as sole engineer: ~600 orders shipped',
+]
+const rows = [
+  {label: 'focus', text: 'Greenfield products, platform tooling, and the infrastructure to run them'},
+  {label: 'stack', text: stack},
+  {label: 'lead', text: 'Hired and led a 4-engineer team through an enterprise portal rebuild'},
+  {label: 'now', text: `AI-assisted engineering · ${resumeSheet.ai.tools}`},
+]
+const candidates = [
+  {
+    id: 'a',
+    name: 'A · Numbers ledger',
+    why: 'Keeps the ink masthead, adds the headline with the highlighter, and puts the four resume number tiles along the bottom. Numbers travel further than adjectives in a feed.',
+  },
+  {
+    id: 'b',
+    name: 'B · Headline poster',
+    why: 'Name demoted to a chip in a masthead rule; the headline becomes the image at poster size with the mark. Stack and location on the footer rule. Reads at thumbnail size.',
+  },
+  {
+    id: 'c',
+    name: 'C · Ledger rows',
+    why: 'The home page Profile section as a card: focus / stack / lead / now in label-and-text rows. Densest on facts, closest to the ledger system on the site.',
+  },
+  {
+    id: 'd',
+    name: 'D · Split proof points',
+    why: 'Ink name column on the left, triangle list of concrete outcomes on the right. Reads like the resume sheet bullets rather than a bio.',
+  },
+  {
+    id: 'e',
+    name: 'E · Dark tiles',
+    why: 'Full ink background with the name and headline, and the number tiles as a 2×2 accent block. Strongest contrast in a light feed; the mint block is the hook.',
+  },
+]
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG image ideas (temporary)</title>
+  </head>
+  <body>
+    <main class="ideas">
+      <header class="ideas-head">
+        <h1>Social preview ideas</h1>
+        <p>
+          Temporary page. Each frame is a 1200 × 630 preview drawn with the site's tokens and fonts, scaled to fit. Pick one and
+          the winner gets ported into <code>scripts/make-og.ts</code>; this page is then deleted.
+        </p>
+      </header>
+
+      <section class="idea">
+        <h2>Current (for reference)</h2>
+        <p class="why">What ships today: name, role, hostname chip, tagline. Repeats the title and description that sit next to the image in every share card.</p>
+        <div class="preview"><img class="frame" src="/og.png" alt="Current social preview" width="1200" height="630" /></div>
+      </section>
+
+      {
+        candidates.map((c) => (
+          <section class="idea" id={c.id}>
+            <h2>{c.name}</h2>
+            <p class="why">{c.why}</p>
+            <div class="preview">
+              {c.id === 'a' && (
+                <div class="frame og og-a">
+                  <header class="band">
+                    <div>
+                      <p class="name">{site.name}</p>
+                      <p class="role">{site.role}</p>
+                    </div>
+                    <span class="chip chip-accent">{hostname}</span>
+                  </header>
+                  <p class="headline">
+                    I build and mentor teams that <mark>own what they ship</mark>.
+                  </p>
+                  <ul class="tiles">
+                    {resumeSheet.numbers.map((n) => (
+                      <li>
+                        <p class="value">
+                          {n.value}
+                          {n.to && <span class="arrow">▸</span>}
+                          {n.to}
+                        </p>
+                        <p class="caption">{n.caption}</p>
+                        <p class="source">{n.source}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {c.id === 'b' && (
+                <div class="frame og og-b">
+                  <header class="masthead">
+                    <span class="chip chip-ink">{site.name}</span>
+                    <span class="mono">{site.role}</span>
+                    <span class="mono right">{hostname}</span>
+                  </header>
+                  <p class="poster">
+                    I build and mentor teams that <mark>own what they ship</mark>.
+                  </p>
+                  <footer class="masthead foot">
+                    <span class="mono">{stack}</span>
+                    <span class="mono right">{site.location}</span>
+                  </footer>
+                </div>
+              )}
+
+              {c.id === 'c' && (
+                <div class="frame og og-c">
+                  <header class="masthead">
+                    <span class="chip chip-ink">{site.name}</span>
+                    <span class="mono">{site.role}</span>
+                    <span class="mono right">{hostname}</span>
+                  </header>
+                  <dl class="rows">
+                    {rows.map((row) => (
+                      <div class="row">
+                        <dt>{row.label}</dt>
+                        <dd>{row.text}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              )}
+
+              {c.id === 'd' && (
+                <div class="frame og og-d">
+                  <aside class="column">
+                    <p class="name stacked">
+                      Avi
+                      <br />
+                      Charlop
+                    </p>
+                    <p class="role">{site.role}</p>
+                    <span class="chip chip-paper">{hostname}</span>
+                  </aside>
+                  <div class="proof">
+                    <p class="label">Selected proof</p>
+                    <ul>
+                      {proof.map((line) => (
+                        <li>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {c.id === 'e' && (
+                <div class="frame og og-e">
+                  <div class="left">
+                    <p class="name">{site.name}</p>
+                    <p class="role">{site.role}</p>
+                    <p class="headline">
+                      I build and mentor teams that <mark>own what they ship</mark>.
+                    </p>
+                    <span class="chip chip-paper">{hostname}</span>
+                  </div>
+                  <ul class="grid">
+                    {resumeSheet.numbers.map((n) => (
+                      <li>
+                        <p class="value">
+                          {n.value}
+                          {n.to && <span class="arrow">▸</span>}
+                          {n.to}
+                        </p>
+                        <p class="caption">{n.caption}</p>
+                        <p class="source">{n.source}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        ))
+      }
+    </main>
+
+    <script>
+      // Scale each fixed 1200×630 frame to the width of its preview box.
+      const previews = document.querySelectorAll<HTMLElement>('.preview')
+      const fit = () => {
+        for (const preview of previews) preview.style.setProperty('--s', String(preview.clientWidth / 1200))
+      }
+      new ResizeObserver(fit).observe(document.body)
+      fit()
+    </script>
+
+    <style>
+      /* Page chrome */
+      .ideas {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+      }
+      .ideas-head p {
+        max-width: 70ch;
+        color: var(--muted);
+      }
+      .idea {
+        margin-top: 56px;
+        padding-top: 24px;
+        border-top: var(--rule-strong);
+      }
+      .idea h2 {
+        margin: 0 0 6px;
+      }
+      .why {
+        max-width: 70ch;
+        margin: 0 0 16px;
+        color: var(--muted);
+      }
+      .preview {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1200 / 630;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        background: var(--paper);
+      }
+      .frame {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1200px;
+        height: 630px;
+        transform: scale(var(--s, 1));
+        transform-origin: 0 0;
+      }
+      img.frame {
+        display: block;
+        max-width: none;
+      }
+
+      /* Shared frame vocabulary. Frames use --paper/--ink directly so they never
+         follow the site theme, like the resume sheet. */
+      .og {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-body);
+        overflow: hidden;
+      }
+      .og p,
+      .og ul,
+      .og dl,
+      .og dd {
+        margin: 0;
+        padding: 0;
+      }
+      .og ul {
+        list-style: none;
+      }
+      .og .name {
+        font-family: var(--font-display);
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+      }
+      .og .role {
+        font-family: var(--font-mono);
+        color: var(--accent);
+        line-height: 1.4;
+      }
+      .og .mono {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        line-height: 1.4;
+      }
+      .og .right {
+        margin-left: auto;
+      }
+      .og .chip {
+        display: inline-block;
+        padding: 6px 14px;
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .og .chip-accent {
+        background: var(--accent);
+        color: var(--ink);
+      }
+      .og .chip-ink {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .og .chip-paper {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .og mark {
+        background: linear-gradient(var(--accent), var(--accent)) no-repeat left bottom / 100% 0.96em;
+        color: var(--ink);
+      }
+      .og .band {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 44px 64px 36px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .og .band .name {
+        font-size: 72px;
+      }
+      .og .band .role {
+        margin-top: 18px;
+        font-size: 24px;
+      }
+      .og .masthead {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        padding: 0 0 18px;
+        border-bottom: 1.5px solid var(--ink);
+      }
+      .og .value {
+        font-size: 60px;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .og .arrow {
+        display: inline-block;
+        margin: 0 0.1em;
+        font-size: 1.1em;
+        vertical-align: -0.02em;
+      }
+      .og .caption {
+        margin-top: 12px;
+        font-family: var(--font-mono);
+        font-size: 18px;
+        line-height: 1.3;
+        text-transform: uppercase;
+      }
+      .og .source {
+        margin-top: 4px;
+        font-size: 18px;
+        line-height: 1.3;
+        color: var(--on-accent-muted);
+      }
+
+      /* A · Numbers ledger */
+      .og-a .headline {
+        max-width: 960px;
+        padding: 34px 64px 0;
+        font-size: 52px;
+        font-weight: 700;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+      }
+      .og-a .tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-top: auto;
+        border-top: 1.5px solid var(--ink);
+        background: var(--accent);
+      }
+      .og-a .tiles li {
+        padding: 28px 28px 30px;
+      }
+      .og-a .tiles li + li {
+        border-left: 1.5px solid var(--ink);
+      }
+      .og-a .tiles .value {
+        font-size: 56px;
+      }
+
+      /* B · Headline poster */
+      .og-b {
+        padding: 52px 64px 48px;
+      }
+      .og-b .poster {
+        margin: auto 0;
+        max-width: 1040px;
+        font-size: 92px;
+        font-weight: 700;
+        line-height: 1.02;
+        letter-spacing: -0.045em;
+      }
+      .og-b .foot {
+        padding: 18px 0 0;
+        border-top: 1.5px solid var(--ink);
+        border-bottom: 0;
+      }
+
+      /* C · Ledger rows */
+      .og-c {
+        padding: 48px 64px 0;
+      }
+      .og-c .rows {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .og-c .row {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 206px 1fr;
+        align-items: center;
+        border-bottom: 1.5px solid var(--ink);
+      }
+      .og-c .row:last-child {
+        border-bottom: 0;
+      }
+      .og-c dt {
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .og-c dd {
+        font-size: 30px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+      }
+
+      /* D · Split proof points */
+      .og-d {
+        flex-direction: row;
+      }
+      .og-d .column {
+        display: flex;
+        flex-direction: column;
+        width: 440px;
+        padding: 52px 48px 48px 64px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .og-d .column .name {
+        font-size: 86px;
+      }
+      .og-d .column .role {
+        margin-top: 26px;
+        font-size: 22px;
+      }
+      .og-d .column .chip {
+        align-self: flex-start;
+        margin-top: auto;
+      }
+      .og-d .proof {
+        flex: 1;
+        padding: 52px 64px 48px 56px;
+      }
+      .og-d .label {
+        padding-bottom: 14px;
+        border-bottom: 1.5px solid var(--ink);
+        font-family: var(--font-mono);
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .og-d .proof ul {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        margin-top: 30px;
+        padding-left: 36px;
+      }
+      .og-d .proof li {
+        font-size: 28px;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+        text-indent: -36px;
+      }
+      .og-d .proof li::before {
+        display: inline-block;
+        width: 36px;
+        text-indent: 0;
+        content: '\25B8';
+      }
+
+      /* E · Dark tiles */
+      .og-e {
+        flex-direction: row;
+        gap: 48px;
+        padding: 56px 64px 56px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .og-e .left {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+      }
+      .og-e .left .name {
+        font-size: 84px;
+      }
+      .og-e .left .role {
+        margin-top: 20px;
+        font-size: 22px;
+      }
+      .og-e .left .headline {
+        margin-top: 36px;
+        font-size: 34px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+      }
+      .og-e .left .chip {
+        align-self: flex-start;
+        margin-top: auto;
+      }
+      .og-e .grid {
+        display: grid;
+        flex: none;
+        width: 480px;
+        grid-template-columns: 1fr 1fr;
+        border: 1.5px solid var(--ink);
+        background: var(--accent);
+        color: var(--ink);
+      }
+      .og-e .grid li {
+        padding: 30px 28px;
+        border: 0.75px solid var(--ink);
+      }
+      .og-e .grid .source {
+        color: var(--on-accent-muted);
+      }
+      .og-e .grid .value {
+        font-size: 52px;
+      }
+    </style>
+  </body>
+</html>

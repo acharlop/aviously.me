@@ -11,7 +11,7 @@ export default defineConfig({
     mdx(),
     react(),
     // The private /app learning area must never appear in the sitemap.
-    sitemap({filter: (page) => !page.includes('/app')}),
+    sitemap({filter: (page) => !page.includes('/app') && !page.includes('/og-ideas')}),
   ],
   vite: {
     plugins: [tailwindcss()],
