@@ -11,6 +11,7 @@ export default defineConfig({
     mdx(),
     react(),
     // The private /app learning area must never appear in the sitemap.
+    // TEMPORARY: /og-ideas is the social preview picker; drop it here when that page is deleted.
     sitemap({filter: (page) => !page.includes('/app') && !page.includes('/og-ideas')}),
   ],
   vite: {

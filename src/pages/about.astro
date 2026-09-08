@@ -7,7 +7,9 @@ import {resumeSheet} from '@/data/resume-sheet'
 import {site} from '@/data/site'
 
 // The long-form intro lives in site.ts so LinkedIn and this page share one text.
-const aboutParagraphs = site.about.split('\n\n')
+// Only the first two paragraphs are the approach; the third is LinkedIn's
+// sign-off (AI tooling, "open to roles"), and the AI part has its own section below.
+const aboutParagraphs = site.about.split('\n\n').slice(0, 2)
 ---
 
 <Layout
@@ -38,13 +40,13 @@ const aboutParagraphs = site.about.split('\n\n')
   </section>
 
   <section class='shell ledger-section'>
-    <SectionBar label='AI-assisted engineering' as='h2'>
+    <SectionBar label='AI engineering' as='h2'>
       <Fragment slot='note'>{resumeSheet.ai.tools}</Fragment>
     </SectionBar>
     <div class='ledger-rows'>
       {
         resumeSheet.ai.rows.map((row) => (
-          <LedgerRow label={row.label.toLowerCase()}>
+          <LedgerRow label={row.label}>
             <p>{row.text}</p>
           </LedgerRow>
         ))

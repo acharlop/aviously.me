@@ -3,8 +3,9 @@ export const site = {
   title: 'Avi Charlop - Senior Full-Stack Engineer',
   // Role line under the name in the site masthead.
   role: 'Senior Full-Stack Engineer & Team Lead',
+  // Meta description; search results cut it around 160 characters.
   description:
-    'Senior full-stack engineer and team lead who builds and mentors teams that own what they ship: greenfield products in TypeScript, React, Next.js, Node.js, and Go, with the tooling and cloud infrastructure to keep them running.',
+    'Senior full-stack engineer and team lead who builds and mentors teams that own what they ship: greenfield TypeScript, React, Node.js, and Go products.',
   url: 'https://aviously.me',
   email: 'avicharlop@gmail.com',
   // Shown on the resume header and pasted into LinkedIn's location field.
