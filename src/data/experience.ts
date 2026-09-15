@@ -16,7 +16,7 @@ export type ExperienceItem = {
 export const experience: ExperienceItem[] = [
   {
     company: 'Closer (closer.earth)',
-    role: 'Contract Full-Stack Engineer',
+    role: 'Freelance Full-Stack Engineer',
     location: 'Remote',
     dates: 'May 2026 - Present',
     summary: 'Platform automation for Closer, the operating system behind regenerative co-living communities ("villages").',

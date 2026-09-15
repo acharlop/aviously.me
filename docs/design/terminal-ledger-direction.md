@@ -16,34 +16,34 @@ ledger page rendered in a terminal — engineered, dry, unfussy.
 
 Everything here was built by reading the live codebase, not screenshots.
 
-| Source | What was taken from it |
-| --- | --- |
-| Local folder `aviously.me/` (Astro site) | Content, routes, data shapes, the `/app` component tree |
-| `src/data/site.ts` | Name, tagline, contact, location, navigation, long-form About |
-| `src/data/experience.ts` | Five roles, education, the eight skill groups |
-| `src/data/open-source.ts` | Six repositories, `merged`/`pending`/`maintainer` statuses |
-| `src/content/projects/*.mdx` | Case-study frontmatter: problem, contribution, outcome |
-| `src/content/blog/*.mdx` | Post titles, descriptions, tags, draft flags |
-| `src/components/app/*.tsx` | The private learning area: sign-in, workspaces, lessons, records |
-| `private/about-me.md` | Capacity (~20h/week), citizenship, tax posture — **not published** |
-| `src/styles/global.css` | The system this replaces (Cal Sans, cyan accent, grid background) |
-| <https://canvasui.dev/> | Reviewed for the homepage hero moment; see "Canvas UI" below |
+| Source                                   | What was taken from it                                             |
+| ---------------------------------------- | ------------------------------------------------------------------ |
+| Local folder `aviously.me/` (Astro site) | Content, routes, data shapes, the `/app` component tree            |
+| `src/data/site.ts`                       | Name, tagline, contact, location, navigation, long-form About      |
+| `src/data/experience.ts`                 | Five roles, education, the eight skill groups                      |
+| `src/data/open-source.ts`                | Six repositories, `merged`/`pending`/`maintainer` statuses         |
+| `src/content/projects/*.mdx`             | Case-study frontmatter: problem, contribution, outcome             |
+| `src/content/blog/*.mdx`                 | Post titles, descriptions, tags, draft flags                       |
+| `src/components/app/*.tsx`               | The private learning area: sign-in, workspaces, lessons, records   |
+| `private/about-me.md`                    | Capacity (~20h/week), citizenship, tax posture — **not published** |
+| `src/styles/global.css`                  | The system this replaces (Cal Sans, cyan accent, grid background)  |
+| <https://canvasui.dev/>                  | Reviewed for the homepage hero moment; see "Canvas UI" below       |
 
 Nothing was invented that the sources did not support. Where a number appears, it came
 from `experience.ts`.
 
 ## Rebrand decisions (and what they replaced)
 
-| | Before | Terminal Ledger |
-| --- | --- | --- |
-| Display face | Cal Sans (self-hosted TTF) | Newsreader |
-| UI / body face | Sans body stack | JetBrains Mono |
-| Accent | Cyan | Rust `#C96F4A` / `#A8563A` |
-| Neutrals | Cool greys | Warm paper and ink — no cool grey anywhere |
-| Section separation | Cards on a grid-line background | Labelled full-width rules |
-| Corners | Rounded (`rounded-lg`, pills) | Square; `2px` only on form fields |
-| Depth | Borders plus subtle shadow | Rules only; shadow on overlays alone |
-| Kept | Dark default, light/dark toggle, availability badge | Same, restyled |
+|                    | Before                                              | Terminal Ledger                            |
+| ------------------ | --------------------------------------------------- | ------------------------------------------ |
+| Display face       | Cal Sans (self-hosted TTF)                          | Newsreader                                 |
+| UI / body face     | Sans body stack                                     | JetBrains Mono                             |
+| Accent             | Cyan                                                | Rust `#C96F4A` / `#A8563A`                 |
+| Neutrals           | Cool greys                                          | Warm paper and ink — no cool grey anywhere |
+| Section separation | Cards on a grid-line background                     | Labelled full-width rules                  |
+| Corners            | Rounded (`rounded-lg`, pills)                       | Square; `2px` only on form fields          |
+| Depth              | Borders plus subtle shadow                          | Rules only; shadow on overlays alone       |
+| Kept               | Dark default, light/dark toggle, availability badge | Same, restyled                             |
 
 Dropped from the old system at the user's direction: Cal Sans, the cyan accent, the
 grid-line background. Kept: **dark as the default** and the **light/dark toggle**.
@@ -113,8 +113,8 @@ never `02/2025`, never `2025–26`. Em dash between endpoints, `Present` for ope
 "the Android build is in closed testing". The system prefers an honest approximation to
 a confident wrong number.
 
-**Self-deprecation, once.** The bio line is *"Learning new ways not to do things every
-day."* That is the full allowance for humour. Everything else is flat.
+**No self-deprecation.** The old bio line (_"Learning new ways not to do things every
+day."_) was retired in #3; there is no humour allowance now. Everything is flat.
 
 **Copy examples, verbatim from the system:**
 
@@ -148,7 +148,7 @@ Status colours are earth-shifted rather than saturated: moss `#6F8A5C` for merge
 
 **Dark is the default.** `:root` is the dark theme; `[data-theme='light']` overrides the
 semantic layer only. `@media print` forces the light ledger regardless of the toggle, so
-a PDF is never a black rectangle. Rust is the *only* chromatic colour — no second accent
+a PDF is never a black rectangle. Rust is the _only_ chromatic colour — no second accent
 exists, and adding one breaks the system.
 
 Accent budget per page: one rust rule, one rust eyebrow, one accent button, at most one
@@ -309,12 +309,12 @@ and `Footer.astro`, the form set from `contact.astro` and `SignIn.tsx`, `Card` f
 **`components/`** — 28 primitives in four groups, each with a `.d.ts` props contract and
 a `.prompt.md` usage note.
 
-| Group | Components |
-| --- | --- |
-| `core/` | Button, IconButton, Icon, Logo, Rule, LedgerRows, LedgerRow, Card, Badge, Tag, Stat, Eyebrow, ThemeToggle |
-| `forms/` | Field, Input, Textarea, Select, Checkbox, Radio, Switch |
-| `navigation/` | NavBar, Tabs, Breadcrumbs, Footer |
-| `feedback/` | AvailabilityBadge, Dialog, Toast, Tooltip |
+| Group         | Components                                                                                                |
+| ------------- | --------------------------------------------------------------------------------------------------------- |
+| `core/`       | Button, IconButton, Icon, Logo, Rule, LedgerRows, LedgerRow, Card, Badge, Tag, Stat, Eyebrow, ThemeToggle |
+| `forms/`      | Field, Input, Textarea, Select, Checkbox, Radio, Switch                                                   |
+| `navigation/` | NavBar, Tabs, Breadcrumbs, Footer                                                                         |
+| `feedback/`   | AvailabilityBadge, Dialog, Toast, Tooltip                                                                 |
 
 **`guidelines/`** — 18 foundation specimen cards across Colors, Type, Spacing and Brand.
 

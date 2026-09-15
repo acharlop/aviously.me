@@ -6,7 +6,11 @@ import Layout from '@/components/Layout.astro'
 import SectionBar from '@/components/SectionBar.astro'
 import SocialLinks from '@/components/SocialLinks.astro'
 import {openSourceRepos} from '@/data/open-source'
+import {resumeSheet} from '@/data/resume-sheet'
 import {site} from '@/data/site'
+
+// Same credit line as the resume sheet, so the two never drift.
+const openSourceCredit = resumeSheet.credits.find((row) => row.label === 'Open source')?.text
 ---
 
 <Layout title='Open Source - Avi Charlop' description='Open source profile and featured repositories from Avi Charlop.'>
@@ -21,10 +25,7 @@ import {site} from '@/data/site'
     <div class='ledger-rows'>
       <LedgerRow label='profile'>
         <AvailabilityBadge />
-        <p>{site.bio}</p>
-        <p>
-          Featured work includes Rails syntax highlighting, Astro CMS tooling, and Tailwind developer tooling contributions.
-        </p>
+        <p>{openSourceCredit}</p>
         <p><ExternalLink class='button outline' href={site.github}>See more on GitHub</ExternalLink></p>
       </LedgerRow>
     </div>

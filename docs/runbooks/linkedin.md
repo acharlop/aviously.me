@@ -29,7 +29,7 @@ ones that actually cost interviews.
 1. **Vionlabs (Team Lead, Feb 2025 – Feb 2026) is not on the profile at all.**
    The most recent role, the only explicit lead title, and the one the About
    section already brags about. Biggest single gap.
-2. **Closer (Contract Full-Stack Engineer, May 2026 – Present)** — no current
+2. **Closer (Freelance Full-Stack Engineer, May 2026 – Present)** — no current
    role is listed, so the profile reads as unemployed since 2024.
 3. **About section is empty.** Paste the ABOUT block.
 4. **Skills: only 11, and mostly wrong ones** ("Process Automation" is the
