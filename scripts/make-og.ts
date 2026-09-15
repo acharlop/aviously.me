@@ -1,9 +1,11 @@
 // Regenerate the default social preview using the site's fonts and ledger tokens.
 // Usage: bun scripts/make-og.ts
 //
-// Design: the resume sheet's masthead at poster size. Ink card, the name set in
-// two uppercase lines of the display face, the role in accent mono under it,
-// and the hostname in bold mono at the foot. Nothing else: share cards already
+// Design: the resume sheet's masthead at poster size. Ink card, the name set
+// one word per uppercase line in the display face, the role in accent mono, and
+// the hostname in bold mono at the foot. Every string comes from
+// src/data/site.ts (name, role, url) and the colours from the tokens in
+// src/styles/global.css; edit those, rerun this, commit the PNG. Nothing else: share cards already
 // print the page title and description under the image, and the image is shown
 // small, so the name has to be the whole picture.
 import {readFile} from 'node:fs/promises'
@@ -33,7 +35,7 @@ try {
     .og-role { font-size:24px; letter-spacing:var(--tracking-mono); text-transform:uppercase; color:var(--accent); }
     .og-host { font-size:44px; font-weight:700; color:var(--paper); }
   </style></head><body>
-    <h1 class="og-name">${escapeHtml(site.name).replace(' ', '<br>')}</h1>
+    <h1 class="og-name">${site.name.split(/\s+/).map(escapeHtml).join('<br>')}</h1>
     <div class="og-foot"><p class="og-role">${escapeHtml(site.role)}</p><p class="og-host">${escapeHtml(new URL(site.url).hostname)}</p></div>
   </body></html>`)
   await page.evaluate(() => document.fonts.ready)

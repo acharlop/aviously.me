@@ -1,7 +1,9 @@
 export const site = {
   name: 'Avi Charlop',
   title: 'Avi Charlop - Senior Full-Stack Engineer',
-  // Role line under the name in the site masthead.
+  // Role line under the name in the site masthead and on the social preview
+  // (rerun `bun scripts/make-og.ts` after changing it). The resume sheet has its
+  // own copy in resume-sheet.ts (`title`).
   role: 'Senior Full-Stack Engineer & Team Lead',
   // Meta description; search results cut it around 160 characters.
   description:
