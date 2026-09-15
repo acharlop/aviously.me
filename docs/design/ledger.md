@@ -38,8 +38,11 @@ visible, and reduced-motion preferences disable smooth scrolling and transitions
 ## Social preview and visual acceptance
 
 `scripts/make-og.ts` renders `public/og.png` at 1200×630 using the site's actual
-fonts, tokens, name, role, and tagline. Run `bun scripts/make-og.ts` after changing
-those inputs; the generated image is committed for static social crawlers.
+fonts and tokens: a paper card with an ink frame, the name set large in the display
+face with one accent square behind the first letter, and the hostname in mono at the
+foot. Nothing else, because share cards print the page title and description under
+the image and show it small. Run `bun scripts/make-og.ts` after changing the name,
+hostname, fonts, or tokens; the generated image is committed for static social crawlers.
 
 Final acceptance is Avi's checklist on #49: walk every public page and the private
 app in both themes at 390px and 1440px. Automated build/e2e and agent inspection

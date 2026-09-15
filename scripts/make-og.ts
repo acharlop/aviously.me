@@ -1,5 +1,11 @@
 // Regenerate the default social preview using the site's fonts and ledger tokens.
 // Usage: bun scripts/make-og.ts
+//
+// Design: a paper card with an ink frame, the name set very large in the display
+// face, one accent square tucked behind the first letter (the highlighter, as a
+// mark), and the hostname in mono at the foot. Nothing else: share cards already
+// print the page title and description under the image, and the image is shown
+// small, so the name has to be the whole picture.
 import {readFile} from 'node:fs/promises'
 import {chromium} from '@playwright/test'
 import {site} from '../src/data/site'
@@ -20,19 +26,17 @@ const browser = await chromium.launch()
 try {
   const page = await browser.newPage({viewport: {width: 1200, height: 630}, deviceScaleFactor: 1})
   await page.setContent(`<!doctype html><html lang="en"><head><meta charset="utf-8"><style>${css}
-    body { width:1200px; height:630px; background:var(--paper); color:var(--ink); }
-    .og-band { background:var(--ink); color:var(--paper); padding:55px 64px 48px; }
-    .og-name { color:var(--paper); margin:0; font-family:var(--font-display); font-size:110px; font-weight:700; line-height:.9; letter-spacing:-.04em; text-transform:uppercase; }
-    .og-role { margin:26px 0 0; color:var(--accent); font-family:var(--font-mono); font-size:24px; line-height:1.4; }
-    .og-body { padding:36px 64px; }
-    .og-section { border-bottom:1.5px solid var(--ink); }
-    .og-chip { display:inline-block; background:var(--accent); padding:5px 12px; font-family:var(--font-mono); font-size:20px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
-    .og-tagline { margin:23px 0 0; max-width:1000px; font-family:var(--font-mono); font-size:24px; line-height:1.55; }
+    body { position:relative; box-sizing:border-box; width:1200px; height:630px; margin:0; padding:64px 72px; border:12px solid var(--ink); background:var(--paper); color:var(--ink); }
+    .og-name { position:absolute; left:72px; top:50%; margin:0; transform:translateY(-58%); font-family:var(--font-display); font-size:168px; font-weight:700; line-height:1; letter-spacing:-.04em; white-space:nowrap; }
+    .og-name::before { content:''; position:absolute; z-index:-1; left:-.08em; top:-.1em; width:.5em; height:.5em; background:var(--accent); }
+    .og-host { position:absolute; left:72px; bottom:56px; margin:0; font-family:var(--font-mono); font-size:30px; line-height:1; }
   </style></head><body>
-    <header class="og-band"><h1 class="og-name">${escapeHtml(site.name)}</h1><p class="og-role">${escapeHtml(site.role)}</p></header>
-    <main class="og-body"><div class="og-section"><span class="og-chip">${escapeHtml(new URL(site.url).hostname)}</span></div><p class="og-tagline">${escapeHtml(site.tagline)}</p></main>
+    <h1 class="og-name">${escapeHtml(site.name)}</h1>
+    <p class="og-host">${escapeHtml(new URL(site.url).hostname)}</p>
   </body></html>`)
   await page.evaluate(() => document.fonts.ready)
+  const nameWidth = await page.locator('.og-name').evaluate((element) => element.getBoundingClientRect().width)
+  if (nameWidth > 1200 - 2 * 72) throw new Error(`name overflows the card: ${Math.round(nameWidth)}px`)
   await page.screenshot({path: 'public/og.png'})
   console.log('wrote public/og.png (1200 × 630)')
 } finally {
