@@ -1,9 +1,9 @@
 // Regenerate the default social preview using the site's fonts and ledger tokens.
 // Usage: bun scripts/make-og.ts
 //
-// Design: a paper card with an ink frame, the name set very large in the display
-// face, one accent square tucked behind the first letter (the highlighter, as a
-// mark), and the hostname in mono at the foot. Nothing else: share cards already
+// Design: the resume sheet's masthead at poster size. Ink card, the name set in
+// two uppercase lines of the display face, the role in accent mono under it,
+// and the hostname in bold mono at the foot. Nothing else: share cards already
 // print the page title and description under the image, and the image is shown
 // small, so the name has to be the whole picture.
 import {readFile} from 'node:fs/promises'
@@ -26,17 +26,27 @@ const browser = await chromium.launch()
 try {
   const page = await browser.newPage({viewport: {width: 1200, height: 630}, deviceScaleFactor: 1})
   await page.setContent(`<!doctype html><html lang="en"><head><meta charset="utf-8"><style>${css}
-    body { position:relative; box-sizing:border-box; width:1200px; height:630px; margin:0; padding:64px 72px; border:12px solid var(--ink); background:var(--paper); color:var(--ink); }
-    .og-name { position:absolute; left:72px; top:50%; margin:0; transform:translateY(-58%); font-family:var(--font-display); font-size:168px; font-weight:700; line-height:1; letter-spacing:-.04em; white-space:nowrap; }
-    .og-name::before { content:''; position:absolute; z-index:-1; left:-.08em; top:-.1em; width:.5em; height:.5em; background:var(--accent); }
-    .og-host { position:absolute; left:72px; bottom:56px; margin:0; font-family:var(--font-mono); font-size:30px; line-height:1; }
+    body { position:relative; box-sizing:border-box; width:1200px; height:630px; margin:0; padding:64px; background:var(--ink); color:var(--paper); }
+    .og-name { margin:0; font-family:var(--font-display); font-size:220px; font-weight:700; line-height:var(--leading-display); letter-spacing:var(--tracking-display); text-transform:uppercase; color:var(--paper); }
+    .og-foot { position:absolute; left:64px; right:64px; bottom:60px; display:flex; align-items:flex-end; justify-content:space-between; gap:40px; }
+    .og-foot p { margin:0; font-family:var(--font-mono); line-height:1; }
+    .og-role { font-size:24px; letter-spacing:var(--tracking-mono); text-transform:uppercase; color:var(--accent); }
+    .og-host { font-size:44px; font-weight:700; color:var(--paper); }
   </style></head><body>
-    <h1 class="og-name">${escapeHtml(site.name)}</h1>
-    <p class="og-host">${escapeHtml(new URL(site.url).hostname)}</p>
+    <h1 class="og-name">${escapeHtml(site.name).replace(' ', '<br>')}</h1>
+    <div class="og-foot"><p class="og-role">${escapeHtml(site.role)}</p><p class="og-host">${escapeHtml(new URL(site.url).hostname)}</p></div>
   </body></html>`)
   await page.evaluate(() => document.fonts.ready)
-  const nameWidth = await page.locator('.og-name').evaluate((element) => element.getBoundingClientRect().width)
-  if (nameWidth > 1200 - 2 * 72) throw new Error(`name overflows the card: ${Math.round(nameWidth)}px`)
+  const overflow = await page.evaluate(() => {
+    const name = document.querySelector('.og-name')!.getBoundingClientRect()
+    const foot = document.querySelector('.og-foot')!.getBoundingClientRect()
+    const line = document.createRange()
+    line.selectNodeContents(document.querySelector('.og-name')!)
+    const widest = Math.max(...Array.from(line.getClientRects(), (rect) => rect.width))
+    return {widest, gap: foot.top - name.bottom}
+  })
+  if (overflow.widest > 1200 - 2 * 64) throw new Error(`name overflows the card: ${Math.round(overflow.widest)}px`)
+  if (overflow.gap < 24) throw new Error(`name runs into the foot: ${Math.round(overflow.gap)}px gap`)
   await page.screenshot({path: 'public/og.png'})
   console.log('wrote public/og.png (1200 × 630)')
 } finally {
