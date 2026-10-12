@@ -1,6 +1,6 @@
 # Closer (closer.earth) — Freelance Full-Stack Engineer · 🟢 ACTIVE DEVELOPMENT
 
-**Status:** Active as of June 2026 — not yet in `experience.ts`. Add it.
+**Status:** Active as of June 2026, in `experience.ts`.
 **Dates:** May 2026 – present (first commit 2026-05-29; `TODO.md` logs 32h across 2026-05-29 → 2026-06-05; latest commit 2026-06-13).
 **Client:** Closer — the platform behind [closer.earth](https://closer.earth) / Traditional Dream Factory (TDF), a system for running regenerative co-living / co-housing communities ("villages"): bookings, tickets, events, payments, member subscriptions.
 

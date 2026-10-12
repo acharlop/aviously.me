@@ -1,6 +1,5 @@
 import {education, experience, skills, type ExperienceItem} from '@/data/experience'
 import {openSourceRepos} from '@/data/open-source'
-import {defaultResumeOptions, type ResumeOptions} from '@/data/resume-options'
 import {site} from '@/data/site'
 
 // The resume keeps open source minimal: maintained projects only, one line each.
@@ -12,59 +11,6 @@ export const resumeOpenSource = openSourceRepos
     url: repo.href,
     description: repo.note ? `${repo.summary} ${repo.note}` : repo.summary,
   }))
-
-export type ShapedResume = {
-  experience: ExperienceItem[]
-  education: typeof education
-}
-
-/** Applies the knobs to the raw data. Default options return everything unchanged. */
-export function shapeResume(rawOptions: ResumeOptions = defaultResumeOptions): ShapedResume {
-  const options =
-    rawOptions.length === 'one-page'
-      ? {...rawOptions, bulletsPerRole: rawOptions.bulletsPerRole ?? 2, includeSubRoles: false}
-      : rawOptions
-  // Per-company override wins over the blanket cap; undefined means unlimited.
-  const capFor = (company: string) => {
-    const override = Object.entries(options.bulletsByRole ?? {}).find(([key]) =>
-      company.toLowerCase().startsWith(key.toLowerCase()),
-    )
-    return override ? override[1] : options.bulletsPerRole
-  }
-  const capBullets = (bullets: string[], company: string) => {
-    const cap = capFor(company)
-    return cap === undefined ? bullets : bullets.slice(0, cap)
-  }
-
-  const selected =
-    options.roles === undefined
-      ? experience
-      : options.roles
-          .map((company) => experience.find((item) => item.company.toLowerCase().startsWith(company.toLowerCase())))
-          .filter((item) => item !== undefined)
-
-  const shaped = selected.map((item) => {
-    const subRoles = options.includeSubRoles
-      ? item.subRoles?.map((sub) => ({...sub, bullets: capBullets(sub.bullets, item.company)}))
-      : undefined
-    // When sub-roles are dropped and the parent has no bullets of its own
-    // (Net2Phone), hoist each sub-role's lead bullet so the entry isn't empty.
-    // The hoisted list is exempt from bulletsPerRole: one line per sub-role,
-    // so the whole tenure stays visible.
-    const bullets =
-      !options.includeSubRoles && item.bullets.length === 0 && item.subRoles
-        ? item.subRoles.map((sub) => sub.bullets[0]).filter(Boolean)
-        : capBullets(item.bullets, item.company)
-    return {
-      ...item,
-      summary: options.includeSummary ? item.summary : undefined,
-      bullets,
-      subRoles,
-    }
-  })
-
-  return {experience: shaped, education: options.includeEducation ? education : []}
-}
 
 const MONTHS: Record<string, string> = {
   january: '01',
@@ -104,8 +50,7 @@ function splitDates(dates: string): {startDate?: string; endDate?: string} {
   }
 }
 
-export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): string {
-  const {experience: roles, education: schools} = shapeResume(options)
+export function resumeMarkdown(): string {
   const lines: string[] = [
     `# ${site.name}`,
     '',
@@ -120,7 +65,7 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
     '## Professional experience',
   ]
 
-  for (const item of roles) {
+  for (const item of experience) {
     lines.push('', `### ${item.role} · ${item.company}`, '')
     lines.push(`*${item.dates}${item.location ? ` · ${item.location}` : ''}*`)
     if (item.summary) lines.push('', item.summary)
@@ -139,9 +84,9 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
     for (const project of resumeOpenSource) lines.push(`- **[${project.name}](${project.url})** — ${project.description}`)
   }
 
-  if (schools.length > 0) {
+  if (education.length > 0) {
     lines.push('', '## Education')
-    for (const item of schools) {
+    for (const item of education) {
       lines.push('', `### ${item.school}`, '', `*${item.dates} · ${item.location}*`, '', item.description)
     }
   }
@@ -149,8 +94,7 @@ export function resumeMarkdown(options: ResumeOptions = defaultResumeOptions): s
   return `${lines.join('\n')}\n`
 }
 
-export function resumePlainText(options: ResumeOptions = defaultResumeOptions): string {
-  const {experience: roles, education: schools} = shapeResume(options)
+export function resumePlainText(): string {
   const rule = '='.repeat(64)
   const lines: string[] = [
     site.name.toUpperCase(),
@@ -167,7 +111,7 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
     rule,
   ]
 
-  for (const item of roles) {
+  for (const item of experience) {
     lines.push('', `${item.role} - ${item.company}`)
     lines.push(`${item.dates}${item.location ? ` | ${item.location}` : ''}`)
     if (item.summary) lines.push(item.summary)
@@ -183,9 +127,9 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
     for (const project of resumeOpenSource) lines.push(`${project.name} (${project.url}): ${project.description}`)
   }
 
-  if (schools.length > 0) {
+  if (education.length > 0) {
     lines.push('', rule, 'EDUCATION', rule)
-    for (const item of schools) {
+    for (const item of education) {
       lines.push('', item.school, `${item.dates} | ${item.location}`, item.description)
     }
   }
@@ -194,9 +138,8 @@ export function resumePlainText(options: ResumeOptions = defaultResumeOptions): 
 }
 
 // https://jsonresume.org/schema/
-export function resumeJson(options: ResumeOptions = defaultResumeOptions): object {
-  const {experience: roles, education: schools} = shapeResume(options)
-  const work = roles.flatMap((item) => {
+export function resumeJson(): object {
+  const work = experience.flatMap((item) => {
     const base = {
       name: item.company,
       location: item.location,
@@ -216,7 +159,7 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       summary: sub.tech ? `Primary stack: ${sub.tech}` : undefined,
       highlights: sub.bullets,
     }))
-    // The parent entry stays even when its bullets live in sub-roles (e.g. Net2Phone),
+    // The parent entry stays even when its bullets live in sub-experience (e.g. Net2Phone),
     // so the umbrella title and full tenure survive in the JSON.
     return [main, ...subs]
   })
@@ -242,7 +185,7 @@ export function resumeJson(options: ResumeOptions = defaultResumeOptions): objec
       url: project.url,
     })),
     skills: skills.map((group) => ({name: group.name, keywords: group.keywords})),
-    education: schools.map((item) => ({
+    education: education.map((item) => ({
       institution: item.school,
       ...splitDates(item.dates),
       courses: [item.description],

@@ -59,7 +59,7 @@ export const resumeSheet: ResumeSheetContent = {
         'Built the iOS/Android driver app from zero on Expo and React Native, sharing route and proof-of-delivery logic with the web app; installed versions keep working as the API changes.',
         'Designed the order-import pipeline (Google Sheets, CSV, Excel) as resumable, idempotent jobs with undo, and the agent pipeline and CI gates a two-person team ships behind.',
       ],
-      stack: 'TypeScript, Next.js, React, React Native, Expo, tRPC, Drizzle, PostgreSQL, Twilio, Playwright, Vercel',
+      stack: 'TypeScript, Next.js, React, React Native, Expo, tRPC, Drizzle, PostgreSQL, Twilio, Vercel',
     },
     {
       company: 'Vionlabs',
