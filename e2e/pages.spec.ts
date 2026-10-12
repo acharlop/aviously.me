@@ -16,8 +16,8 @@ test('experience renders as ledger rows', async ({page}) => {
 
   const experience = page.locator('section[aria-label="Professional experience"]')
   await expect(experience.locator('.section-chip')).toHaveText('Experience')
-  await expect(experience.locator('.ledger-row')).toHaveCount(7)
-  await expect(experience.locator('.triangle-list')).toHaveCount(7)
+  await expect(experience.locator('.ledger-row')).toHaveCount(8)
+  await expect(experience.locator('.triangle-list')).toHaveCount(8)
   await expect(experience.locator('[class*="timeline"]')).toHaveCount(0)
 
   const education = page.locator('section[aria-label="Education"]')

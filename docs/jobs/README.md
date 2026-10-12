@@ -8,7 +8,8 @@ Each file: real tech stack, what you actually built (from commit history), and s
 
 | Writeup                                 | Role                                         | Dates               | Status                                                                       |
 | --------------------------------------- | -------------------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
-| [closer](closer.writeup.md)             | Freelance Full-Stack @ Closer (closer.earth) | May 2026 – present  | 🟢 **ACTIVE** — not in `experience.ts`                                       |
+| [yarcone](yarcone.writeup.md)           | CTO (founding engineer) @ Yarcone            | Sep 2026 – present  | 🟢 **ACTIVE**, in `experience.ts`                                            |
+| [closer](closer.writeup.md)             | Freelance Full-Stack @ Closer (closer.earth) | May 2026 – present  | 🟢 **ACTIVE**, in `experience.ts`                                            |
 | [ecsfood](ecsfood.writeup.md)           | Freelance — WordPress→Astro rebuild          | ~May 2026 – present | 🟢 **ACTIVE (in progress)** — not in `experience.ts`                         |
 | [vionlabs](vionlabs.writeup.md)         | Team Lead @ Vionlabs                         | Feb 2025 – Feb 2026 | done (your commits run to Dec 2025)                                          |
 | [collect-ai](collect-ai.writeup.md)     | Senior Frontend @ collectAI                  | Aug 2023 – Aug 2024 | done                                                                         |
@@ -18,10 +19,9 @@ Each file: real tech stack, what you actually built (from commit history), and s
 
 ## Gaps vs. current `src/data/experience.ts`
 
-The site's experience list is **missing two recent/active engagements**:
+The site's experience list is **missing one active engagement**:
 
-1. **Closer (closer.earth)** — substantial 2026 contract work; the `closer-procurement` system (one-click multi-cloud "village" deployment) is a strong, current portfolio piece. **Recommend adding it.**
-2. **ECSFood.com** — a smaller WordPress→Astro migration with automated visual-parity testing; could be a standalone line or folded into "Freelance".
+1. **ECSFood.com** — a smaller WordPress→Astro migration with automated visual-parity testing; could be a standalone line or folded into "Freelance".
 
 Other notes:
 
