@@ -52,6 +52,16 @@ export const resumeSheet: ResumeSheetContent = {
   ],
   experience: [
     {
+      company: 'Yarcone',
+      role: 'CTO (founding engineer)',
+      dates: 'Sep 2026 – Present',
+      bullets: [
+        'Built the iOS/Android driver app from zero on Expo and React Native, sharing route and proof-of-delivery logic with the web app; installed versions keep working as the API changes.',
+        'Designed the order-import pipeline (Google Sheets, CSV, Excel) as resumable, idempotent jobs with undo, and the agent pipeline and CI gates a two-person team ships behind.',
+      ],
+      stack: 'TypeScript, Next.js, React, React Native, Expo, tRPC, Drizzle, PostgreSQL, Twilio, Vercel',
+    },
+    {
       company: 'Vionlabs',
       role: 'Team Lead',
       dates: 'Feb 2025 – Feb 2026',
@@ -85,16 +95,6 @@ export const resumeSheet: ResumeSheetContent = {
         'Led the shared component library and Angular 2-to-7 upgrade as lead front-end engineer and scrum master, cutting initial load time in half.',
       ],
       stack: 'Go, TypeScript, Angular, React, Redux, React Native, WebRTC, JsSIP, Docker, Jenkins CI',
-    },
-    {
-      company: 'Takt Digital',
-      role: 'Software Engineer',
-      dates: 'Jul 2016 – Feb 2017',
-      bullets: [
-        'Led engineering on a fintech analytics dashboard, hired the team, and owned API and front-end delivery.',
-        'Built a serverless video-streaming pipeline independently.',
-      ],
-      stack: 'JavaScript, Angular, Node.js, Ruby on Rails, AWS Lambda, Bitmovin',
     },
   ],
   projects: [

@@ -2,11 +2,9 @@
 // truth (experience.ts + site.ts), so LinkedIn never drifts from the resume.
 // Usage: bun scripts/linkedin-copy.ts
 // See docs/runbooks/linkedin.md for where each block goes.
-import {shapeResume} from '@/lib/resume-export'
-import {skills} from '@/data/experience'
+import {education, experience, skills} from '@/data/experience'
 import {site} from '@/data/site'
 
-const {experience, education} = shapeResume()
 const hr = (label: string) => console.log(`\n${'─'.repeat(8)} ${label} ${'─'.repeat(Math.max(0, 56 - label.length))}\n`)
 
 hr('HEADLINE (220 chars max)')

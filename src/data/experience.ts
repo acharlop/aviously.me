@@ -15,6 +15,21 @@ export type ExperienceItem = {
 
 export const experience: ExperienceItem[] = [
   {
+    company: 'Yarcone (yarcone.com)',
+    role: 'CTO (founding engineer)',
+    location: 'Remote',
+    dates: 'September 2026 - Present',
+    summary:
+      'CTO at Yarcone, an early-stage dispatch platform for delivery fleets, built by a two-person team: web dashboard, native driver app, five languages including RTL. Live at yarcone.com.',
+    bullets: [
+      'Built the iOS/Android driver app from zero on Expo and React Native, sharing route, proof-of-delivery, and cash logic with the Next.js web app through one package, with unit tests and an on-device end-to-end suite. Installed versions keep working: the driver API only changes additively and the server sets a minimum app version.',
+      'Designed the order-import pipeline for Google Sheets, CSV, and Excel: resumable database jobs, idempotent batches, a message outbox, and undoable runs, recorded as written design decisions and ADRs.',
+      'Internationalized a Hebrew-first product for organizations in any country: currency, time zone, units, and formats follow the organization’s country, customers are messaged in their own language, and a translator agent fills Hebrew, Arabic, Russian, and French from English.',
+      'Shipped customer messaging on Twilio WhatsApp with SMS fallback: templates stored in the database and synced from Twilio, chosen per organization and language, submitted to Meta from the platform console, with per-message cost recorded.',
+      'Set up how a two-person team ships with AI agents: a multi-role Claude Code pipeline behind pre-push checks, coverage thresholds, migration-drift checks, and CI-only production deploys, documented in a domain glossary and ADRs.',
+    ],
+  },
+  {
     company: 'Closer (closer.earth)',
     role: 'Freelance Full-Stack Engineer',
     location: 'Remote',
